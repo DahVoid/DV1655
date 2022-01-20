@@ -1,0 +1,13 @@
+digraph {
+n0 [label="Expression:"];
+n1 [label="AddExpression:"];
+n2 [label="Int:10"];
+n1 -> n2
+n3 [label="MultExpression:"];
+n4 [label="Int:12"];
+n3 -> n4
+n5 [label="Int:18"];
+n3 -> n5
+n1 -> n3
+n0 -> n1
+}
