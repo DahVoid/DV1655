@@ -18,7 +18,9 @@ Variabler /options
 <STRING>["]      {BEGIN INITIAL;}
 <STRING>[^"]*   {printf("STRING: %s\n", yytext);}
 
-%%
+%% /* Pattern matching below */
+((	| {4})(int\[[0-9]*\]|boolean|int){1}) /*Typ klart*/
+
 
 //More C
 
