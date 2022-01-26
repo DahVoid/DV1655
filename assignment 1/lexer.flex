@@ -34,7 +34,6 @@ From lang spec, in order of dependence, least dependent to most dependent
 <VARDECLARATION> [;]*     {BEGIN INITIAL;}
 %%/* Pattern matching end */
 
-
 /* C code start */
 
 
