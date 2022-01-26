@@ -1,5 +1,5 @@
 compiler: lex.yy.c 
-		gcc -ocompiler lex.yy.c main.c -ll
+		gcc -o compiler lex.yy.c main.c -ll
 lex.yy.c:
 		flex lexer.flex
 clean:
