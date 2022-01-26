@@ -8,7 +8,7 @@
 %%
 
 "int" {return(INT);}
-"(" {return((L_PARENTHESE);}
+"(" {return(L_PARENTHESE);}
 ")" {return(R_PARENTHESE);}
 "!" {return(NOT);}
 "new" {return(NEW);}
