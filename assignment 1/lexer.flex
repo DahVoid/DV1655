@@ -45,6 +45,7 @@
 "main" {return(MAIN);}
 "void" {return(VOID);}
 "static" {return(STATIC);}
+<<EOF>> {return EOF;}
 %%
 /* Pattern matching end */
 
