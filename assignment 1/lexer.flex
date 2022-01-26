@@ -7,32 +7,53 @@
 
 /*
 From lang spec, in order of dependence, least dependent to most dependent
- */
-%x IDENTIFIER
-%x EXPRESSION
-%x STATEMENT
-%x TYPE 
-%x METHODDECLARATION
-%x VARDECLARATION
-%x CLASSDECLARATION
-%x MAINCLASS
-%x GOAL
-
+ *
 /* Variable / option end */
 
-%% /* Pattern matching start   */
-[^A-Za-z0-9_]*           {BEGIN IDENTIFIER;}
-<IDENTIFIER> [ 	\{ \[ \( ]+  {BEGIN INITIAL;}
-<IDENTIFIER> [^ 	\{\} \[\] \(\) \n} \.]* {printf(" \n IDENTIFIER: %s\n", yytext);}
+/* Regex */
+%%
 
-[^A-Za-z0-9_]*           {BEGIN TYPE;}
-<TYPE> ((	| {4})(int\[[0-9]*\]|boolean|int){1})  {printf("\n TYPE %s\n", yytext); }/*Typ klart*/ 
-<TYPE> [    ]*  {BEGIN INITIAL;}
+"int" {return(INT);}
+\( {return((L_PARENTHESE);}
+\) {return(R_PARENTHESE);}
+\! {return(NOT);}
+"new" {return(NEW);}
+\[ {return(L_BRACKET);}
+\] {return(R_BRACKET);}
+"this" {return(THIS);}
+"false" {return(FALSE);}
+"true" {return(TRUE);}
+\. {return(DOT);}
+"," {return(COMMA);}
+"length" {return(length_OP);}
+\- {return(SUB);}
+\* {return(MUL);}
+\/ {return(DIV);}
+\+ {return(ADD);}
+\=\= {return(EQUAL_TO);}
+\= {return(EQUAL);}
+\< {return(LT_OP);}
+\> {return(GT_OP);}
+\|\| {return(OR_OP);}
+\&\& {return(AND_OP);}
+\; {return (SEMICOLON);}
+"System.out.printIn" {return(printIn);}
+"While" {return(WHILE);}
+"else" {return(ELSE);}
+\{ {return(L_C_BRACKET);}
+\} {return(R_C_BRACKET);}
+"boolean" {return(BOOLEAN);}
+"return" {return(RETURN);}
+"public" {return(PUBLIC);}
+"extends" {return(EXTENDS);}
+"class" {return(CLASS);}
+"string" {return(STRING);}
+"main" {return(MAIN);}
+"void" {return(VOID);}
+"static" {return(STATIC);}
 
-[^A-Za-z0-9_]*           {BEGIN TYPE;}
-<TYPE> <IDENTIFIER>   {printf("\n VARDECLARATION %s\n", yytext); } /* VARDECLARATION */
-<VARDECLARATION> [;]*     {BEGIN INITIAL;}
-%%/* Pattern matching end */
+%%
+/* Pattern matching end */
 
 /* C code start */
 
