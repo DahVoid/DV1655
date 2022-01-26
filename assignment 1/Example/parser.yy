@@ -34,7 +34,7 @@ expression: addExpression
                             root = $$;
                             printf("r1 ");
                           };
-
+/* A = a | Aa */
 addExpression: multExpression { $$ = $1; printf("r2 "); /*simply return the content of multExpression*/}
              | addExpression PLUSOP multExpression {  /*
                                                   Create a subtree that corresponds to the AddExpressions
