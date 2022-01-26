@@ -1,16 +1,10 @@
 %top{
     // Put C code here
-    #define YYSTYPE int
 }
 /* Variable / option start */
-%option noyywrap
-
-/*
-From lang spec, in order of dependence, least dependent to most dependent
- *
 /* Variable / option end */
-
 /* Regex */
+
 %%
 
 "int" {return(INT);}
@@ -51,8 +45,7 @@ From lang spec, in order of dependence, least dependent to most dependent
 "main" {return(MAIN);}
 "void" {return(VOID);}
 "static" {return(STATIC);}
-
-
+%%
 /* Pattern matching end */
 
 /* C code start */
