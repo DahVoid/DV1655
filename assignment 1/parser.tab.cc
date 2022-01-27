@@ -231,19 +231,52 @@ namespace yy {
   {
     switch (that.type_get ())
     {
-      case 10: // expression
-      case 11: // addExpression
-      case 12: // multExpression
-      case 13: // factor
+      case 43: // expression
+      case 44: // addExpression
+      case 45: // multExpression
+      case 46: // factor
         value.YY_MOVE_OR_COPY< Node * > (YY_MOVE (that.value));
         break;
 
-      case 3: // PLUSOP
-      case 4: // MINUSOP
-      case 5: // MULTOP
-      case 6: // INT
-      case 7: // LP
-      case 8: // RP
+      case 3: // NUM
+      case 4: // INT
+      case 5: // L_PARENTHESE
+      case 6: // R_PARENTHESE
+      case 7: // NOT
+      case 8: // NEW
+      case 9: // L_BRACKET
+      case 10: // R_BRACKET
+      case 11: // THIS
+      case 12: // FALSE
+      case 13: // TRUE
+      case 14: // DOT
+      case 15: // COMMA
+      case 16: // length_OP
+      case 17: // SUB
+      case 18: // MUL
+      case 19: // DIV
+      case 20: // ADD
+      case 21: // EQUAL_TO
+      case 22: // EQUAL
+      case 23: // LT_OP
+      case 24: // GT_OP
+      case 25: // OR_OP
+      case 26: // AND_OP
+      case 27: // SEMICOLON
+      case 28: // printIn
+      case 29: // WHILE
+      case 30: // ELSE
+      case 31: // L_C_BRACKET
+      case 32: // R_C_BRACKET
+      case 33: // BOOLEAN
+      case 34: // RETURN
+      case 35: // PUBLIC
+      case 36: // EXTENDS
+      case 37: // CLASS
+      case 38: // STRING
+      case 39: // MAIN
+      case 40: // VOID
+      case 41: // STATIC
         value.YY_MOVE_OR_COPY< std::string > (YY_MOVE (that.value));
         break;
 
@@ -262,19 +295,52 @@ namespace yy {
   {
     switch (that.type_get ())
     {
-      case 10: // expression
-      case 11: // addExpression
-      case 12: // multExpression
-      case 13: // factor
+      case 43: // expression
+      case 44: // addExpression
+      case 45: // multExpression
+      case 46: // factor
         value.move< Node * > (YY_MOVE (that.value));
         break;
 
-      case 3: // PLUSOP
-      case 4: // MINUSOP
-      case 5: // MULTOP
-      case 6: // INT
-      case 7: // LP
-      case 8: // RP
+      case 3: // NUM
+      case 4: // INT
+      case 5: // L_PARENTHESE
+      case 6: // R_PARENTHESE
+      case 7: // NOT
+      case 8: // NEW
+      case 9: // L_BRACKET
+      case 10: // R_BRACKET
+      case 11: // THIS
+      case 12: // FALSE
+      case 13: // TRUE
+      case 14: // DOT
+      case 15: // COMMA
+      case 16: // length_OP
+      case 17: // SUB
+      case 18: // MUL
+      case 19: // DIV
+      case 20: // ADD
+      case 21: // EQUAL_TO
+      case 22: // EQUAL
+      case 23: // LT_OP
+      case 24: // GT_OP
+      case 25: // OR_OP
+      case 26: // AND_OP
+      case 27: // SEMICOLON
+      case 28: // printIn
+      case 29: // WHILE
+      case 30: // ELSE
+      case 31: // L_C_BRACKET
+      case 32: // R_C_BRACKET
+      case 33: // BOOLEAN
+      case 34: // RETURN
+      case 35: // PUBLIC
+      case 36: // EXTENDS
+      case 37: // CLASS
+      case 38: // STRING
+      case 39: // MAIN
+      case 40: // VOID
+      case 41: // STATIC
         value.move< std::string > (YY_MOVE (that.value));
         break;
 
@@ -293,19 +359,52 @@ namespace yy {
     state = that.state;
     switch (that.type_get ())
     {
-      case 10: // expression
-      case 11: // addExpression
-      case 12: // multExpression
-      case 13: // factor
+      case 43: // expression
+      case 44: // addExpression
+      case 45: // multExpression
+      case 46: // factor
         value.copy< Node * > (that.value);
         break;
 
-      case 3: // PLUSOP
-      case 4: // MINUSOP
-      case 5: // MULTOP
-      case 6: // INT
-      case 7: // LP
-      case 8: // RP
+      case 3: // NUM
+      case 4: // INT
+      case 5: // L_PARENTHESE
+      case 6: // R_PARENTHESE
+      case 7: // NOT
+      case 8: // NEW
+      case 9: // L_BRACKET
+      case 10: // R_BRACKET
+      case 11: // THIS
+      case 12: // FALSE
+      case 13: // TRUE
+      case 14: // DOT
+      case 15: // COMMA
+      case 16: // length_OP
+      case 17: // SUB
+      case 18: // MUL
+      case 19: // DIV
+      case 20: // ADD
+      case 21: // EQUAL_TO
+      case 22: // EQUAL
+      case 23: // LT_OP
+      case 24: // GT_OP
+      case 25: // OR_OP
+      case 26: // AND_OP
+      case 27: // SEMICOLON
+      case 28: // printIn
+      case 29: // WHILE
+      case 30: // ELSE
+      case 31: // L_C_BRACKET
+      case 32: // R_C_BRACKET
+      case 33: // BOOLEAN
+      case 34: // RETURN
+      case 35: // PUBLIC
+      case 36: // EXTENDS
+      case 37: // CLASS
+      case 38: // STRING
+      case 39: // MAIN
+      case 40: // VOID
+      case 41: // STATIC
         value.copy< std::string > (that.value);
         break;
 
@@ -322,19 +421,52 @@ namespace yy {
     state = that.state;
     switch (that.type_get ())
     {
-      case 10: // expression
-      case 11: // addExpression
-      case 12: // multExpression
-      case 13: // factor
+      case 43: // expression
+      case 44: // addExpression
+      case 45: // multExpression
+      case 46: // factor
         value.move< Node * > (that.value);
         break;
 
-      case 3: // PLUSOP
-      case 4: // MINUSOP
-      case 5: // MULTOP
-      case 6: // INT
-      case 7: // LP
-      case 8: // RP
+      case 3: // NUM
+      case 4: // INT
+      case 5: // L_PARENTHESE
+      case 6: // R_PARENTHESE
+      case 7: // NOT
+      case 8: // NEW
+      case 9: // L_BRACKET
+      case 10: // R_BRACKET
+      case 11: // THIS
+      case 12: // FALSE
+      case 13: // TRUE
+      case 14: // DOT
+      case 15: // COMMA
+      case 16: // length_OP
+      case 17: // SUB
+      case 18: // MUL
+      case 19: // DIV
+      case 20: // ADD
+      case 21: // EQUAL_TO
+      case 22: // EQUAL
+      case 23: // LT_OP
+      case 24: // GT_OP
+      case 25: // OR_OP
+      case 26: // AND_OP
+      case 27: // SEMICOLON
+      case 28: // printIn
+      case 29: // WHILE
+      case 30: // ELSE
+      case 31: // L_C_BRACKET
+      case 32: // R_C_BRACKET
+      case 33: // BOOLEAN
+      case 34: // RETURN
+      case 35: // PUBLIC
+      case 36: // EXTENDS
+      case 37: // CLASS
+      case 38: // STRING
+      case 39: // MAIN
+      case 40: // VOID
+      case 41: // STATIC
         value.move< std::string > (that.value);
         break;
 
@@ -583,19 +715,52 @@ namespace yy {
          when using variants.  */
       switch (yyr1_[yyn])
     {
-      case 10: // expression
-      case 11: // addExpression
-      case 12: // multExpression
-      case 13: // factor
+      case 43: // expression
+      case 44: // addExpression
+      case 45: // multExpression
+      case 46: // factor
         yylhs.value.emplace< Node * > ();
         break;
 
-      case 3: // PLUSOP
-      case 4: // MINUSOP
-      case 5: // MULTOP
-      case 6: // INT
-      case 7: // LP
-      case 8: // RP
+      case 3: // NUM
+      case 4: // INT
+      case 5: // L_PARENTHESE
+      case 6: // R_PARENTHESE
+      case 7: // NOT
+      case 8: // NEW
+      case 9: // L_BRACKET
+      case 10: // R_BRACKET
+      case 11: // THIS
+      case 12: // FALSE
+      case 13: // TRUE
+      case 14: // DOT
+      case 15: // COMMA
+      case 16: // length_OP
+      case 17: // SUB
+      case 18: // MUL
+      case 19: // DIV
+      case 20: // ADD
+      case 21: // EQUAL_TO
+      case 22: // EQUAL
+      case 23: // LT_OP
+      case 24: // GT_OP
+      case 25: // OR_OP
+      case 26: // AND_OP
+      case 27: // SEMICOLON
+      case 28: // printIn
+      case 29: // WHILE
+      case 30: // ELSE
+      case 31: // L_C_BRACKET
+      case 32: // R_C_BRACKET
+      case 33: // BOOLEAN
+      case 34: // RETURN
+      case 35: // PUBLIC
+      case 36: // EXTENDS
+      case 37: // CLASS
+      case 38: // STRING
+      case 39: // MAIN
+      case 40: // VOID
+      case 41: // STATIC
         yylhs.value.emplace< std::string > ();
         break;
 
@@ -614,75 +779,75 @@ namespace yy {
           switch (yyn)
             {
   case 2:
-#line 28 "parser.yy"
+#line 25 "parser.yy"
                           { /*  
                                 Here we create the root node (named Expression), then we add the content of addExpression (accessed through $1) as a child of the root node. 
                                 The "root" is a reference to the root node. 
                             */
-                            yylhs.value.as < Node * > () = new Node("Expression", "");
+                            yylhs.value.as < Node * > () = new Node("expression", "");
                             yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
                             root = yylhs.value.as < Node * > ();
                             printf("r1 ");
                           }
-#line 628 "parser.tab.cc"
+#line 793 "parser.tab.cc"
     break;
 
   case 3:
-#line 38 "parser.yy"
+#line 35 "parser.yy"
                               { yylhs.value.as < Node * > () = yystack_[0].value.as < Node * > (); printf("r2 "); /*simply return the content of multExpression*/}
-#line 634 "parser.tab.cc"
+#line 799 "parser.tab.cc"
     break;
 
   case 4:
-#line 39 "parser.yy"
-                                                   {  /*
+#line 36 "parser.yy"
+                                                {  /*
                                                   Create a subtree that corresponds to the AddExpressions
                                                   The root of the subtree is AddExpression
                                                   The childs of the AddExpression subtree are the left hand side (addExpression accessed through $1) and right hand side of the expression (multExpression accessed through $3)
                                                 */
-                            yylhs.value.as < Node * > () = new Node("AddExpression", "");
+                            yylhs.value.as < Node * > () = new Node("addExpression", "");
                             yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
                             yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
                             printf("r3 ");
                           }
-#line 649 "parser.tab.cc"
+#line 814 "parser.tab.cc"
     break;
 
   case 5:
-#line 51 "parser.yy"
+#line 61 "parser.yy"
                        { yylhs.value.as < Node * > () = yystack_[0].value.as < Node * > (); printf("r4 "); /*simply return the content of multExpression*/}
-#line 655 "parser.tab.cc"
+#line 820 "parser.tab.cc"
     break;
 
   case 6:
-#line 52 "parser.yy"
-                                             { /*
+#line 62 "parser.yy"
+                                          { /*
                                                   Create a subtree that corresponds to the MultExpression
                                                   The root of the subtree is MultExpression
                                                   The childs of the MultExpression subtree are the left hand side (multExpression accessed through $1) and right hand side of the expression (factor accessed through $3)
                                                 */
-                            yylhs.value.as < Node * > () = new Node("MultExpression", ""); 
+                            yylhs.value.as < Node * > () = new Node("multExpression", ""); 
                             yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
                             yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
                             printf("r5 ");
                       }
-#line 670 "parser.tab.cc"
+#line 835 "parser.tab.cc"
     break;
 
   case 7:
-#line 64 "parser.yy"
+#line 87 "parser.yy"
              {  yylhs.value.as < Node * > () = new Node("Int", yystack_[0].value.as < std::string > ()); printf("r6 "); /* Here we create a leaf node Int. The value of the leaf node is $1 */}
-#line 676 "parser.tab.cc"
+#line 841 "parser.tab.cc"
     break;
 
   case 8:
-#line 65 "parser.yy"
-                       { yylhs.value.as < Node * > () = yystack_[1].value.as < Node * > (); printf("r7 "); /* simply return the expression */}
-#line 682 "parser.tab.cc"
+#line 88 "parser.yy"
+                                           { yylhs.value.as < Node * > () = yystack_[1].value.as < Node * > (); printf("r7 "); /* simply return the expression */}
+#line 847 "parser.tab.cc"
     break;
 
 
-#line 686 "parser.tab.cc"
+#line 851 "parser.tab.cc"
 
             default:
               break;
@@ -949,15 +1114,15 @@ namespace yy {
   }
 
 
-  const signed char parser::yypact_ninf_ = -7;
+  const signed char parser::yypact_ninf_ = -18;
 
   const signed char parser::yytable_ninf_ = -1;
 
   const signed char
   parser::yypact_[] =
   {
-      -6,    -7,    -6,     2,     0,    -1,    -7,    -3,    -7,    -6,
-      -6,    -7,    -1,    -7
+      -3,   -18,    -3,     1,   -17,   -14,   -18,    -1,   -18,    -3,
+      -3,   -18,   -14,   -18
   };
 
   const signed char
@@ -970,7 +1135,7 @@ namespace yy {
   const signed char
   parser::yypgoto_[] =
   {
-      -7,     4,    -7,    -2,     1
+     -18,     4,   -18,    -2,     0
   };
 
   const signed char
@@ -982,28 +1147,28 @@ namespace yy {
   const signed char
   parser::yytable_[] =
   {
-       1,     2,     8,     9,    10,    11,     7,    12,     0,     0,
-       0,    13
+       1,     8,     2,     9,    10,    11,     7,    12,     0,     0,
+      13
   };
 
   const signed char
   parser::yycheck_[] =
   {
-       6,     7,     0,     3,     5,     8,     2,     9,    -1,    -1,
-      -1,    10
+       3,     0,     5,    20,    18,     6,     2,     9,    -1,    -1,
+      10
   };
 
   const signed char
   parser::yystos_[] =
   {
-       0,     6,     7,    10,    11,    12,    13,    10,     0,     3,
-       5,     8,    12,    13
+       0,     3,     5,    43,    44,    45,    46,    43,     0,    20,
+      18,     6,    45,    46
   };
 
   const signed char
   parser::yyr1_[] =
   {
-       0,     9,    10,    11,    11,    12,    12,    13,    13
+       0,    42,    43,    44,    44,    45,    45,    46,    46
   };
 
   const signed char
@@ -1019,16 +1184,21 @@ namespace yy {
   const char*
   const parser::yytname_[] =
   {
-  "\"end of file\"", "error", "$undefined", "PLUSOP", "MINUSOP", "MULTOP",
-  "INT", "LP", "RP", "$accept", "expression", "addExpression",
-  "multExpression", "factor", YY_NULLPTR
+  "$end", "error", "$undefined", "NUM", "INT", "L_PARENTHESE",
+  "R_PARENTHESE", "NOT", "NEW", "L_BRACKET", "R_BRACKET", "THIS", "FALSE",
+  "TRUE", "DOT", "COMMA", "length_OP", "SUB", "MUL", "DIV", "ADD",
+  "EQUAL_TO", "EQUAL", "LT_OP", "GT_OP", "OR_OP", "AND_OP", "SEMICOLON",
+  "printIn", "WHILE", "ELSE", "L_C_BRACKET", "R_C_BRACKET", "BOOLEAN",
+  "RETURN", "PUBLIC", "EXTENDS", "CLASS", "STRING", "MAIN", "VOID",
+  "STATIC", "$accept", "expression", "addExpression", "multExpression",
+  "factor", YY_NULLPTR
   };
 
 #if YYDEBUG
   const signed char
   parser::yyrline_[] =
   {
-       0,    27,    27,    38,    39,    51,    52,    64,    65
+       0,    24,    24,    35,    36,    61,    62,    87,    88
   };
 
   // Print the state stack on the debug stream.
@@ -1062,5 +1232,5 @@ namespace yy {
 
 
 } // yy
-#line 1066 "parser.tab.cc"
+#line 1236 "parser.tab.cc"
 

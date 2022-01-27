@@ -24,7 +24,7 @@
 %type <Node *> expression  addExpression multExpression factor
 
 %%
-expression: addExpression 
+expression: addExpression  
                           { /*  
                                 Here we create the root node (named Expression), then we add the content of addExpression (accessed through $1) as a child of the root node. 
                                 The "root" is a reference to the root node. 
@@ -34,7 +34,7 @@ expression: addExpression
                             root = $$;
                             printf("r1 ");
                           };
-/* A = a | Aa */
+                          
 addExpression: multExpression { $$ = $1; printf("r2 "); /*simply return the content of multExpression*/}
              | addExpression PLUSOP multExpression {  /*
                                                   Create a subtree that corresponds to the AddExpressions

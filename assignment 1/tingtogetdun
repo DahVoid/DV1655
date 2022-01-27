@@ -1,0 +1,23 @@
+1.
+•Get familiarized with the getting started example (See Section 6 in the Appendix).
+•Write a lexer that recognizes the above grammar (Listing 1). You may build upon the getting
+started example to write your lexer that recognizes the MiniJava language specification.
+•For each of the identified language constructs generate a token that will later be used by the parser.
+•Write a set of valid and invalid test classes that can be used to demonstrate that the scanner
+can recognize all the lexically valid java programs, and report errors for the ones that cannot be
+recognized. A set of valid java classes can be found in the following link:
+http://www.cambridge.org/us/features/052182060X/.
+
+2.
+You are supposed to do the following:
+•Get familiarized with the getting started example (See Section 6 in the Appendix).
+•Use Bison to write a syntax specification for the above grammar (Listing 1). You may build upon
+the getting started example to write your parser. Note that you need to convert the grammar to
+left-recursive form.
+•Rewrite the grammar until all reduce-reduce errors are eliminated.
+•Shift-reduce errors - try to resolve them, otherwise let Bison take care of them.
+•Generate the abstract syntax tree (See Section 3.1.3).
+•Write a set of valid and invalid test classes that can be used to demonstrate that the parser can
+recognize syntactically correct java programs. For each of the examples check that the correct
+syntax tree is generated. A set of valid java classes can be found in the following link:
+http://www.cambridge.org/us/features/052182060X/.
