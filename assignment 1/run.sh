@@ -1,4 +1,4 @@
 lex lexer.flex
 make clean
 make
-./compiler < test.txt
+./compiler < tests/test_fac.txt

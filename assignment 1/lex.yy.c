@@ -826,200 +826,200 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 10 "lexer.flex"
-{return(INT);}
+{return(yy::parser::make_yy::parser::make_INT(yytext));}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 11 "lexer.flex"
-{return(L_PARENTHESE);}
+{return(yy::parser::make_L_PARENTHESE(yytext));}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 12 "lexer.flex"
-{return(R_PARENTHESE);}
+{return(yy::parser::make_R_PARENTHESE(yytext));}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 13 "lexer.flex"
-{return(NOT);}
+{return(yy::parser::make_NOT(yytext));}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 14 "lexer.flex"
-{return(NEW);}
+{return(yy::parser::make_NEW(yytext));}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 15 "lexer.flex"
-{return(L_BRACKET);}
+{return(yy::parser::make_L_BRACKET(yytext));}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 16 "lexer.flex"
-{return(R_BRACKET);}
+{return(yy::parser::make_R_BRACKET(yytext));}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 17 "lexer.flex"
-{return(THIS);}
+{return(yy::parser::make_THIS(yytext));}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 18 "lexer.flex"
-{return(FALSE);}
+{return(yy::parser::make_FALSE(yytext));}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 19 "lexer.flex"
-{return(TRUE);}
+{return(yy::parser::make_TRUE(yytext));}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 20 "lexer.flex"
-{return(DOT);}
+{return(yy::parser::make_DOT(yytext));}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 21 "lexer.flex"
-{return(COMMA);}
+{return(yy::parser::make_COMMA(yytext));}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 22 "lexer.flex"
-{return(length_OP);}
+{return(yy::parser::make_length_OP(yytext));}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 23 "lexer.flex"
-{return(SUB);}
+{return(yy::parser::make_SUB(yytext));}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 24 "lexer.flex"
-{return(MUL);}
+{return(yy::parser::make_MUL(yytext));}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 25 "lexer.flex"
-{return(DIV);}
+{return(yy::parser::make_DIV(yytext));}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 26 "lexer.flex"
-{return(ADD);}
+{return(yy::parser::make_ADD(yytext));}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 27 "lexer.flex"
-{return(EQUAL_TO);}
+{return(yy::parser::make_EQUAL_TO(yytext));}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 28 "lexer.flex"
-{return(EQUAL);}
+{return(yy::parser::make_EQUAL(yytext));}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 29 "lexer.flex"
-{return(LT_OP);}
+{return(yy::parser::make_LT_OP(yytext));}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 30 "lexer.flex"
-{return(GT_OP);}
+{return(yy::parser::make_GT_OP(yytext));}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 31 "lexer.flex"
-{return(OR_OP);}
+{return(yy::parser::make_OR_OP(yytext));}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 32 "lexer.flex"
-{return(AND_OP);}
+{return(yy::parser::make_AND_OP(yytext));}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 33 "lexer.flex"
-{return (SEMICOLON);}
+{return(yy::parser::make_SEMICOLON(yytext));}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 34 "lexer.flex"
-{return(printIn);}
+{return(yy::parser::make_printIn(yytext));}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 35 "lexer.flex"
-{return(WHILE);}
+{return(yy::parser::make_WHILE(yytext));}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 36 "lexer.flex"
-{return(ELSE);}
+{return(yy::parser::make_ELSE(yytext));}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 37 "lexer.flex"
-{return(L_C_BRACKET);}
+{return(yy::parser::make_L_C_BRACKET(yytext));}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 38 "lexer.flex"
-{return(R_C_BRACKET);}
+{return(yy::parser::make_R_C_BRACKET(yytext));}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 39 "lexer.flex"
-{return(BOOLEAN);}
+{return(yy::parser::make_BOOLEAN(yytext));}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 40 "lexer.flex"
-{return(RETURN);}
+{return(yy::parser::make_RETURN(yytext));}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 41 "lexer.flex"
-{return(PUBLIC);}
+{return(yy::parser::make_PUBLIC(yytext));}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 42 "lexer.flex"
-{return(EXTENDS);}
+{return(yy::parser::make_EXTENDS(yytext));}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 43 "lexer.flex"
-{return(CLASS);}
+{return(yy::parser::make_CLASS(yytext));}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 44 "lexer.flex"
-{return(STRING);}
+{return(yy::parser::make_STRING(yytext));}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 45 "lexer.flex"
-{return(MAIN);}
+{return(yy::parser::make_MAIN(yytext));}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 46 "lexer.flex"
-{return(VOID);}
+{return(yy::parser::make_VOID(yytext));}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 47 "lexer.flex"
-{return(STATIC);}
+{return(yy::parser::make_STATIC(yytext));}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 #line 48 "lexer.flex"
-{return EOF;}
+{return(yy::parser::make_EOF(yytext));}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 49 "lexer.flex"
+#line 50 "lexer.flex"
 ECHO;
 	YY_BREAK
 #line 1026 "lex.yy.c"
@@ -2021,7 +2021,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 49 "lexer.flex"
+#line 50 "lexer.flex"
 
 
 /* Pattern matching end */
