@@ -44,6 +44,7 @@
 "main"                  {printf("found: %s \n", yytext);}
 "void"                  {printf("found: %s \n", yytext);}
 "static"                {printf("found: %s \n", yytext);}
+[0-9]+                  {printf("found: %s \n", yytext);}
 
 %%
 /*<<EOF>>                 {printf("found EOF: %s \n", yytext);}*/
