@@ -1,8 +1,8 @@
 
 0,5. Ska vi köra c++ istället? Vi kör c++ (KLAR)
-0,6. Gör om miljön
+0,6. Gör om miljön (KLAR)/2
 
-1. Fixar lexer.flex Kommentera ut return och kör på prints
+1. Fixar lexer.flex Kommentera ut return och kör på prints (KLAR)
 2. Fixa så parser och lexer kan prata (Makefile och includes)
 3. Fixa ett enkelt träd
 4. Fixa parser på riktigt

@@ -30,7 +30,7 @@
 "||"                    {printf("found: %s \n", yytext);}
 "&&"                    {printf("found: %s \n", yytext);}
 "\\"                    {printf("found: %s \n", yytext);}
-"System.out.printIn"    {printf("found: %s \n", yytext);}
+"System.out.println"    {printf("found: %s \n", yytext);}
 "While"                 {printf("found: %s \n", yytext);}
 "else"                  {printf("found: %s \n", yytext);}
 "{"                     {printf("found: %s \n", yytext);}
@@ -40,11 +40,13 @@
 "public"                {printf("found: %s \n", yytext);}
 "extends"               {printf("found: %s \n", yytext);}
 "class"                 {printf("found: %s \n", yytext);}
-"string"                {printf("found: %s \n", yytext);}
+"String"                {printf("found: %s \n", yytext);}
 "main"                  {printf("found: %s \n", yytext);}
 "void"                  {printf("found: %s \n", yytext);}
 "static"                {printf("found: %s \n", yytext);}
+";"                     {printf("found: %s \n", yytext);}
 [0-9]+                  {printf("found: %s \n", yytext);}
+[A-Za-z0-9_]+           {printf("word: %s \n", yytext);}
 
 %%
 /*<<EOF>>                 {printf("found EOF: %s \n", yytext);}*/
