@@ -1,6 +1,8 @@
-    // Put C code here
+/* #include "parser.tab.hh"
+#define YY_DECL yy::parser::symbol_type yylex()
+#include "Node.h" */
 
-#line 4 "lex.yy.c"
+#line 6 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -342,6 +344,9 @@ void yyfree (void *  );
 
 /* Begin user sect3 */
 
+#define yywrap() (/*CONSTCOND*/1)
+#define YY_SKIP_YYWRAP
+
 typedef unsigned char YY_CHAR;
 
 FILE *yyin = (FILE *) 0, *yyout = (FILE *) 0;
@@ -540,12 +545,10 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "lexer.flex"
+#line 1 "lexer.ll"
 
-/* Variable / option start */
-/* Variable / option end */
-/* Regex */
-#line 549 "lex.yy.c"
+#define YY_NO_INPUT 1
+#line 552 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -606,8 +609,6 @@ extern int yywrap (void );
 
 #ifndef YY_NO_UNPUT
     
-    static void yyunput (int c,char *buf_ptr  );
-    
 #endif
 
 #ifndef yytext_ptr
@@ -628,6 +629,16 @@ static int input (void );
 
 #endif
 
+        static int yy_start_stack_ptr = 0;
+        static int yy_start_stack_depth = 0;
+        static int *yy_start_stack = NULL;
+    
+    static void yy_push_state (int _new_state );
+    
+    static void yy_pop_state (void );
+    
+    static int yy_top_state (void );
+    
 /* Amount of stuff to slurp up with each read. */
 #ifndef YY_READ_BUF_SIZE
 #ifdef __ia64__
@@ -763,9 +774,10 @@ YY_DECL
 		}
 
 	{
-#line 8 "lexer.flex"
+#line 7 "lexer.ll"
 
-#line 769 "lex.yy.c"
+
+#line 781 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -798,16 +810,12 @@ yy_match:
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 134 );
+		while ( yy_current_state != 126 );
+		yy_cp = (yy_last_accepting_cpos);
+		yy_current_state = (yy_last_accepting_state);
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
-		if ( yy_act == 0 )
-			{ /* have to back up */
-			yy_cp = (yy_last_accepting_cpos);
-			yy_current_state = (yy_last_accepting_state);
-			yy_act = yy_accept[yy_current_state];
-			}
 
 		YY_DO_BEFORE_ACTION;
 
@@ -824,204 +832,202 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 9 "lexer.flex"
-{printf(yytext + "\n");}
+#line 9 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 10 "lexer.flex"
-{printf(yytext + "\n");}
+#line 10 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 11 "lexer.flex"
-{printf(yytext + "\n");}
+#line 11 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 12 "lexer.flex"
-{printf(yytext + "\n");}
+#line 12 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 13 "lexer.flex"
-{printf(yytext + "\n");}
+#line 13 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 14 "lexer.flex"
-{printf(yytext + "\n");}
+#line 14 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 15 "lexer.flex"
-{printf(yytext + "\n");}
+#line 15 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 16 "lexer.flex"
-{printf(yytext + "\n");}
+#line 16 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 17 "lexer.flex"
-{printf(yytext + "\n");}
+#line 17 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 18 "lexer.flex"
-{printf(yytext + "\n");}
+#line 18 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 19 "lexer.flex"
-{printf(yytext + "\n");}
+#line 19 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 20 "lexer.flex"
-{printf(yytext + "\n");}
+#line 20 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 21 "lexer.flex"
-{printf(yytext + "\n");}
+#line 21 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 22 "lexer.flex"
-{printf(yytext + "\n");}
+#line 22 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 23 "lexer.flex"
-{printf(yytext + "\n");}
+#line 23 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 24 "lexer.flex"
-{printf(yytext + "\n");}
+#line 24 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 25 "lexer.flex"
-{printf(yytext + "\n");}
+#line 25 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 26 "lexer.flex"
-{printf(yytext + "\n");}
+#line 26 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 27 "lexer.flex"
-{printf(yytext + "\n");}
+#line 27 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 28 "lexer.flex"
-{printf(yytext + "\n");}
+#line 28 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 29 "lexer.flex"
-{printf(yytext + "\n");}
+#line 29 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 30 "lexer.flex"
-{printf(yytext + "\n");}
+#line 30 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 31 "lexer.flex"
-{printf(yytext + "\n");}
+#line 31 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 32 "lexer.flex"
-{printf(yytext + "\n");}
+#line 32 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 33 "lexer.flex"
-{printf(yytext + "\n");}
+#line 33 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 34 "lexer.flex"
-{printf(yytext + "\n");}
+#line 34 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 35 "lexer.flex"
-{printf(yytext + "\n");}
+#line 35 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 36 "lexer.flex"
-{printf(yytext + "\n");}
+#line 36 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 37 "lexer.flex"
-{printf(yytext + "\n");}
+#line 37 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 38 "lexer.flex"
-{printf(yytext + "\n");}
+#line 38 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 39 "lexer.flex"
-{printf(yytext + "\n");}
+#line 39 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 40 "lexer.flex"
-{printf(yytext + "\n");}
+#line 40 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 41 "lexer.flex"
-{printf(yytext + "\n");}
+#line 41 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 42 "lexer.flex"
-{printf(yytext + "\n");}
+#line 42 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 43 "lexer.flex"
-{printf(yytext + "\n");}
+#line 43 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 44 "lexer.flex"
-{printf(yytext + "\n");}
+#line 44 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 45 "lexer.flex"
-{printf(yytext + "\n");}
+#line 45 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 46 "lexer.flex"
-{printf(yytext + "\n");}
-	YY_BREAK
-case YY_STATE_EOF(INITIAL):
-#line 47 "lexer.flex"
-{printf(yytext + "\n");}
+#line 46 "lexer.ll"
+{printf("found: %s \n", yytext);}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 49 "lexer.flex"
+#line 48 "lexer.ll"
 ECHO;
 	YY_BREAK
-#line 1025 "lex.yy.c"
+#line 1029 "lex.yy.c"
+case YY_STATE_EOF(INITIAL):
+	yyterminate();
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1086,7 +1092,8 @@ ECHO;
 
 			else
 				{
-				yy_cp = (yy_c_buf_p);
+				yy_cp = (yy_last_accepting_cpos);
+				yy_current_state = (yy_last_accepting_state);
 				goto yy_find_action;
 				}
 			}
@@ -1350,43 +1357,6 @@ static int yy_get_next_buffer (void)
 }
 
 #ifndef YY_NO_UNPUT
-
-    static void yyunput (int c, char * yy_bp )
-{
-	char *yy_cp;
-    
-    yy_cp = (yy_c_buf_p);
-
-	/* undo effects of setting up yytext */
-	*yy_cp = (yy_hold_char);
-
-	if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
-		{ /* need to shift things up to make room */
-		/* +2 for EOB chars. */
-		yy_size_t number_to_move = (yy_n_chars) + 2;
-		char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
-					YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
-		char *source =
-				&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move];
-
-		while ( source > YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
-			*--dest = *--source;
-
-		yy_cp += (int) (dest - source);
-		yy_bp += (int) (dest - source);
-		YY_CURRENT_BUFFER_LVALUE->yy_n_chars =
-			(yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->yy_buf_size;
-
-		if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
-			YY_FATAL_ERROR( "flex scanner push-back overflow" );
-		}
-
-	*--yy_cp = (char) c;
-
-	(yytext_ptr) = yy_bp;
-	(yy_hold_char) = *yy_cp;
-	(yy_c_buf_p) = yy_cp;
-}
 
 #endif
 
@@ -1813,6 +1783,43 @@ YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes_len 
 	return b;
 }
 
+    static void yy_push_state (int  _new_state )
+{
+    	if ( (yy_start_stack_ptr) >= (yy_start_stack_depth) )
+		{
+		yy_size_t new_size;
+
+		(yy_start_stack_depth) += YY_START_STACK_INCR;
+		new_size = (yy_start_stack_depth) * sizeof( int );
+
+		if ( ! (yy_start_stack) )
+			(yy_start_stack) = (int *) yyalloc(new_size  );
+
+		else
+			(yy_start_stack) = (int *) yyrealloc((void *) (yy_start_stack),new_size  );
+
+		if ( ! (yy_start_stack) )
+			YY_FATAL_ERROR( "out of memory expanding start-condition stack" );
+		}
+
+	(yy_start_stack)[(yy_start_stack_ptr)++] = YY_START;
+
+	BEGIN(_new_state);
+}
+
+    static void yy_pop_state  (void)
+{
+    	if ( --(yy_start_stack_ptr) < 0 )
+		YY_FATAL_ERROR( "start-condition stack underflow" );
+
+	BEGIN((yy_start_stack)[(yy_start_stack_ptr)]);
+}
+
+    static int yy_top_state  (void)
+{
+    	return (yy_start_stack)[(yy_start_stack_ptr) - 1];
+}
+
 #ifndef YY_EXIT_FAILURE
 #define YY_EXIT_FAILURE 2
 #endif
@@ -1933,6 +1940,10 @@ static int yy_init_globals (void)
     (yy_init) = 0;
     (yy_start) = 0;
 
+    (yy_start_stack_ptr) = 0;
+    (yy_start_stack_depth) = 0;
+    (yy_start_stack) =  NULL;
+
 /* Defined in main.c */
 #ifdef YY_STDINIT
     yyin = stdin;
@@ -1962,6 +1973,10 @@ int yylex_destroy  (void)
 	/* Destroy the stack itself. */
 	yyfree((yy_buffer_stack) );
 	(yy_buffer_stack) = NULL;
+
+    /* Destroy the start condition stack. */
+        yyfree((yy_start_stack)  );
+        (yy_start_stack) = NULL;
 
     /* Reset the globals. This is important in a non-reentrant scanner so the next time
      * yylex() is called, initialization will occur. */
@@ -2020,12 +2035,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 49 "lexer.flex"
+#line 48 "lexer.ll"
 
 
-/* Pattern matching end */
-
-/* C code start */
-
-
-/* C code End */
+/*<<EOF>>                 {printf("found EOF: %s \n", yytext);}*/
