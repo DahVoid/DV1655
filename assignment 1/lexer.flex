@@ -6,46 +6,49 @@
 /* Regex */
 
 %%
+/*
 
-"int" {return(make_make_INT(yytext));}
-"(" {return(make_L_PARENTHESE(yytext));}
-")" {return(make_R_PARENTHESE(yytext));}
-"!" {return(make_NOT(yytext));}
-"new" {return(make_NEW(yytext));}
-"[" {return(make_L_BRACKET(yytext));}
-"]" {return(make_R_BRACKET(yytext));}
-"this" {return(make_THIS(yytext));}
-"false" {return(make_FALSE(yytext));}
-"true" {return(make_TRUE(yytext));}
-"." {return(make_DOT(yytext));}
-"," {return(make_COMMA(yytext));}
-"length" {return(make_length_OP(yytext));}
-"-" {return(make_SUB(yytext));}
-"*" {return(make_MUL(yytext));}
-"/" {return(make_DIV(yytext));}
-"+" {return(make_ADD(yytext));}
-"==" {return(make_EQUAL_TO(yytext));}
-"=" {return(make_EQUAL(yytext));}
-"<" {return(make_LT_OP(yytext));}
-">" {return(make_GT_OP(yytext));}
-"||" {return(make_OR_OP(yytext));}
-"&&" {return(make_AND_OP(yytext));}
-"\\" {return(make_SEMICOLON(yytext));}
-"System.out.printIn" {return(make_printIn(yytext));}
-"While" {return(make_WHILE(yytext));}
-"else" {return(make_ELSE(yytext));}
-"{" {return(make_L_C_BRACKET(yytext));}
-"}" {return(make_R_C_BRACKET(yytext));}
-"boolean" {return(make_BOOLEAN(yytext));}
-"return" {return(make_RETURN(yytext));}
-"public" {return(make_PUBLIC(yytext));}
-"extends" {return(make_EXTENDS(yytext));}
-"class" {return(make_CLASS(yytext));}
-"string" {return(make_STRING(yytext));}
-"main" {return(make_MAIN(yytext));}
-"void" {return(make_VOID(yytext));}
-"static" {return(make_STATIC(yytext));}
-<<EOF>> {return(make_EOF(yytext));}
+ */
+
+"int" {printf(yytext + "\n");}
+"(" {printf(yytext + "\n");}
+")" {printf(yytext + "\n");}
+"!" {printf(yytext + "\n");}
+"new" {printf(yytext + "\n");}
+"[" {printf(yytext + "\n");}
+"]" {printf(yytext + "\n");}
+"this" {printf(yytext + "\n");}
+"false" {printf(yytext + "\n");}
+"true" {printf(yytext + "\n");}
+"." {printf(yytext + "\n");}
+"," {printf(yytext + "\n");}
+"length" {printf(yytext + "\n");}
+"-" {printf(yytext + "\n");}
+"*" {printf(yytext + "\n");}
+"/" {printf(yytext + "\n");}
+"+" {printf(yytext + "\n");}
+"==" {printf(yytext + "\n");}
+"=" {printf(yytext + "\n");}
+"<" {printf(yytext + "\n");}
+">" {printf(yytext + "\n");}
+"||" {printf(yytext + "\n");}
+"&&" {printf(yytext + "\n");}
+"\\" {printf(yytext + "\n");}
+"System.out.printIn" {printf(yytext + "\n");}
+"While" {printf(yytext + "\n");}
+"else" {printf(yytext + "\n");}
+"{" {printf(yytext + "\n");}
+"}" {printf(yytext + "\n");}
+"boolean" {printf(yytext + "\n");}
+"return" {printf(yytext + "\n");}
+"public" {printf(yytext + "\n");}
+"extends" {printf(yytext + "\n");}
+"class" {printf(yytext + "\n");}
+"string" {printf(yytext + "\n");}
+"main" {printf(yytext + "\n");}
+"void" {printf(yytext + "\n");}
+"static" {printf(yytext + "\n");}
+<<EOF>> {printf(yytext + "\n");}
 
 %%
 /* Pattern matching end */
