@@ -6,15 +6,43 @@
 %option noyywrap nounput batch noinput stack
 %%
 
-"+"                     {return yy::parser::make_PLUSOP(yytext);}
-"*"                     {return yy::parser::make_MULTOP(yytext);}
-"("                     {return yy::parser::make_LP(yytext);}
-")"                     {return yy::parser::make_RP(yytext);}
-
-0|[1-9][0-9]*           {return yy::parser::make_INT(yytext);}
-
-
-[ \t\n]+                  {}
-
-<<EOF>>                 return yy::parser::make_END();
+"int"    {printf(yytext + "\n");}
+"("      {printf(yytext + "\n");}
+")"      {printf(yytext + "\n");}
+"!"      {printf(yytext + "\n");}
+"new"    {printf(yytext + "\n");}
+"["      {printf(yytext + "\n");}
+"]"      {printf(yytext + "\n");}
+"this"   {printf(yytext + "\n");}
+"false"  {printf(yytext + "\n");}
+"true"   {printf(yytext + "\n");}
+"."      {printf(yytext + "\n");}
+","      {printf(yytext + "\n");}
+"length" {printf(yytext + "\n");}
+"-"      {printf(yytext + "\n");}
+"*"      {printf(yytext + "\n");}
+"/"      {printf(yytext + "\n");}
+"+"      {printf(yytext + "\n");}
+"=="     {printf(yytext + "\n");}
+"=" {printf(yytext + "\n");}
+"<" {printf(yytext + "\n");}
+">" {printf(yytext + "\n");}
+"||" {printf(yytext + "\n");}
+"&&" {printf(yytext + "\n");}
+"\\" {printf(yytext + "\n");}
+"System.out.printIn" {printf(yytext + "\n");}
+"While" {printf(yytext + "\n");}
+"else" {printf(yytext + "\n");}
+"{" {printf(yytext + "\n");}
+"}" {printf(yytext + "\n");}
+"boolean" {printf(yytext + "\n");}
+"return" {printf(yytext + "\n");}
+"public" {printf(yytext + "\n");}
+"extends" {printf(yytext + "\n");}
+"class" {printf(yytext + "\n");}
+"string" {printf(yytext + "\n");}
+"main" {printf(yytext + "\n");}
+"void" {printf(yytext + "\n");}
+"static" {printf(yytext + "\n");}
+<<EOF>> {printf(yytext + "\n");}
 %%
