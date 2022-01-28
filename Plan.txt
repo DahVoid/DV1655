@@ -7,3 +7,45 @@
 3. Fixa ett enkelt träd
 4. Fixa parser på riktigt
 5. KLAR
+
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("found: %s \n", yytext);}
+{printf("word: %s \n", yytext);}

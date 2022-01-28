@@ -6,19 +6,51 @@
 
 %code requires{
   #include <string>
-  // #include "Node.h"
+  #include "Node.h"
 }
+
 %code{
   #define YY_DECL yy::parser::symbol_type yylex()
 
   YY_DECL;
   
-  // Node* root;
+  Node* root;
   
 }
 // definition of set of tokens. All tokens are of type string
 %token END 0 "end of file"
-%token <std::string> INT NUM SEMIC WORD L_PARENTHESE R_PARENTHESE NOT NEW L_BRACKET R_BRACKET THIS FALSE TRUE DOT COMMA length_OP SUB MUL DIV ADD EQUAL_TO EQUAL LT_OP GT_OP OR_OP AND_OP SEMICOLON printIn WHILE ELSE L_C_BRACKET R_C_BRACKET BOOLEAN RETURN PUBLIC EXTENDS CLASS STRING MAIN VOID STATIC 
-
+%token <std::string> INT LP RP ESX NEW LB RB THIS FALSE TRUE DOT COMMA LENGTH SUB MUL DIV PLUS CMP EQUAL LT MT OR AND COMMENT SYSTEMOUTPRINT WHILE ELSE LCB RCB BOOLEAN RETURN PUBLIC EXTENDS CLASS STRING MAIN VOID STATIC SEMICOLON NUM WORD
+%type <Node *> expression addExpression multExpression factor
 // definition of the production rules. All production rules are of type Node
-/* %type <Node *> expression  addExpression multExpression factor */
+
+%%
+expression: addExpression {$$ = new Node("Expression", "");
+                          $$->children.push_back($1);
+                          root = $$;
+                          }
+
+addExpression: multExpression {$$ = $1;}
+            | addExpression PLUS multExpression {$$ = new Node("AddExpression", "");
+                                                 $$->children.push_back($1);
+                                                 $$->children.push_back($3);
+                                                 }
+                                                 
+            | addExpression SUB multExpression   {$$ = new Node("AddExpression", "");
+                                                 $$->children.push_back($1);
+                                                 $$->children.push_back($3);
+                                                 }
+
+multExpression: factor {$$ = $1;}
+              | multExpression MUL factor{$$ = new Node("MultExpression", "");
+                                          $$->children.push_back($1);
+                                          $$->children.push_back($3);
+                                          }
+
+              | multExpression DIV factor{$$ = new Node("multExpression", "");
+                                          $$->children.push_back($1);
+                                          $$->children.push_back($3);
+                                          }
+
+factor: NUM {$$ = new Node("NUM", $1);}
+      | LP expression RP {$$ = $2;}
+

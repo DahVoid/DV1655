@@ -6,8 +6,8 @@ parser.tab.cc: parser.yy
 		bison parser.yy
 lex.yy.c: lexer.ll parser.tab.cc
 		flex lexer.ll
-# tree: 
-# 		 dot -Tpdf tree.dot -otree.pdf
+tree: 
+		 dot -Tpdf tree.dot -otree.pdf
 clean:
 		rm -f parser.tab.* lex.yy.c* compiler stack.hh tree.dot tree.pdf
 		rm -R compiler.dSYM
