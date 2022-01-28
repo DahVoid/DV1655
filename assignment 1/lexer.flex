@@ -6,10 +6,6 @@
 /* Regex */
 
 %%
-/*
-
- */
-
 "int" {printf(yytext + "\n");}
 "(" {printf(yytext + "\n");}
 ")" {printf(yytext + "\n");}
