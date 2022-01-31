@@ -8,6 +8,7 @@
 
 yy::parser::make_PLUSOP(yytext)
 "int"                   {return yy::parser::make_INT(yytext);}
+"if"                     {return yy::parser::make_IF(yytext);}
 "("                     {return yy::parser::make_LP(yytext);}
 ")"                     {return yy::parser::make_RP(yytext);}
 "!"                     {return yy::parser::make_ESX(yytext);}

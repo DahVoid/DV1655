@@ -365,6 +365,13 @@ namespace yy {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
+      // goal
+      // mainclass
+      // classdeclaration
+      // vardeclaration
+      // methoddeclaration
+      // type
+      // statement
       // expression
       // otherExpression
       // boolExpression
@@ -375,9 +382,10 @@ namespace yy {
       // addExpression
       // multExpression
       // number
-      // indentifier
+      // identifier
       char dummy1[sizeof (Node *)];
 
+      // IF
       // INT
       // LP
       // RP
@@ -460,48 +468,49 @@ namespace yy {
       enum yytokentype
       {
         END = 0,
-        INT = 258,
-        LP = 259,
-        RP = 260,
-        ESX = 261,
-        NEW = 262,
-        LB = 263,
-        RB = 264,
-        THIS = 265,
-        FALSE = 266,
-        TRUE = 267,
-        DOT = 268,
-        COMMA = 269,
-        LENGTH = 270,
-        SUB = 271,
-        MUL = 272,
-        DIV = 273,
-        PLUS = 274,
-        CMP = 275,
-        EQUAL = 276,
-        GT = 277,
-        LT = 278,
-        MT = 279,
-        OR = 280,
-        AND = 281,
-        COMMENT = 282,
-        SYSTEMOUTPRINT = 283,
-        WHILE = 284,
-        ELSE = 285,
-        LCB = 286,
-        RCB = 287,
-        BOOLEAN = 288,
-        RETURN = 289,
-        PUBLIC = 290,
-        EXTENDS = 291,
-        CLASS = 292,
-        STRING = 293,
-        MAIN = 294,
-        VOID = 295,
-        STATIC = 296,
-        SEMICOLON = 297,
-        NUM = 298,
-        WORD = 299
+        IF = 258,
+        INT = 259,
+        LP = 260,
+        RP = 261,
+        ESX = 262,
+        NEW = 263,
+        LB = 264,
+        RB = 265,
+        THIS = 266,
+        FALSE = 267,
+        TRUE = 268,
+        DOT = 269,
+        COMMA = 270,
+        LENGTH = 271,
+        SUB = 272,
+        MUL = 273,
+        DIV = 274,
+        PLUS = 275,
+        CMP = 276,
+        EQUAL = 277,
+        GT = 278,
+        LT = 279,
+        MT = 280,
+        OR = 281,
+        AND = 282,
+        COMMENT = 283,
+        SYSTEMOUTPRINT = 284,
+        WHILE = 285,
+        ELSE = 286,
+        LCB = 287,
+        RCB = 288,
+        BOOLEAN = 289,
+        RETURN = 290,
+        PUBLIC = 291,
+        EXTENDS = 292,
+        CLASS = 293,
+        STRING = 294,
+        MAIN = 295,
+        VOID = 296,
+        STATIC = 297,
+        SEMICOLON = 298,
+        NUM = 299,
+        WORD = 300
       };
     };
 
@@ -597,62 +606,70 @@ namespace yy {
         // Type destructor.
 switch (yytype)
     {
-      case 46: // expression
-      case 47: // otherExpression
-      case 48: // boolExpression
-      case 49: // funccallExpression
-      case 50: // lengthExpression
-      case 51: // indexExpression
-      case 52: // logExpression
-      case 53: // addExpression
-      case 54: // multExpression
-      case 55: // number
-      case 56: // indentifier
+      case 47: // goal
+      case 48: // mainclass
+      case 49: // classdeclaration
+      case 50: // vardeclaration
+      case 51: // methoddeclaration
+      case 52: // type
+      case 53: // statement
+      case 54: // expression
+      case 55: // otherExpression
+      case 56: // boolExpression
+      case 57: // funccallExpression
+      case 58: // lengthExpression
+      case 59: // indexExpression
+      case 60: // logExpression
+      case 61: // addExpression
+      case 62: // multExpression
+      case 63: // number
+      case 64: // identifier
         value.template destroy< Node * > ();
         break;
 
-      case 3: // INT
-      case 4: // LP
-      case 5: // RP
-      case 6: // ESX
-      case 7: // NEW
-      case 8: // LB
-      case 9: // RB
-      case 10: // THIS
-      case 11: // FALSE
-      case 12: // TRUE
-      case 13: // DOT
-      case 14: // COMMA
-      case 15: // LENGTH
-      case 16: // SUB
-      case 17: // MUL
-      case 18: // DIV
-      case 19: // PLUS
-      case 20: // CMP
-      case 21: // EQUAL
-      case 22: // GT
-      case 23: // LT
-      case 24: // MT
-      case 25: // OR
-      case 26: // AND
-      case 27: // COMMENT
-      case 28: // SYSTEMOUTPRINT
-      case 29: // WHILE
-      case 30: // ELSE
-      case 31: // LCB
-      case 32: // RCB
-      case 33: // BOOLEAN
-      case 34: // RETURN
-      case 35: // PUBLIC
-      case 36: // EXTENDS
-      case 37: // CLASS
-      case 38: // STRING
-      case 39: // MAIN
-      case 40: // VOID
-      case 41: // STATIC
-      case 42: // SEMICOLON
-      case 43: // NUM
-      case 44: // WORD
+      case 3: // IF
+      case 4: // INT
+      case 5: // LP
+      case 6: // RP
+      case 7: // ESX
+      case 8: // NEW
+      case 9: // LB
+      case 10: // RB
+      case 11: // THIS
+      case 12: // FALSE
+      case 13: // TRUE
+      case 14: // DOT
+      case 15: // COMMA
+      case 16: // LENGTH
+      case 17: // SUB
+      case 18: // MUL
+      case 19: // DIV
+      case 20: // PLUS
+      case 21: // CMP
+      case 22: // EQUAL
+      case 23: // GT
+      case 24: // LT
+      case 25: // MT
+      case 26: // OR
+      case 27: // AND
+      case 28: // COMMENT
+      case 29: // SYSTEMOUTPRINT
+      case 30: // WHILE
+      case 31: // ELSE
+      case 32: // LCB
+      case 33: // RCB
+      case 34: // BOOLEAN
+      case 35: // RETURN
+      case 36: // PUBLIC
+      case 37: // EXTENDS
+      case 38: // CLASS
+      case 39: // STRING
+      case 40: // MAIN
+      case 41: // VOID
+      case 42: // STATIC
+      case 43: // SEMICOLON
+      case 44: // NUM
+      case 45: // WORD
         value.template destroy< std::string > ();
         break;
 
@@ -742,13 +759,13 @@ switch (yytype)
       symbol_type (int tok, std::string v)
         : super_type(token_type (tok), std::move (v))
       {
-        YY_ASSERT (tok == token::INT || tok == token::LP || tok == token::RP || tok == token::ESX || tok == token::NEW || tok == token::LB || tok == token::RB || tok == token::THIS || tok == token::FALSE || tok == token::TRUE || tok == token::DOT || tok == token::COMMA || tok == token::LENGTH || tok == token::SUB || tok == token::MUL || tok == token::DIV || tok == token::PLUS || tok == token::CMP || tok == token::EQUAL || tok == token::GT || tok == token::LT || tok == token::MT || tok == token::OR || tok == token::AND || tok == token::COMMENT || tok == token::SYSTEMOUTPRINT || tok == token::WHILE || tok == token::ELSE || tok == token::LCB || tok == token::RCB || tok == token::BOOLEAN || tok == token::RETURN || tok == token::PUBLIC || tok == token::EXTENDS || tok == token::CLASS || tok == token::STRING || tok == token::MAIN || tok == token::VOID || tok == token::STATIC || tok == token::SEMICOLON || tok == token::NUM || tok == token::WORD);
+        YY_ASSERT (tok == token::IF || tok == token::INT || tok == token::LP || tok == token::RP || tok == token::ESX || tok == token::NEW || tok == token::LB || tok == token::RB || tok == token::THIS || tok == token::FALSE || tok == token::TRUE || tok == token::DOT || tok == token::COMMA || tok == token::LENGTH || tok == token::SUB || tok == token::MUL || tok == token::DIV || tok == token::PLUS || tok == token::CMP || tok == token::EQUAL || tok == token::GT || tok == token::LT || tok == token::MT || tok == token::OR || tok == token::AND || tok == token::COMMENT || tok == token::SYSTEMOUTPRINT || tok == token::WHILE || tok == token::ELSE || tok == token::LCB || tok == token::RCB || tok == token::BOOLEAN || tok == token::RETURN || tok == token::PUBLIC || tok == token::EXTENDS || tok == token::CLASS || tok == token::STRING || tok == token::MAIN || tok == token::VOID || tok == token::STATIC || tok == token::SEMICOLON || tok == token::NUM || tok == token::WORD);
       }
 #else
       symbol_type (int tok, const std::string& v)
         : super_type(token_type (tok), v)
       {
-        YY_ASSERT (tok == token::INT || tok == token::LP || tok == token::RP || tok == token::ESX || tok == token::NEW || tok == token::LB || tok == token::RB || tok == token::THIS || tok == token::FALSE || tok == token::TRUE || tok == token::DOT || tok == token::COMMA || tok == token::LENGTH || tok == token::SUB || tok == token::MUL || tok == token::DIV || tok == token::PLUS || tok == token::CMP || tok == token::EQUAL || tok == token::GT || tok == token::LT || tok == token::MT || tok == token::OR || tok == token::AND || tok == token::COMMENT || tok == token::SYSTEMOUTPRINT || tok == token::WHILE || tok == token::ELSE || tok == token::LCB || tok == token::RCB || tok == token::BOOLEAN || tok == token::RETURN || tok == token::PUBLIC || tok == token::EXTENDS || tok == token::CLASS || tok == token::STRING || tok == token::MAIN || tok == token::VOID || tok == token::STATIC || tok == token::SEMICOLON || tok == token::NUM || tok == token::WORD);
+        YY_ASSERT (tok == token::IF || tok == token::INT || tok == token::LP || tok == token::RP || tok == token::ESX || tok == token::NEW || tok == token::LB || tok == token::RB || tok == token::THIS || tok == token::FALSE || tok == token::TRUE || tok == token::DOT || tok == token::COMMA || tok == token::LENGTH || tok == token::SUB || tok == token::MUL || tok == token::DIV || tok == token::PLUS || tok == token::CMP || tok == token::EQUAL || tok == token::GT || tok == token::LT || tok == token::MT || tok == token::OR || tok == token::AND || tok == token::COMMENT || tok == token::SYSTEMOUTPRINT || tok == token::WHILE || tok == token::ELSE || tok == token::LCB || tok == token::RCB || tok == token::BOOLEAN || tok == token::RETURN || tok == token::PUBLIC || tok == token::EXTENDS || tok == token::CLASS || tok == token::STRING || tok == token::MAIN || tok == token::VOID || tok == token::STATIC || tok == token::SEMICOLON || tok == token::NUM || tok == token::WORD);
       }
 #endif
     };
@@ -800,6 +817,21 @@ switch (yytype)
       make_END ()
       {
         return symbol_type (token::END);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_IF (std::string v)
+      {
+        return symbol_type (token::IF, std::move (v));
+      }
+#else
+      static
+      symbol_type
+      make_IF (const std::string& v)
+      {
+        return symbol_type (token::IF, v);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1440,7 +1472,7 @@ switch (yytype)
     parser& operator= (const parser&);
 
     /// Stored state numbers (used for stacks).
-    typedef signed char state_type;
+    typedef unsigned char state_type;
 
     /// Generate an error message.
     /// \param yystate   the state where the error occurred.
@@ -1472,7 +1504,7 @@ switch (yytype)
     // Tables.
     // YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
     // STATE-NUM.
-    static const signed char yypact_[];
+    static const short yypact_[];
 
     // YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
     // Performed when YYTABLE does not specify something else to do.  Zero
@@ -1488,9 +1520,9 @@ switch (yytype)
     // YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
     // positive, shift that token.  If negative, reduce the rule whose
     // number is the opposite.  If YYTABLE_NINF, syntax error.
-    static const signed char yytable_[];
+    static const short yytable_[];
 
-    static const signed char yycheck_[];
+    static const short yycheck_[];
 
     // YYSTOS[STATE-NUM] -- The (internal number of the) accessing
     // symbol of state STATE-NUM.
@@ -1738,10 +1770,10 @@ switch (yytype)
     enum
     {
       yyeof_ = 0,
-      yylast_ = 133,     ///< Last index in yytable_.
-      yynnts_ = 12,  ///< Number of nonterminal symbols.
-      yyfinal_ = 24, ///< Termination state number.
-      yyntokens_ = 45  ///< Number of tokens.
+      yylast_ = 275,     ///< Last index in yytable_.
+      yynnts_ = 19,  ///< Number of nonterminal symbols.
+      yyfinal_ = 6, ///< Termination state number.
+      yyntokens_ = 46  ///< Number of tokens.
     };
 
 
@@ -1786,9 +1818,10 @@ switch (yytype)
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39,    40,    41,    42,    43,    44
+      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
+      45
     };
-    const int user_token_number_max_ = 299;
+    const int user_token_number_max_ = 300;
 
     if (t <= 0)
       return yyeof_;
@@ -1807,62 +1840,70 @@ switch (yytype)
   {
     switch (this->type_get ())
     {
-      case 46: // expression
-      case 47: // otherExpression
-      case 48: // boolExpression
-      case 49: // funccallExpression
-      case 50: // lengthExpression
-      case 51: // indexExpression
-      case 52: // logExpression
-      case 53: // addExpression
-      case 54: // multExpression
-      case 55: // number
-      case 56: // indentifier
+      case 47: // goal
+      case 48: // mainclass
+      case 49: // classdeclaration
+      case 50: // vardeclaration
+      case 51: // methoddeclaration
+      case 52: // type
+      case 53: // statement
+      case 54: // expression
+      case 55: // otherExpression
+      case 56: // boolExpression
+      case 57: // funccallExpression
+      case 58: // lengthExpression
+      case 59: // indexExpression
+      case 60: // logExpression
+      case 61: // addExpression
+      case 62: // multExpression
+      case 63: // number
+      case 64: // identifier
         value.move< Node * > (std::move (that.value));
         break;
 
-      case 3: // INT
-      case 4: // LP
-      case 5: // RP
-      case 6: // ESX
-      case 7: // NEW
-      case 8: // LB
-      case 9: // RB
-      case 10: // THIS
-      case 11: // FALSE
-      case 12: // TRUE
-      case 13: // DOT
-      case 14: // COMMA
-      case 15: // LENGTH
-      case 16: // SUB
-      case 17: // MUL
-      case 18: // DIV
-      case 19: // PLUS
-      case 20: // CMP
-      case 21: // EQUAL
-      case 22: // GT
-      case 23: // LT
-      case 24: // MT
-      case 25: // OR
-      case 26: // AND
-      case 27: // COMMENT
-      case 28: // SYSTEMOUTPRINT
-      case 29: // WHILE
-      case 30: // ELSE
-      case 31: // LCB
-      case 32: // RCB
-      case 33: // BOOLEAN
-      case 34: // RETURN
-      case 35: // PUBLIC
-      case 36: // EXTENDS
-      case 37: // CLASS
-      case 38: // STRING
-      case 39: // MAIN
-      case 40: // VOID
-      case 41: // STATIC
-      case 42: // SEMICOLON
-      case 43: // NUM
-      case 44: // WORD
+      case 3: // IF
+      case 4: // INT
+      case 5: // LP
+      case 6: // RP
+      case 7: // ESX
+      case 8: // NEW
+      case 9: // LB
+      case 10: // RB
+      case 11: // THIS
+      case 12: // FALSE
+      case 13: // TRUE
+      case 14: // DOT
+      case 15: // COMMA
+      case 16: // LENGTH
+      case 17: // SUB
+      case 18: // MUL
+      case 19: // DIV
+      case 20: // PLUS
+      case 21: // CMP
+      case 22: // EQUAL
+      case 23: // GT
+      case 24: // LT
+      case 25: // MT
+      case 26: // OR
+      case 27: // AND
+      case 28: // COMMENT
+      case 29: // SYSTEMOUTPRINT
+      case 30: // WHILE
+      case 31: // ELSE
+      case 32: // LCB
+      case 33: // RCB
+      case 34: // BOOLEAN
+      case 35: // RETURN
+      case 36: // PUBLIC
+      case 37: // EXTENDS
+      case 38: // CLASS
+      case 39: // STRING
+      case 40: // MAIN
+      case 41: // VOID
+      case 42: // STATIC
+      case 43: // SEMICOLON
+      case 44: // NUM
+      case 45: // WORD
         value.move< std::string > (std::move (that.value));
         break;
 
@@ -1880,62 +1921,70 @@ switch (yytype)
   {
     switch (this->type_get ())
     {
-      case 46: // expression
-      case 47: // otherExpression
-      case 48: // boolExpression
-      case 49: // funccallExpression
-      case 50: // lengthExpression
-      case 51: // indexExpression
-      case 52: // logExpression
-      case 53: // addExpression
-      case 54: // multExpression
-      case 55: // number
-      case 56: // indentifier
+      case 47: // goal
+      case 48: // mainclass
+      case 49: // classdeclaration
+      case 50: // vardeclaration
+      case 51: // methoddeclaration
+      case 52: // type
+      case 53: // statement
+      case 54: // expression
+      case 55: // otherExpression
+      case 56: // boolExpression
+      case 57: // funccallExpression
+      case 58: // lengthExpression
+      case 59: // indexExpression
+      case 60: // logExpression
+      case 61: // addExpression
+      case 62: // multExpression
+      case 63: // number
+      case 64: // identifier
         value.copy< Node * > (YY_MOVE (that.value));
         break;
 
-      case 3: // INT
-      case 4: // LP
-      case 5: // RP
-      case 6: // ESX
-      case 7: // NEW
-      case 8: // LB
-      case 9: // RB
-      case 10: // THIS
-      case 11: // FALSE
-      case 12: // TRUE
-      case 13: // DOT
-      case 14: // COMMA
-      case 15: // LENGTH
-      case 16: // SUB
-      case 17: // MUL
-      case 18: // DIV
-      case 19: // PLUS
-      case 20: // CMP
-      case 21: // EQUAL
-      case 22: // GT
-      case 23: // LT
-      case 24: // MT
-      case 25: // OR
-      case 26: // AND
-      case 27: // COMMENT
-      case 28: // SYSTEMOUTPRINT
-      case 29: // WHILE
-      case 30: // ELSE
-      case 31: // LCB
-      case 32: // RCB
-      case 33: // BOOLEAN
-      case 34: // RETURN
-      case 35: // PUBLIC
-      case 36: // EXTENDS
-      case 37: // CLASS
-      case 38: // STRING
-      case 39: // MAIN
-      case 40: // VOID
-      case 41: // STATIC
-      case 42: // SEMICOLON
-      case 43: // NUM
-      case 44: // WORD
+      case 3: // IF
+      case 4: // INT
+      case 5: // LP
+      case 6: // RP
+      case 7: // ESX
+      case 8: // NEW
+      case 9: // LB
+      case 10: // RB
+      case 11: // THIS
+      case 12: // FALSE
+      case 13: // TRUE
+      case 14: // DOT
+      case 15: // COMMA
+      case 16: // LENGTH
+      case 17: // SUB
+      case 18: // MUL
+      case 19: // DIV
+      case 20: // PLUS
+      case 21: // CMP
+      case 22: // EQUAL
+      case 23: // GT
+      case 24: // LT
+      case 25: // MT
+      case 26: // OR
+      case 27: // AND
+      case 28: // COMMENT
+      case 29: // SYSTEMOUTPRINT
+      case 30: // WHILE
+      case 31: // ELSE
+      case 32: // LCB
+      case 33: // RCB
+      case 34: // BOOLEAN
+      case 35: // RETURN
+      case 36: // PUBLIC
+      case 37: // EXTENDS
+      case 38: // CLASS
+      case 39: // STRING
+      case 40: // MAIN
+      case 41: // VOID
+      case 42: // STATIC
+      case 43: // SEMICOLON
+      case 44: // NUM
+      case 45: // WORD
         value.copy< std::string > (YY_MOVE (that.value));
         break;
 
@@ -1961,62 +2010,70 @@ switch (yytype)
     super_type::move (s);
     switch (this->type_get ())
     {
-      case 46: // expression
-      case 47: // otherExpression
-      case 48: // boolExpression
-      case 49: // funccallExpression
-      case 50: // lengthExpression
-      case 51: // indexExpression
-      case 52: // logExpression
-      case 53: // addExpression
-      case 54: // multExpression
-      case 55: // number
-      case 56: // indentifier
+      case 47: // goal
+      case 48: // mainclass
+      case 49: // classdeclaration
+      case 50: // vardeclaration
+      case 51: // methoddeclaration
+      case 52: // type
+      case 53: // statement
+      case 54: // expression
+      case 55: // otherExpression
+      case 56: // boolExpression
+      case 57: // funccallExpression
+      case 58: // lengthExpression
+      case 59: // indexExpression
+      case 60: // logExpression
+      case 61: // addExpression
+      case 62: // multExpression
+      case 63: // number
+      case 64: // identifier
         value.move< Node * > (YY_MOVE (s.value));
         break;
 
-      case 3: // INT
-      case 4: // LP
-      case 5: // RP
-      case 6: // ESX
-      case 7: // NEW
-      case 8: // LB
-      case 9: // RB
-      case 10: // THIS
-      case 11: // FALSE
-      case 12: // TRUE
-      case 13: // DOT
-      case 14: // COMMA
-      case 15: // LENGTH
-      case 16: // SUB
-      case 17: // MUL
-      case 18: // DIV
-      case 19: // PLUS
-      case 20: // CMP
-      case 21: // EQUAL
-      case 22: // GT
-      case 23: // LT
-      case 24: // MT
-      case 25: // OR
-      case 26: // AND
-      case 27: // COMMENT
-      case 28: // SYSTEMOUTPRINT
-      case 29: // WHILE
-      case 30: // ELSE
-      case 31: // LCB
-      case 32: // RCB
-      case 33: // BOOLEAN
-      case 34: // RETURN
-      case 35: // PUBLIC
-      case 36: // EXTENDS
-      case 37: // CLASS
-      case 38: // STRING
-      case 39: // MAIN
-      case 40: // VOID
-      case 41: // STATIC
-      case 42: // SEMICOLON
-      case 43: // NUM
-      case 44: // WORD
+      case 3: // IF
+      case 4: // INT
+      case 5: // LP
+      case 6: // RP
+      case 7: // ESX
+      case 8: // NEW
+      case 9: // LB
+      case 10: // RB
+      case 11: // THIS
+      case 12: // FALSE
+      case 13: // TRUE
+      case 14: // DOT
+      case 15: // COMMA
+      case 16: // LENGTH
+      case 17: // SUB
+      case 18: // MUL
+      case 19: // DIV
+      case 20: // PLUS
+      case 21: // CMP
+      case 22: // EQUAL
+      case 23: // GT
+      case 24: // LT
+      case 25: // MT
+      case 26: // OR
+      case 27: // AND
+      case 28: // COMMENT
+      case 29: // SYSTEMOUTPRINT
+      case 30: // WHILE
+      case 31: // ELSE
+      case 32: // LCB
+      case 33: // RCB
+      case 34: // BOOLEAN
+      case 35: // RETURN
+      case 36: // PUBLIC
+      case 37: // EXTENDS
+      case 38: // CLASS
+      case 39: // STRING
+      case 40: // MAIN
+      case 41: // VOID
+      case 42: // STATIC
+      case 43: // SEMICOLON
+      case 44: // NUM
+      case 45: // WORD
         value.move< std::string > (YY_MOVE (s.value));
         break;
 
@@ -2074,7 +2131,7 @@ switch (yytype)
   }
 
 } // yy
-#line 2078 "parser.tab.hh"
+#line 2135 "parser.tab.hh"
 
 
 
