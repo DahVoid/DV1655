@@ -91,3 +91,6 @@ parser.tab.o
 parser.tab.hh
 parser.tab.cc
 compiler
+assignment 1.2/lex.yy.c
+assignment 1.2/parser.tab.cc
+assignment 1.2/parser.tab.hh
