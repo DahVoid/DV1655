@@ -48,5 +48,6 @@ yy::parser::make_PLUSOP(yytext)
 ";"                     {return yy::parser::make_SEMICOLON(yytext);}
 [0-9]+                  {return yy::parser::make_NUM(yytext);}
 [A-Za-z0-9_]+           {return yy::parser::make_WORD(yytext);}
+<<EOF>>                 {return yy::parser::make_EOF(yytext);}
 %%
-/*<<EOF>>                 {printf("found EOF: %s \n", yytext);}*/
+/**/
