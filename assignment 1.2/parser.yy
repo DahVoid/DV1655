@@ -50,7 +50,7 @@ vardeclaration: type identifier SEMICOLON {$$ = new Node("VarDeclaration", "");
                           root = $$;
                           }
 
-methoddeclaration: PUBLIC type identifier LP type identifier COMMA identifier P LCB vardeclaration statement RETURN expression SEMICOLON RCB {$$ = new Node("MethodDeclaration", "");
+methoddeclaration: PUBLIC type identifier LP type identifier COMMA identifier RP LCB vardeclaration statement RETURN expression SEMICOLON RCB {$$ = new Node("MethodDeclaration", "");
                           $$->children.push_back($2);
                           $$->children.push_back($3);
                           $$->children.push_back($5);
