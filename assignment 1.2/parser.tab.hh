@@ -269,12 +269,26 @@ namespace yy {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
+      // goal
+      // mainclass
+      // classdeclaration
+      // vardeclaration
+      // methoddeclaration
+      // type
+      // statement
       // expression
+      // otherExpression
+      // boolExpression
+      // funccallExpression
+      // lengthExpression
+      // indexExpression
+      // logExpression
       // addExpression
       // multExpression
       // factor
       char dummy1[sizeof(Node *)];
 
+      // IF
       // INT
       // LP
       // RP
@@ -294,6 +308,7 @@ namespace yy {
       // PLUS
       // CMP
       // EQUAL
+      // GT
       // LT
       // MT
       // OR
@@ -337,47 +352,49 @@ namespace yy {
       enum yytokentype
       {
         END = 0,
-        INT = 258,
-        LP = 259,
-        RP = 260,
-        ESX = 261,
-        NEW = 262,
-        LB = 263,
-        RB = 264,
-        THIS = 265,
-        FALSE = 266,
-        TRUE = 267,
-        DOT = 268,
-        COMMA = 269,
-        LENGTH = 270,
-        SUB = 271,
-        MUL = 272,
-        DIV = 273,
-        PLUS = 274,
-        CMP = 275,
-        EQUAL = 276,
-        LT = 277,
-        MT = 278,
-        OR = 279,
-        AND = 280,
-        COMMENT = 281,
-        SYSTEMOUTPRINT = 282,
-        WHILE = 283,
-        ELSE = 284,
-        LCB = 285,
-        RCB = 286,
-        BOOLEAN = 287,
-        RETURN = 288,
-        PUBLIC = 289,
-        EXTENDS = 290,
-        CLASS = 291,
-        STRING = 292,
-        MAIN = 293,
-        VOID = 294,
-        STATIC = 295,
-        SEMICOLON = 296,
-        NUM = 297,
-        WORD = 298
+        IF = 258,
+        INT = 259,
+        LP = 260,
+        RP = 261,
+        ESX = 262,
+        NEW = 263,
+        LB = 264,
+        RB = 265,
+        THIS = 266,
+        FALSE = 267,
+        TRUE = 268,
+        DOT = 269,
+        COMMA = 270,
+        LENGTH = 271,
+        SUB = 272,
+        MUL = 273,
+        DIV = 274,
+        PLUS = 275,
+        CMP = 276,
+        EQUAL = 277,
+        GT = 278,
+        LT = 279,
+        MT = 280,
+        OR = 281,
+        AND = 282,
+        COMMENT = 283,
+        SYSTEMOUTPRINT = 284,
+        WHILE = 285,
+        ELSE = 286,
+        LCB = 287,
+        RCB = 288,
+        BOOLEAN = 289,
+        RETURN = 290,
+        PUBLIC = 291,
+        EXTENDS = 292,
+        CLASS = 293,
+        STRING = 294,
+        MAIN = 295,
+        VOID = 296,
+        STATIC = 297,
+        SEMICOLON = 298,
+        NUM = 299,
+        WORD = 300
       };
     };
 
@@ -903,7 +920,8 @@ namespace yy {
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39,    40,    41,    42,    43
+      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
+      45
     };
     const unsigned int user_token_number_max_ = 298;
     const token_number_type undef_token_ = 2;
