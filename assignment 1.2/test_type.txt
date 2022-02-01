@@ -1,0 +1,12 @@
+abcdefg
+
+int
+int[3]
+boolean
+detta_ar_en_indentifier_som_type
+
+
+int num_aux;
+int[5] array_of_five;
+boolean sant_or_falskt;
+detta_ar_en_indentifier_som_type abc;

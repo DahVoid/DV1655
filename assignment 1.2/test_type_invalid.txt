@@ -1,0 +1,13 @@
+abc defg
+
+itn
+int][[
+int][
+leanbool
+detta_ar_en_indentifier_som_type
+
+
+num_aux; int 
+int[5] array_of_five
+int[] array_of_five;
+leanbool sant_or_falskt;
