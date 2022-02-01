@@ -201,6 +201,7 @@ addExpression: multExpression {$$ = $1;}
                                                  }
 
 multExpression: number {$$ = $1;}
+              | identifier {$$ = $1;}
               | multExpression MUL number{$$ = new Node("MultExpression", "");
                                           $$->children.push_back($1);
                                           $$->children.push_back($3);
@@ -210,40 +211,42 @@ multExpression: number {$$ = $1;}
                                           $$->children.push_back($1);
                                           $$->children.push_back($3);
                                           }
+              | multExpression MUL identifier{$$ = new Node("MultExpression", "");
+                                          $$->children.push_back($1);
+                                          $$->children.push_back($3);
+                                          }
 
-vardeclaration_rep: vardeclaration {$$ = new Node("vardeclaration", "");
-                            $$->children.push_back($1);
-                            }
+              | multExpression DIV identifier{$$ = new Node("DivExpression", "");
+                                          $$->children.push_back($1);
+                                          $$->children.push_back($3);
+                                          }
+
+vardeclaration_rep: %empty {$$ = new Node("classdeclaration", "");}
                   | vardeclaration_rep vardeclaration {$$ = new Node("vardeclaration", "");
                                               $$->children.push_back($1);
                                               $$->children.push_back($2);
                                               }
 
-classdeclaration_rep: classdeclaration {$$ = new Node("classdeclaration", "");
-                            $$->children.push_back($1);
-                            }
+classdeclaration_rep: %empty {$$ = new Node("classdeclaration", "");}
                     | classdeclaration_rep classdeclaration {$$ = new Node("classdeclaration", "");
                                                 $$->children.push_back($1);
                                                 $$->children.push_back($2);
                                                 }
 
-statement_rep: statement {$$ = new Node("statement", "");
-                            $$->children.push_back($1);
-                            }
+statement_rep: %empty {$$ = new Node("classdeclaration", "");}
              | statement statement_rep {$$ = new Node("statement", "");
                                          $$->children.push_back($1);
                                          $$->children.push_back($2);
                                          }
 
-methoddeclaration_rep: methoddeclaration {$$ = new Node("methoddeclaration", "");
-                            $$->children.push_back($1);
-                            }
-                 | methoddeclaration_rep methoddeclaration {$$ = new Node("methoddeclaration", "");
+methoddeclaration_rep: %empty {$$ = new Node("classdeclaration", "");}
+                      |methoddeclaration_rep methoddeclaration {$$ = new Node("methoddeclaration", "");
                                              $$->children.push_back($1);
                                              $$->children.push_back($2);
                                              }
 
-parameterdeclaration_rep: type identifier {$$ = new Node("parameterdeclaration", "");
+parameterdeclaration_rep: %empty {$$ = new Node("classdeclaration", "");}
+                         |type identifier {$$ = new Node("parameterdeclaration", "");
                             $$->children.push_back($1);
                             $$->children.push_back($2);
                             }
@@ -253,7 +256,8 @@ parameterdeclaration_rep: type identifier {$$ = new Node("parameterdeclaration",
                                                     $$->children.push_back($4);
                                                     }
 
-argdeclaration_rep: expression {$$ = new Node("argdeclaration", "");
+argdeclaration_rep: %empty {$$ = new Node("classdeclaration", "");}
+                 | expression {$$ = new Node("argdeclaration", "");
                             $$->children.push_back($1);
                             }
                  | expression COMMA argdeclaration_rep {$$ = new Node("argdeclaration", "");

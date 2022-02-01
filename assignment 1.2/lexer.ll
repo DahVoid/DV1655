@@ -33,7 +33,7 @@ yy::parser::make_PLUSOP(yytext)
 "&&"                    {cout << "input: "<< yytext << " TOKEN: " << "AND" << endl; return yy::parser::make_AND(yytext);}
 "\\"                    {cout << "input: "<< yytext << " TOKEN: " << "COMMENT" << endl; return yy::parser::make_COMMENT(yytext);}
 "System.out.println"    {cout << "input: "<< yytext << " TOKEN: " << "SYSTEMOUTPRINT" << endl; return yy::parser::make_SYSTEMOUTPRINT(yytext);}
-"While"                 {cout << "input: "<< yytext << " TOKEN: " << "WHILE" << endl; return yy::parser::make_WHILE(yytext);}
+"while"                 {cout << "input: "<< yytext << " TOKEN: " << "WHILE" << endl; return yy::parser::make_WHILE(yytext);}
 "else"                  {cout << "input: "<< yytext << " TOKEN: " << "ELSE" << endl; return yy::parser::make_ELSE(yytext);}
 "{"                     {cout << "input: "<< yytext << " TOKEN: " << "LCB" << endl; return yy::parser::make_LCB(yytext);}
 "}"                     {cout << "input: "<< yytext << " TOKEN: " << "RCB" << endl; return yy::parser::make_RCB(yytext);}
@@ -50,4 +50,5 @@ yy::parser::make_PLUSOP(yytext)
 [0-9]+                  {cout << "input: "<< yytext << " TOKEN: " << "NUM" << endl; return yy::parser::make_NUM(yytext);}
 [A-Za-z0-9_]+           {cout << "input: "<< yytext << " TOKEN: " << "WORD" << endl; return yy::parser::make_WORD(yytext);}
 <<EOF>>                 {return yy::parser::make_END();}
+\/\/.*
 %%
