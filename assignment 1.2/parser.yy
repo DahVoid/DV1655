@@ -180,7 +180,7 @@ logExpression: expression OR expression {$$ = new Node("logExpression", "");
                                                  $$->children.push_back($1);
                                                  $$->children.push_back($3);
                                                  }
-             | expression GT expression {$$ = new Node("logExpression", "");
+             | expression MT expression {$$ = new Node("logExpression", "");
                                                  $$->children.push_back($1);
                                                  $$->children.push_back($3);
                                                  }
