@@ -70,13 +70,13 @@ methoddeclaration: PUBLIC type identifier LP RP LCB vardeclaration_rep statement
                                            $$->children.push_back($11);
                                            }
 
-type: INT LB RB {$$ = new Node("Type", "");
+type: INT LB RB {$$ = new Node("INT ARRAY", "");
                           }
-    | BOOLEAN {$$ = new Node("Type", "");
+    | BOOLEAN {$$ = new Node("BOOL", "");
                           }
-    | INT {$$ = new Node("Type", "");
+    | INT {$$ = new Node("INT", "");
                           }
-    | identifier {$$ = new Node("Type", "");
+    | identifier {$$ = new Node("OBJECT", "");
                           $$->children.push_back($1);
                           }
 
@@ -202,52 +202,52 @@ par_expression: LP expression RP {$$ = new Node("ParExpression", "");
                                           $$->children.push_back($3);
                                           }
 
-vardeclaration_rep: %empty {$$ = new Node("classdeclaration", "");}
-                  | vardeclaration_rep vardeclaration {$$ = new Node("vardeclaration", "");
+vardeclaration_rep: %empty {$$ = new Node("END OF REP", "");}
+                  | vardeclaration_rep vardeclaration {$$ = new Node("VARDECLAREATION", "");
                                               $$->children.push_back($1);
                                               $$->children.push_back($2);
                                               }
 
-classdeclaration_rep: %empty {$$ = new Node("classdeclaration", "");}
-                    | classdeclaration_rep classdeclaration {$$ = new Node("classdeclaration", "");
+classdeclaration_rep: %empty {$$ = new Node("END OF REP", "");}
+                    | classdeclaration_rep classdeclaration {$$ = new Node("CLASSDECLAREATION", "");
                                                 $$->children.push_back($1);
                                                 $$->children.push_back($2);
                                                 }
 
-statement_rep: %empty {$$ = new Node("statement_rep_none", "");}
-             | statement statement_rep {$$ = new Node("statement_rep", "");
+statement_rep: %empty {$$ = new Node("END OF REP", "");} 
+             | statement statement_rep {$$ = new Node("STATEMENT_REP", "");
                                          $$->children.push_back($1);
                                          $$->children.push_back($2);
                                          }
 
-methoddeclaration_rep: %empty {$$ = new Node("classdeclaration", "");}
-                      |methoddeclaration_rep methoddeclaration {$$ = new Node("methoddeclaration", "");
+methoddeclaration_rep: %empty {$$ = new Node("END OF REP", "");} 
+                      |methoddeclaration_rep methoddeclaration {$$ = new Node("METHODDECLAREATION_REP", "");
                                              $$->children.push_back($1);
                                              $$->children.push_back($2);
                                              }
 
-parameterdeclaration_rep: %empty {$$ = new Node("classdeclaration", "");}
-                         |type identifier {$$ = new Node("parameterdeclaration", "");
+parameterdeclaration_rep: %empty {$$ = new Node("END OF REP", "");} 
+                         |type identifier {$$ = new Node("PARAMETERDECLARATION", "");
                             $$->children.push_back($1);
                             $$->children.push_back($2);
                             }
-                        | type identifier COMMA parameterdeclaration_rep {$$ = new Node("parameterdeclaration", "");
+                        | type identifier COMMA parameterdeclaration_rep {$$ = new Node("PARAMETERDECLARATION_REP", "");
                                                     $$->children.push_back($1);
                                                     $$->children.push_back($2);
                                                     $$->children.push_back($4);
                                                     }
 
-argdeclaration_rep: %empty {$$ = new Node("classdeclaration", "");}
-                 | expression {$$ = new Node("argdeclaration", "");
+argdeclaration_rep:%empty {$$ = new Node("END OF REP", "");} 
+                 | expression {$$ = new Node("ARGDECLERATION", "");
                             $$->children.push_back($1);
                             }
-                 | expression COMMA argdeclaration_rep {$$ = new Node("argdeclaration", "");
+                 | expression COMMA argdeclaration_rep {$$ = new Node("ARGDECLERATION_REP", "");
                                              $$->children.push_back($1);
                                              $$->children.push_back($3);
                                              }
 
 
-identifier: WORD {$$ = new Node("identifier", $1);}
+identifier: WORD {$$ = new Node("IDENTIFER", $1);}
 
 number: NUM {$$ = new Node("NUM", $1);}
       | LP expression RP {$$ = $2;}
