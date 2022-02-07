@@ -278,14 +278,14 @@ namespace yy {
       // type
       // statement
       // expression
-      // otherExpression
-      // boolExpression
-      // funccallExpression
-      // lengthExpression
-      // indexExpression
-      // logExpression
+      // OR_expression
+      // AND_expression
+      // EQUALITY_expression
+      // REL_expression
       // addExpression
       // multExpression
+      // negation_expression
+      // par_expression
       // vardeclaration_rep
       // classdeclaration_rep
       // statement_rep
@@ -316,10 +316,12 @@ namespace yy {
       // PLUS
       // CMP
       // EQUAL
+      // GT
       // LT
       // MT
       // OR
       // AND
+      // COMMENT
       // SYSTEMOUTPRINT
       // WHILE
       // ELSE
@@ -378,27 +380,29 @@ namespace yy {
         PLUS = 275,
         CMP = 276,
         EQUAL = 277,
-        LT = 278,
-        MT = 279,
-        OR = 280,
-        AND = 281,
-        SYSTEMOUTPRINT = 282,
-        WHILE = 283,
-        ELSE = 284,
-        LCB = 285,
-        RCB = 286,
-        BOOLEAN = 287,
-        RETURN = 288,
-        PUBLIC = 289,
-        EXTENDS = 290,
-        CLASS = 291,
-        STRING = 292,
-        MAIN = 293,
-        VOID = 294,
-        STATIC = 295,
-        SEMICOLON = 296,
-        NUM = 297,
-        WORD = 298
+        GT = 278,
+        LT = 279,
+        MT = 280,
+        OR = 281,
+        AND = 282,
+        COMMENT = 283,
+        SYSTEMOUTPRINT = 284,
+        WHILE = 285,
+        ELSE = 286,
+        LCB = 287,
+        RCB = 288,
+        BOOLEAN = 289,
+        RETURN = 290,
+        PUBLIC = 291,
+        EXTENDS = 292,
+        CLASS = 293,
+        STRING = 294,
+        MAIN = 295,
+        VOID = 296,
+        STATIC = 297,
+        SEMICOLON = 298,
+        NUM = 299,
+        WORD = 300
       };
     };
 
@@ -589,6 +593,10 @@ namespace yy {
 
     static inline
     symbol_type
+    make_GT (const std::string& v);
+
+    static inline
+    symbol_type
     make_LT (const std::string& v);
 
     static inline
@@ -602,6 +610,10 @@ namespace yy {
     static inline
     symbol_type
     make_AND (const std::string& v);
+
+    static inline
+    symbol_type
+    make_COMMENT (const std::string& v);
 
     static inline
     symbol_type
@@ -776,7 +788,7 @@ namespace yy {
     static const char* const yytname_[];
 #if YYDEBUG
   // YYRLINE[YYN] -- Source line where rule number YYN was defined.
-  static const unsigned short int yyrline_[];
+  static const unsigned char yyrline_[];
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r);
     /// Print the state stack on the debug stream.
@@ -875,12 +887,12 @@ namespace yy {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 307,     ///< Last index in yytable_.
+      yylast_ = 330,     ///< Last index in yytable_.
       yynnts_ = 25,  ///< Number of nonterminal symbols.
       yyfinal_ = 6, ///< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 44  ///< Number of tokens.
+      yyntokens_ = 46  ///< Number of tokens.
     };
 
 
@@ -924,9 +936,10 @@ namespace yy {
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39,    40,    41,    42,    43
+      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
+      45
     };
-    const unsigned int user_token_number_max_ = 298;
+    const unsigned int user_token_number_max_ = 300;
     const token_number_type undef_token_ = 2;
 
     if (static_cast<int>(t) <= yyeof_)
@@ -957,30 +970,30 @@ namespace yy {
   {
       switch (other.type_get ())
     {
-      case 45: // goal
-      case 46: // mainclass
-      case 47: // classdeclaration
-      case 48: // vardeclaration
-      case 49: // methoddeclaration
-      case 50: // type
-      case 51: // statement
-      case 52: // expression
-      case 53: // otherExpression
-      case 54: // boolExpression
-      case 55: // funccallExpression
-      case 56: // lengthExpression
-      case 57: // indexExpression
-      case 58: // logExpression
+      case 47: // goal
+      case 48: // mainclass
+      case 49: // classdeclaration
+      case 50: // vardeclaration
+      case 51: // methoddeclaration
+      case 52: // type
+      case 53: // statement
+      case 54: // expression
+      case 55: // OR_expression
+      case 56: // AND_expression
+      case 57: // EQUALITY_expression
+      case 58: // REL_expression
       case 59: // addExpression
       case 60: // multExpression
-      case 61: // vardeclaration_rep
-      case 62: // classdeclaration_rep
-      case 63: // statement_rep
-      case 64: // methoddeclaration_rep
-      case 65: // parameterdeclaration_rep
-      case 66: // argdeclaration_rep
-      case 67: // identifier
-      case 68: // number
+      case 61: // negation_expression
+      case 62: // par_expression
+      case 63: // vardeclaration_rep
+      case 64: // classdeclaration_rep
+      case 65: // statement_rep
+      case 66: // methoddeclaration_rep
+      case 67: // parameterdeclaration_rep
+      case 68: // argdeclaration_rep
+      case 69: // identifier
+      case 70: // number
         value.copy< Node * > (other.value);
         break;
 
@@ -1004,27 +1017,29 @@ namespace yy {
       case 20: // PLUS
       case 21: // CMP
       case 22: // EQUAL
-      case 23: // LT
-      case 24: // MT
-      case 25: // OR
-      case 26: // AND
-      case 27: // SYSTEMOUTPRINT
-      case 28: // WHILE
-      case 29: // ELSE
-      case 30: // LCB
-      case 31: // RCB
-      case 32: // BOOLEAN
-      case 33: // RETURN
-      case 34: // PUBLIC
-      case 35: // EXTENDS
-      case 36: // CLASS
-      case 37: // STRING
-      case 38: // MAIN
-      case 39: // VOID
-      case 40: // STATIC
-      case 41: // SEMICOLON
-      case 42: // NUM
-      case 43: // WORD
+      case 23: // GT
+      case 24: // LT
+      case 25: // MT
+      case 26: // OR
+      case 27: // AND
+      case 28: // COMMENT
+      case 29: // SYSTEMOUTPRINT
+      case 30: // WHILE
+      case 31: // ELSE
+      case 32: // LCB
+      case 33: // RCB
+      case 34: // BOOLEAN
+      case 35: // RETURN
+      case 36: // PUBLIC
+      case 37: // EXTENDS
+      case 38: // CLASS
+      case 39: // STRING
+      case 40: // MAIN
+      case 41: // VOID
+      case 42: // STATIC
+      case 43: // SEMICOLON
+      case 44: // NUM
+      case 45: // WORD
         value.copy< std::string > (other.value);
         break;
 
@@ -1044,30 +1059,30 @@ namespace yy {
     (void) v;
       switch (this->type_get ())
     {
-      case 45: // goal
-      case 46: // mainclass
-      case 47: // classdeclaration
-      case 48: // vardeclaration
-      case 49: // methoddeclaration
-      case 50: // type
-      case 51: // statement
-      case 52: // expression
-      case 53: // otherExpression
-      case 54: // boolExpression
-      case 55: // funccallExpression
-      case 56: // lengthExpression
-      case 57: // indexExpression
-      case 58: // logExpression
+      case 47: // goal
+      case 48: // mainclass
+      case 49: // classdeclaration
+      case 50: // vardeclaration
+      case 51: // methoddeclaration
+      case 52: // type
+      case 53: // statement
+      case 54: // expression
+      case 55: // OR_expression
+      case 56: // AND_expression
+      case 57: // EQUALITY_expression
+      case 58: // REL_expression
       case 59: // addExpression
       case 60: // multExpression
-      case 61: // vardeclaration_rep
-      case 62: // classdeclaration_rep
-      case 63: // statement_rep
-      case 64: // methoddeclaration_rep
-      case 65: // parameterdeclaration_rep
-      case 66: // argdeclaration_rep
-      case 67: // identifier
-      case 68: // number
+      case 61: // negation_expression
+      case 62: // par_expression
+      case 63: // vardeclaration_rep
+      case 64: // classdeclaration_rep
+      case 65: // statement_rep
+      case 66: // methoddeclaration_rep
+      case 67: // parameterdeclaration_rep
+      case 68: // argdeclaration_rep
+      case 69: // identifier
+      case 70: // number
         value.copy< Node * > (v);
         break;
 
@@ -1091,27 +1106,29 @@ namespace yy {
       case 20: // PLUS
       case 21: // CMP
       case 22: // EQUAL
-      case 23: // LT
-      case 24: // MT
-      case 25: // OR
-      case 26: // AND
-      case 27: // SYSTEMOUTPRINT
-      case 28: // WHILE
-      case 29: // ELSE
-      case 30: // LCB
-      case 31: // RCB
-      case 32: // BOOLEAN
-      case 33: // RETURN
-      case 34: // PUBLIC
-      case 35: // EXTENDS
-      case 36: // CLASS
-      case 37: // STRING
-      case 38: // MAIN
-      case 39: // VOID
-      case 40: // STATIC
-      case 41: // SEMICOLON
-      case 42: // NUM
-      case 43: // WORD
+      case 23: // GT
+      case 24: // LT
+      case 25: // MT
+      case 26: // OR
+      case 27: // AND
+      case 28: // COMMENT
+      case 29: // SYSTEMOUTPRINT
+      case 30: // WHILE
+      case 31: // ELSE
+      case 32: // LCB
+      case 33: // RCB
+      case 34: // BOOLEAN
+      case 35: // RETURN
+      case 36: // PUBLIC
+      case 37: // EXTENDS
+      case 38: // CLASS
+      case 39: // STRING
+      case 40: // MAIN
+      case 41: // VOID
+      case 42: // STATIC
+      case 43: // SEMICOLON
+      case 44: // NUM
+      case 45: // WORD
         value.copy< std::string > (v);
         break;
 
@@ -1167,30 +1184,30 @@ namespace yy {
     // Type destructor.
     switch (yytype)
     {
-      case 45: // goal
-      case 46: // mainclass
-      case 47: // classdeclaration
-      case 48: // vardeclaration
-      case 49: // methoddeclaration
-      case 50: // type
-      case 51: // statement
-      case 52: // expression
-      case 53: // otherExpression
-      case 54: // boolExpression
-      case 55: // funccallExpression
-      case 56: // lengthExpression
-      case 57: // indexExpression
-      case 58: // logExpression
+      case 47: // goal
+      case 48: // mainclass
+      case 49: // classdeclaration
+      case 50: // vardeclaration
+      case 51: // methoddeclaration
+      case 52: // type
+      case 53: // statement
+      case 54: // expression
+      case 55: // OR_expression
+      case 56: // AND_expression
+      case 57: // EQUALITY_expression
+      case 58: // REL_expression
       case 59: // addExpression
       case 60: // multExpression
-      case 61: // vardeclaration_rep
-      case 62: // classdeclaration_rep
-      case 63: // statement_rep
-      case 64: // methoddeclaration_rep
-      case 65: // parameterdeclaration_rep
-      case 66: // argdeclaration_rep
-      case 67: // identifier
-      case 68: // number
+      case 61: // negation_expression
+      case 62: // par_expression
+      case 63: // vardeclaration_rep
+      case 64: // classdeclaration_rep
+      case 65: // statement_rep
+      case 66: // methoddeclaration_rep
+      case 67: // parameterdeclaration_rep
+      case 68: // argdeclaration_rep
+      case 69: // identifier
+      case 70: // number
         value.template destroy< Node * > ();
         break;
 
@@ -1214,27 +1231,29 @@ namespace yy {
       case 20: // PLUS
       case 21: // CMP
       case 22: // EQUAL
-      case 23: // LT
-      case 24: // MT
-      case 25: // OR
-      case 26: // AND
-      case 27: // SYSTEMOUTPRINT
-      case 28: // WHILE
-      case 29: // ELSE
-      case 30: // LCB
-      case 31: // RCB
-      case 32: // BOOLEAN
-      case 33: // RETURN
-      case 34: // PUBLIC
-      case 35: // EXTENDS
-      case 36: // CLASS
-      case 37: // STRING
-      case 38: // MAIN
-      case 39: // VOID
-      case 40: // STATIC
-      case 41: // SEMICOLON
-      case 42: // NUM
-      case 43: // WORD
+      case 23: // GT
+      case 24: // LT
+      case 25: // MT
+      case 26: // OR
+      case 27: // AND
+      case 28: // COMMENT
+      case 29: // SYSTEMOUTPRINT
+      case 30: // WHILE
+      case 31: // ELSE
+      case 32: // LCB
+      case 33: // RCB
+      case 34: // BOOLEAN
+      case 35: // RETURN
+      case 36: // PUBLIC
+      case 37: // EXTENDS
+      case 38: // CLASS
+      case 39: // STRING
+      case 40: // MAIN
+      case 41: // VOID
+      case 42: // STATIC
+      case 43: // SEMICOLON
+      case 44: // NUM
+      case 45: // WORD
         value.template destroy< std::string > ();
         break;
 
@@ -1261,30 +1280,30 @@ namespace yy {
     super_type::move(s);
       switch (this->type_get ())
     {
-      case 45: // goal
-      case 46: // mainclass
-      case 47: // classdeclaration
-      case 48: // vardeclaration
-      case 49: // methoddeclaration
-      case 50: // type
-      case 51: // statement
-      case 52: // expression
-      case 53: // otherExpression
-      case 54: // boolExpression
-      case 55: // funccallExpression
-      case 56: // lengthExpression
-      case 57: // indexExpression
-      case 58: // logExpression
+      case 47: // goal
+      case 48: // mainclass
+      case 49: // classdeclaration
+      case 50: // vardeclaration
+      case 51: // methoddeclaration
+      case 52: // type
+      case 53: // statement
+      case 54: // expression
+      case 55: // OR_expression
+      case 56: // AND_expression
+      case 57: // EQUALITY_expression
+      case 58: // REL_expression
       case 59: // addExpression
       case 60: // multExpression
-      case 61: // vardeclaration_rep
-      case 62: // classdeclaration_rep
-      case 63: // statement_rep
-      case 64: // methoddeclaration_rep
-      case 65: // parameterdeclaration_rep
-      case 66: // argdeclaration_rep
-      case 67: // identifier
-      case 68: // number
+      case 61: // negation_expression
+      case 62: // par_expression
+      case 63: // vardeclaration_rep
+      case 64: // classdeclaration_rep
+      case 65: // statement_rep
+      case 66: // methoddeclaration_rep
+      case 67: // parameterdeclaration_rep
+      case 68: // argdeclaration_rep
+      case 69: // identifier
+      case 70: // number
         value.move< Node * > (s.value);
         break;
 
@@ -1308,27 +1327,29 @@ namespace yy {
       case 20: // PLUS
       case 21: // CMP
       case 22: // EQUAL
-      case 23: // LT
-      case 24: // MT
-      case 25: // OR
-      case 26: // AND
-      case 27: // SYSTEMOUTPRINT
-      case 28: // WHILE
-      case 29: // ELSE
-      case 30: // LCB
-      case 31: // RCB
-      case 32: // BOOLEAN
-      case 33: // RETURN
-      case 34: // PUBLIC
-      case 35: // EXTENDS
-      case 36: // CLASS
-      case 37: // STRING
-      case 38: // MAIN
-      case 39: // VOID
-      case 40: // STATIC
-      case 41: // SEMICOLON
-      case 42: // NUM
-      case 43: // WORD
+      case 23: // GT
+      case 24: // LT
+      case 25: // MT
+      case 26: // OR
+      case 27: // AND
+      case 28: // COMMENT
+      case 29: // SYSTEMOUTPRINT
+      case 30: // WHILE
+      case 31: // ELSE
+      case 32: // LCB
+      case 33: // RCB
+      case 34: // BOOLEAN
+      case 35: // RETURN
+      case 36: // PUBLIC
+      case 37: // EXTENDS
+      case 38: // CLASS
+      case 39: // STRING
+      case 40: // MAIN
+      case 41: // VOID
+      case 42: // STATIC
+      case 43: // SEMICOLON
+      case 44: // NUM
+      case 45: // WORD
         value.move< std::string > (s.value);
         break;
 
@@ -1390,7 +1411,7 @@ namespace yy {
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
      275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
      285,   286,   287,   288,   289,   290,   291,   292,   293,   294,
-     295,   296,   297,   298
+     295,   296,   297,   298,   299,   300
     };
     return static_cast<token_type> (yytoken_number_[type]);
   }
@@ -1522,6 +1543,12 @@ namespace yy {
   }
 
   parser::symbol_type
+  parser::make_GT (const std::string& v)
+  {
+    return symbol_type (token::GT, v);
+  }
+
+  parser::symbol_type
   parser::make_LT (const std::string& v)
   {
     return symbol_type (token::LT, v);
@@ -1543,6 +1570,12 @@ namespace yy {
   parser::make_AND (const std::string& v)
   {
     return symbol_type (token::AND, v);
+  }
+
+  parser::symbol_type
+  parser::make_COMMENT (const std::string& v)
+  {
+    return symbol_type (token::COMMENT, v);
   }
 
   parser::symbol_type
@@ -1650,7 +1683,7 @@ namespace yy {
 
 
 } // yy
-#line 1654 "parser.tab.hh" // lalr1.cc:377
+#line 1687 "parser.tab.hh" // lalr1.cc:377
 
 
 

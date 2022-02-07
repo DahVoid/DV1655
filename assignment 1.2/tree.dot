@@ -5,161 +5,99 @@ n2 [label="identifier:Factorial"];
 n1 -> n2
 n3 [label="identifier:a"];
 n1 -> n3
-n4 [label="Statement:"];
-n5 [label="Expression:"];
-n6 [label="funccallExpression:"];
-n7 [label="Expression:"];
-n8 [label="otherExpression:"];
-n9 [label="identifier:Fac"];
-n8 -> n9
-n7 -> n8
-n6 -> n7
-n10 [label="identifier:ComputeFac"];
-n6 -> n10
-n11 [label="argdeclaration:"];
-n12 [label="Expression:"];
-n13 [label="NUM:10"];
-n12 -> n13
-n11 -> n12
-n6 -> n11
+n4 [label="SYSTEMOUTPRINT:"];
+n5 [label="ParExpression:"];
+n6 [label="OtherExpression:new"];
 n5 -> n6
+n7 [label="identifier:ComputeFac"];
+n5 -> n7
+n8 [label="identifier:ComputeFac"];
+n5 -> n8
 n4 -> n5
 n1 -> n4
 n0 -> n1
-n14 [label="classdeclaration:"];
+n9 [label="classdeclaration:"];
+n10 [label="classdeclaration:"];
+n9 -> n10
+n11 [label="ClassDeclaration:"];
+n12 [label="identifier:Fac"];
+n11 -> n12
+n13 [label="classdeclaration:"];
+n11 -> n13
+n14 [label="methoddeclaration:"];
 n15 [label="classdeclaration:"];
 n14 -> n15
-n16 [label="ClassDeclaration:"];
-n17 [label="identifier:Fac"];
+n16 [label="MethodDeclaration:"];
+n17 [label="Type:"];
 n16 -> n17
-n18 [label="classdeclaration:"];
+n18 [label="identifier:ComputeFac"];
 n16 -> n18
-n19 [label="methoddeclaration:"];
-n20 [label="classdeclaration:"];
+n19 [label="parameterdeclaration:"];
+n20 [label="Type:"];
 n19 -> n20
-n21 [label="MethodDeclaration:"];
-n22 [label="Type:"];
-n21 -> n22
-n23 [label="identifier:ComputeFac"];
-n21 -> n23
-n24 [label="parameterdeclaration:"];
-n25 [label="Type:"];
-n24 -> n25
-n26 [label="identifier:num"];
-n24 -> n26
-n21 -> n24
-n27 [label="vardeclaration:"];
-n28 [label="classdeclaration:"];
-n27 -> n28
-n29 [label="VarDeclaration:"];
-n30 [label="Type:"];
-n29 -> n30
-n31 [label="identifier:num_aux"];
-n29 -> n31
-n27 -> n29
-n21 -> n27
-n32 [label="statement:"];
-n33 [label="Statement:if"];
-n34 [label="Expression:"];
-n35 [label="logExpression:"];
-n36 [label="Expression:"];
-n37 [label="identifier:num"];
-n36 -> n37
-n35 -> n36
-n38 [label="Expression:"];
-n39 [label="logExpression:"];
-n40 [label="Expression:"];
-n41 [label="NUM:1"];
-n40 -> n41
-n39 -> n40
-n42 [label="Expression:"];
-n43 [label="logExpression:"];
-n44 [label="Expression:"];
-n45 [label="identifier:num"];
-n44 -> n45
-n43 -> n44
-n46 [label="Expression:"];
-n47 [label="logExpression:"];
-n48 [label="Expression:"];
-n49 [label="NUM:100"];
-n48 -> n49
-n47 -> n48
-n50 [label="Expression:"];
-n51 [label="otherExpression:"];
-n52 [label="Expression:"];
-n53 [label="identifier:num"];
-n52 -> n53
-n51 -> n52
-n50 -> n51
-n47 -> n50
-n46 -> n47
-n43 -> n46
-n42 -> n43
-n39 -> n42
-n38 -> n39
-n35 -> n38
-n34 -> n35
-n33 -> n34
-n54 [label="Statement:"];
-n55 [label="statement:"];
-n56 [label="Statement:"];
-n57 [label="identifier:num_aux"];
-n56 -> n57
-n58 [label="Expression:"];
-n59 [label="NUM:1"];
-n58 -> n59
-n56 -> n58
-n55 -> n56
-n60 [label="classdeclaration:"];
-n55 -> n60
-n54 -> n55
-n33 -> n54
-n61 [label="Statement:"];
-n62 [label="statement:"];
-n63 [label="Statement:"];
-n64 [label="identifier:num_aux"];
-n63 -> n64
-n65 [label="Expression:"];
-n66 [label="MultExpression:"];
-n67 [label="identifier:num"];
-n66 -> n67
-n68 [label="Expression:"];
-n69 [label="funccallExpression:"];
-n70 [label="Expression:"];
-n71 [label="otherExpression:"];
-n70 -> n71
-n69 -> n70
-n72 [label="identifier:ComputeFac"];
-n69 -> n72
-n73 [label="argdeclaration:"];
-n74 [label="Expression:"];
-n75 [label="SubExpression:"];
-n76 [label="identifier:num"];
-n75 -> n76
-n77 [label="NUM:1"];
-n75 -> n77
-n74 -> n75
-n73 -> n74
-n69 -> n73
-n68 -> n69
-n66 -> n68
-n65 -> n66
-n63 -> n65
-n62 -> n63
-n78 [label="classdeclaration:"];
-n62 -> n78
-n61 -> n62
-n33 -> n61
-n32 -> n33
-n79 [label="classdeclaration:"];
-n32 -> n79
-n21 -> n32
-n80 [label="Expression:"];
-n81 [label="identifier:num_aux"];
-n80 -> n81
-n21 -> n80
+n21 [label="identifier:num"];
 n19 -> n21
 n16 -> n19
+n22 [label="vardeclaration:"];
+n23 [label="classdeclaration:"];
+n22 -> n23
+n24 [label="VarDeclaration:"];
+n25 [label="Type:"];
+n24 -> n25
+n26 [label="identifier:num_aux"];
+n24 -> n26
+n22 -> n24
+n16 -> n22
+n27 [label="statement_rep:"];
+n28 [label="IF:"];
+n29 [label="RelExpression:"];
+n30 [label="identifier:num"];
+n29 -> n30
+n31 [label="NUM:1"];
+n29 -> n31
+n28 -> n29
+n32 [label="PARAMETER:"];
+n33 [label="statement_rep:"];
+n34 [label="EQUAL:"];
+n35 [label="identifier:num_aux"];
+n34 -> n35
+n36 [label="NUM:1"];
+n34 -> n36
+n33 -> n34
+n37 [label="statement_rep_none:"];
+n33 -> n37
+n32 -> n33
+n28 -> n32
+n38 [label="PARAMETER:"];
+n39 [label="statement_rep:"];
+n40 [label="EQUAL:"];
+n41 [label="identifier:num_aux"];
+n40 -> n41
+n42 [label="MultExpression:"];
+n43 [label="identifier:num"];
+n42 -> n43
+n44 [label="ParExpression:"];
+n45 [label="OtherExpression:this"];
+n44 -> n45
+n46 [label="identifier:ComputeFac"];
+n44 -> n46
+n47 [label="identifier:ComputeFac"];
+n44 -> n47
+n42 -> n44
+n40 -> n42
+n39 -> n40
+n48 [label="statement_rep_none:"];
+n39 -> n48
+n38 -> n39
+n28 -> n38
+n27 -> n28
+n49 [label="statement_rep_none:"];
+n27 -> n49
+n16 -> n27
+n50 [label="identifier:num_aux"];
+n16 -> n50
 n14 -> n16
-n0 -> n14
+n11 -> n14
+n9 -> n11
+n0 -> n9
 }

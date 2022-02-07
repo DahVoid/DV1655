@@ -80,27 +80,27 @@ type: INT LB RB {$$ = new Node("Type", "");
                           $$->children.push_back($1);
                           }
 
-statement: LCB statement_rep RCB {$$ = new Node("Statement", "");
+statement: LCB statement_rep RCB {$$ = new Node("PARAMETER","");
                           $$->children.push_back($2);
                           }
 
-         | IF LP expression RP statement ELSE statement {$$ = new Node("Statement", "");
+         | IF LP expression RP statement ELSE statement {$$ = new Node("IF","");
                           $$->children.push_back($3);
                           $$->children.push_back($5);
                           $$->children.push_back($7);
                           }
-         | WHILE LP expression RP statement {$$ = new Node("Statement", "");
+         | WHILE LP expression RP statement {$$ = new Node("WHILE","");
                           $$->children.push_back($3);
                           $$->children.push_back($5);
                           }
-         | SYSTEMOUTPRINT LP expression RP SEMICOLON {$$ = new Node("Statement", "");
+         | SYSTEMOUTPRINT LP expression RP SEMICOLON {$$ = new Node("SYSTEMOUTPRINT","");
                           $$->children.push_back($3);
                           }
-         | identifier EQUAL expression SEMICOLON {$$ = new Node("Statement", "");
+         | identifier EQUAL expression SEMICOLON {$$ = new Node("EQUAL","");
                           $$->children.push_back($1);
                           $$->children.push_back($3);
                           }
-         | identifier LB expression RB EQUAL expression SEMICOLON {$$ = new Node("Statement", "");
+         | identifier LB expression RB EQUAL expression SEMICOLON {$$ = new Node("INDEX EQUAL TO","");
                           $$->children.push_back($1);
                           $$->children.push_back($3);
                           $$->children.push_back($6);
@@ -214,8 +214,8 @@ classdeclaration_rep: %empty {$$ = new Node("classdeclaration", "");}
                                                 $$->children.push_back($2);
                                                 }
 
-statement_rep: %empty {$$ = new Node("classdeclaration", "");}
-             | statement statement_rep {$$ = new Node("statement", "");
+statement_rep: %empty {$$ = new Node("statement_rep_none", "");}
+             | statement statement_rep {$$ = new Node("statement_rep", "");
                                          $$->children.push_back($1);
                                          $$->children.push_back($2);
                                          }
