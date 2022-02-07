@@ -31,7 +31,7 @@ yy::parser::make_PLUSOP(yytext)
 ">"                     {cout << "input: "<< yytext << " TOKEN: " << "MT" << endl; return yy::parser::make_MT(yytext);}
 "||"                    {cout << "input: "<< yytext << " TOKEN: " << "OR" << endl; return yy::parser::make_OR(yytext);}
 "&&"                    {cout << "input: "<< yytext << " TOKEN: " << "AND" << endl; return yy::parser::make_AND(yytext);}
-"\\"                    {cout << "input: "<< yytext << " TOKEN: " << "COMMENT" << endl; return yy::parser::make_COMMENT(yytext);}
+"\\"                    {cout << "input: "<< yytext << " TOKEN: " << "COMMENT" << endl;}
 "System.out.println"    {cout << "input: "<< yytext << " TOKEN: " << "SYSTEMOUTPRINT" << endl; return yy::parser::make_SYSTEMOUTPRINT(yytext);}
 "while"                 {cout << "input: "<< yytext << " TOKEN: " << "WHILE" << endl; return yy::parser::make_WHILE(yytext);}
 "else"                  {cout << "input: "<< yytext << " TOKEN: " << "ELSE" << endl; return yy::parser::make_ELSE(yytext);}
