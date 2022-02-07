@@ -25,43 +25,43 @@
 // definition of the production rules. All production rules are of type Node
 
 %%
-goal: mainclass classdeclaration_rep END {$$ = new Node("Goal", "");
+goal: mainclass classdeclaration_rep END {$$ = new Node("GOAL", "");
                           $$->children.push_back($1);
                           $$->children.push_back($2);
                           root = $$;
                           }
 
-mainclass: CLASS identifier LCB PUBLIC STATIC VOID MAIN LP STRING LB RB identifier RP LCB statement RCB RCB {$$ = new Node("MainClass", "");
+mainclass: CLASS identifier LCB PUBLIC STATIC VOID MAIN LP STRING LB RB identifier RP LCB statement RCB RCB {$$ = new Node("MAINCLASS", "");
                           $$->children.push_back($2);
                           $$->children.push_back($12);
                           $$->children.push_back($15);
                           }
 
-classdeclaration: CLASS identifier LCB vardeclaration_rep methoddeclaration_rep RCB {$$ = new Node("ClassDeclaration", "");
+classdeclaration: CLASS identifier LCB vardeclaration_rep methoddeclaration_rep RCB {$$ = new Node("CLASSDECLARATION", "");
                           $$->children.push_back($2);
                           $$->children.push_back($4);
                           $$->children.push_back($5);
                           }
-                | CLASS identifier EXTENDS identifier LCB vardeclaration_rep methoddeclaration_rep RCB {$$ = new Node("ClassDeclaration", "");
+                | CLASS identifier EXTENDS identifier LCB vardeclaration_rep methoddeclaration_rep RCB {$$ = new Node("CLASSDECLARATION", "");
                                           $$->children.push_back($2);
                                           $$->children.push_back($4);
                                           $$->children.push_back($6);
                                           $$->children.push_back($7);
                                           }
 
-vardeclaration: type identifier SEMICOLON {$$ = new Node("VarDeclaration", "");
+vardeclaration: type identifier SEMICOLON {$$ = new Node("VARDECLARATION", "");
                           $$->children.push_back($1);
                           $$->children.push_back($2);
                           }
 
-methoddeclaration: PUBLIC type identifier LP RP LCB vardeclaration_rep statement_rep RETURN expression SEMICOLON RCB {$$ = new Node("MethodDeclaration", "");
+methoddeclaration: PUBLIC type identifier LP RP LCB vardeclaration_rep statement_rep RETURN expression SEMICOLON RCB {$$ = new Node("METHODDECLARATION", "");
                           $$->children.push_back($2);
                           $$->children.push_back($3);
                           $$->children.push_back($7);
                           $$->children.push_back($8);
                           $$->children.push_back($10);
                           }
-                 | PUBLIC type identifier LP parameterdeclaration_rep RP LCB vardeclaration_rep statement_rep RETURN expression SEMICOLON RCB {$$ = new Node("MethodDeclaration", "");
+                 | PUBLIC type identifier LP parameterdeclaration_rep RP LCB vardeclaration_rep statement_rep RETURN expression SEMICOLON RCB {$$ = new Node("METHODDECLARATION", "");
                                            $$->children.push_back($2);
                                            $$->children.push_back($3);
                                            $$->children.push_back($5);
@@ -109,45 +109,45 @@ statement: LCB statement_rep RCB {$$ = new Node("PARAMETER","");
 expression: OR_expression {$$ = $1;}
           | TRUE {$$ = new Node("boolExpression", $1);}
           | FALSE {$$ = new Node("boolExpression", $1);}
-          | THIS {$$ = new Node("OtherExpression", $1);}
+          | THIS {$$ = new Node("THIS", $1);}
           | NEW identifier LP RP {$$ = new Node("OtherExpression", $1);}
 
 OR_expression: AND_expression {$$ = $1;}
-             | expression OR expression {$$ = new Node("ORExpression", "");
+             | expression OR expression {$$ = new Node("OR", "");
                                                  $$->children.push_back($1);
                                                  $$->children.push_back($3);
                                                  }
 
 AND_expression: EQUALITY_expression {$$ = $1;}
-              | expression AND expression {$$ = new Node("ANDExpression", "");
+              | expression AND expression {$$ = new Node("AND", "");
                                                   $$->children.push_back($1);
                                                   $$->children.push_back($3);
                                                   }
 
 
 EQUALITY_expression: REL_expression {$$ = $1;}
-                   | expression CMP expression {$$ = new Node("CMPexpression", "");
+                   | expression CMP expression {$$ = new Node("COMPARE", "");
                                                        $$->children.push_back($1);
                                                        $$->children.push_back($3);
                                                        }
 
 REL_expression: addExpression {$$ = $1;}
-              | expression LT expression {$$ = new Node("RelExpression", "");
+              | expression LT expression {$$ = new Node("LESS", "");
                                                   $$->children.push_back($1);
                                                   $$->children.push_back($3);
                                                   }
-              | expression MT expression {$$ = new Node("RelExpression", "");
+              | expression MT expression {$$ = new Node("GREATER", "");
                                                   $$->children.push_back($1);
                                                   $$->children.push_back($3);
                                                   }
 
 addExpression: multExpression {$$ = $1;}
-             | addExpression PLUS multExpression {$$ = new Node("AddExpression", "");
+             | addExpression PLUS multExpression {$$ = new Node("ADD", "");
                                                  $$->children.push_back($1);
                                                  $$->children.push_back($3);
                                                  }
 
-             | addExpression SUB multExpression   {$$ = new Node("SubExpression", "");
+             | addExpression SUB multExpression   {$$ = new Node("SUB", "");
                                                  $$->children.push_back($1);
                                                  $$->children.push_back($3);
                                                  }
@@ -155,99 +155,99 @@ addExpression: multExpression {$$ = $1;}
 multExpression: negation_expression {$$ = $1;}
               | number {$$ = $1;}
               | identifier {$$ = $1;}
-              | multExpression MUL number {$$ = new Node("MultExpression", "");
+              | multExpression MUL number {$$ = new Node("MUL", "");
                                           $$->children.push_back($1);
                                           $$->children.push_back($3);
                                           }
 
-              | multExpression DIV number {$$ = new Node("DivExpression", "");
+              | multExpression DIV number {$$ = new Node("DIV", "");
                                           $$->children.push_back($1);
                                           $$->children.push_back($3);
                                           }
-              | multExpression MUL identifier {$$ = new Node("MultExpression", "");
+              | multExpression MUL identifier {$$ = new Node("MUL", "");
                                           $$->children.push_back($1);
                                           $$->children.push_back($3);
                                           }
 
-              | multExpression DIV identifier {$$ = new Node("DivExpression", "");
+              | multExpression DIV identifier {$$ = new Node("DIV", "");
                                           $$->children.push_back($1);
                                           $$->children.push_back($3);
                                           }
 
 negation_expression: par_expression {$$ = $1;}
-                   | ESX expression {$$ = new Node("NegationExpression", "");
+                   | ESX expression {$$ = new Node("NEGATION", "");
                                                $$->children.push_back($2);
                                                }
 
-par_expression: LP expression RP {$$ = new Node("ParExpression", "");
+par_expression: LP expression RP {$$ = new Node("PARENTHESES", "");
                             $$->children.push_back($2);
                             }
-              | expression DOT identifier LP argdeclaration_rep RP {$$ = new Node("ParExpression", "");
+              | expression DOT identifier LP argdeclaration_rep RP {$$ = new Node("MEMBER SELECTION FUNCTION CALL", "");
                                           $$->children.push_back($1);
                                           $$->children.push_back($3);
                                           $$->children.push_back($3);
                                           }
-              | expression DOT identifier LP RP {$$ = new Node("ParExpression", "");
+              | expression DOT identifier LP RP {$$ = new Node("MEMBER SELECTION", "");
                                           $$->children.push_back($1);
                                           $$->children.push_back($3);
                                           }
-              | expression DOT LENGTH {$$ = new Node("ParExpression", "");
+              | expression DOT LENGTH {$$ = new Node("MEMBER SELECTION LENGTH", "");
                                           $$->children.push_back($1);
                                           }
-              | NEW INT LB expression RB {$$ = new Node("ParExpression", "");
+              | NEW INT LB expression RB {$$ = new Node("NEW ARRAY SUBSCRIPT", "");
                                           $$->children.push_back($4);
                                           }
-              | expression LB expression RB {$$ = new Node("ParExpression", "");
+              | expression LB expression RB {$$ = new Node("ARRAY SUBSCRIPT", "");
                                           $$->children.push_back($1);
                                           $$->children.push_back($3);
                                           }
 
 vardeclaration_rep: %empty {$$ = new Node("END OF REP", "");}
-                  | vardeclaration_rep vardeclaration {$$ = new Node("VARDECLAREATION", "");
+                  | vardeclaration_rep vardeclaration {$$ = new Node("VARDECLARATION", "");
                                               $$->children.push_back($1);
                                               $$->children.push_back($2);
                                               }
 
 classdeclaration_rep: %empty {$$ = new Node("END OF REP", "");}
-                    | classdeclaration_rep classdeclaration {$$ = new Node("CLASSDECLAREATION", "");
+                    | classdeclaration_rep classdeclaration {$$ = new Node("CLASSDECLARATION", "");
                                                 $$->children.push_back($1);
                                                 $$->children.push_back($2);
                                                 }
 
-statement_rep: %empty {$$ = new Node("END OF REP", "");} 
-             | statement statement_rep {$$ = new Node("STATEMENT_REP", "");
+statement_rep: %empty {$$ = new Node("END OF REP", "");}
+             | statement statement_rep {$$ = new Node("STATEMENT", "");
                                          $$->children.push_back($1);
                                          $$->children.push_back($2);
                                          }
 
-methoddeclaration_rep: %empty {$$ = new Node("END OF REP", "");} 
-                      |methoddeclaration_rep methoddeclaration {$$ = new Node("METHODDECLAREATION_REP", "");
+methoddeclaration_rep: %empty {$$ = new Node("END OF REP", "");}
+                      |methoddeclaration_rep methoddeclaration {$$ = new Node("METHODDECLARATION", "");
                                              $$->children.push_back($1);
                                              $$->children.push_back($2);
                                              }
 
-parameterdeclaration_rep: %empty {$$ = new Node("END OF REP", "");} 
-                         |type identifier {$$ = new Node("PARAMETERDECLARATION", "");
+parameterdeclaration_rep: %empty {$$ = new Node("END OF REP", "");}
+                         |type identifier {$$ = new Node("PARAMETER", "");
                             $$->children.push_back($1);
                             $$->children.push_back($2);
                             }
-                        | type identifier COMMA parameterdeclaration_rep {$$ = new Node("PARAMETERDECLARATION_REP", "");
+                        | type identifier COMMA parameterdeclaration_rep {$$ = new Node("PARAMETER", "");
                                                     $$->children.push_back($1);
                                                     $$->children.push_back($2);
                                                     $$->children.push_back($4);
                                                     }
 
-argdeclaration_rep:%empty {$$ = new Node("END OF REP", "");} 
-                 | expression {$$ = new Node("ARGDECLERATION", "");
+argdeclaration_rep: %empty {$$ = new Node("END OF REP", "");}
+                 | expression {$$ = new Node("ARGUMENT", "");
                             $$->children.push_back($1);
                             }
-                 | expression COMMA argdeclaration_rep {$$ = new Node("ARGDECLERATION_REP", "");
+                 | expression COMMA argdeclaration_rep {$$ = new Node("ARGUMENT", "");
                                              $$->children.push_back($1);
                                              $$->children.push_back($3);
                                              }
 
 
-identifier: WORD {$$ = new Node("IDENTIFER", $1);}
+identifier: WORD {$$ = new Node("IDENTIFIER", $1);}
 
-number: NUM {$$ = new Node("NUM", $1);}
+number: NUM {$$ = new Node("NUMBER", $1);}
       | LP expression RP {$$ = $2;}
