@@ -20,8 +20,8 @@
 }
 // definition of set of tokens. All tokens are of type string
 %token END 0 "end of file"
-%token <std::string>  IF INT LP RP ESX NEW LB RB THIS FALSE TRUE DOT COMMA LENGTH SUB MUL DIV PLUS CMP EQUAL LT MT OR AND SYSTEMOUTPRINT WHILE ELSE LCB RCB BOOLEAN RETURN PUBLIC EXTENDS CLASS STRING MAIN VOID STATIC SEMICOLON NUM WORD
-%type <Node *> statement_rep methoddeclaration_rep parameterdeclaration_rep argdeclaration_rep vardeclaration_rep classdeclaration_rep goal mainclass classdeclaration vardeclaration methoddeclaration type statement lengthExpression otherExpression boolExpression funccallExpression expression addExpression multExpression logExpression indexExpression number identifier
+%token <std::string>  IF INT LP RP ESX NEW LB RB THIS FALSE TRUE DOT COMMA LENGTH SUB MUL DIV PLUS CMP EQUAL GT LT MT OR AND COMMENT SYSTEMOUTPRINT WHILE ELSE LCB RCB BOOLEAN RETURN PUBLIC EXTENDS CLASS STRING MAIN VOID STATIC SEMICOLON NUM WORD
+%type <Node *> OR_expression AND_expression EQUALITY_expression REL_expression negation_expression par_expression statement_rep methoddeclaration_rep parameterdeclaration_rep argdeclaration_rep vardeclaration_rep classdeclaration_rep goal mainclass classdeclaration vardeclaration methoddeclaration type statement expression addExpression multExpression number identifier
 // definition of the production rules. All production rules are of type Node
 
 %%
@@ -106,117 +106,98 @@ statement: LCB statement_rep RCB {$$ = new Node("Statement", "");
                           $$->children.push_back($6);
                           }
 
-expression: addExpression {$$ = new Node("Expression", "");
-                          $$->children.push_back($1);
-                          }
-          | logExpression {$$ = new Node("Expression", "");
-                          $$->children.push_back($1);
-                          }
-          | indexExpression {$$ = new Node("Expression", "");
-                          $$->children.push_back($1);
-                          }
-          | lengthExpression {$$ = new Node("Expression", "");
-                          $$->children.push_back($1);
-                          }
-          | funccallExpression {$$ = new Node("Expression", "");
-                          $$->children.push_back($1);
-                          }
-          | boolExpression {$$ = new Node("Expression", "");
-                          $$->children.push_back($1);
-                          }
-          | identifier {$$ = new Node("Expression", "");
-                          $$->children.push_back($1);
-                          }
-          | otherExpression {$$ = new Node("Expression", "");
-                          $$->children.push_back($1);
-                          }
+expression: OR_expression {$$ = $1;}
+          | TRUE {$$ = new Node("boolExpression", $1);}
+          | FALSE {$$ = new Node("boolExpression", $1);}
+          | THIS {$$ = new Node("OtherExpression", $1);}
+          | NEW identifier LP RP {$$ = new Node("OtherExpression", $1);}
 
-otherExpression: THIS {$$ = new Node("otherExpression", "");}
-               | NEW INT LB expression RB {$$ = new Node("otherExpression", "");
-                                                 $$->children.push_back($4);
-                                                 }
-               | NEW identifier LP RP {$$ = new Node("otherExpression", "");
-                                                 $$->children.push_back($2);
-                                                 }
-               | ESX expression {$$ = new Node("otherExpression", "");
-                                                 $$->children.push_back($2);
-                                                 }
-               | LP expression RP {$$ = new Node("otherExpression", "");
-                                                 $$->children.push_back($2);
-                                                 }
-
-boolExpression: TRUE {$$ = new Node("boolExpression", $1);}
-              | FALSE {$$ = new Node("boolExpression", $1);}
-
-funccallExpression: expression DOT identifier LP argdeclaration_rep RP {$$ = new Node("funccallExpression", "");
-                                                 $$->children.push_back($1);
-                                                 $$->children.push_back($3);
-                                                 $$->children.push_back($5);
-                                                 }
-                  | expression DOT identifier LP RP {$$ = new Node("funccallExpression", "");
-                                                                   $$->children.push_back($1);
-                                                                   $$->children.push_back($3);
-                                                                   }
-
-lengthExpression: expression DOT LENGTH {$$ = new Node("lengthExpression", "");
-                                                 $$->children.push_back($1);
-                                                 }
-
-
-indexExpression: expression LB expression RB {$$ = new Node("indexExpression", "");
+OR_expression: AND_expression {$$ = $1;}
+             | expression OR expression {$$ = new Node("ORExpression", "");
                                                  $$->children.push_back($1);
                                                  $$->children.push_back($3);
                                                  }
 
-logExpression: expression OR expression {$$ = new Node("logExpression", "");
-                                                 $$->children.push_back($1);
-                                                 $$->children.push_back($3);
-                                                 }
-             | expression AND expression {$$ = new Node("logExpression", "");
-                                                 $$->children.push_back($1);
-                                                 $$->children.push_back($3);
-                                                 }
-             | expression CMP expression {$$ = new Node("logExpression", "");
-                                                 $$->children.push_back($1);
-                                                 $$->children.push_back($3);
-                                                 }
-             | expression MT expression {$$ = new Node("logExpression", "");
-                                                 $$->children.push_back($1);
-                                                 $$->children.push_back($3);
-                                                 }
-             | expression LT expression {$$ = new Node("logExpression", "");
-                                                 $$->children.push_back($1);
-                                                 $$->children.push_back($3);
-                                                 }
+AND_expression: EQUALITY_expression {$$ = $1;}
+              | expression AND expression {$$ = new Node("ANDExpression", "");
+                                                  $$->children.push_back($1);
+                                                  $$->children.push_back($3);
+                                                  }
+
+
+EQUALITY_expression: REL_expression {$$ = $1;}
+                   | expression CMP expression {$$ = new Node("CMPexpression", "");
+                                                       $$->children.push_back($1);
+                                                       $$->children.push_back($3);
+                                                       }
+
+REL_expression: addExpression {$$ = $1;}
+              | expression LT expression {$$ = new Node("RelExpression", "");
+                                                  $$->children.push_back($1);
+                                                  $$->children.push_back($3);
+                                                  }
+              | expression MT expression {$$ = new Node("RelExpression", "");
+                                                  $$->children.push_back($1);
+                                                  $$->children.push_back($3);
+                                                  }
 
 addExpression: multExpression {$$ = $1;}
-            | addExpression PLUS multExpression {$$ = new Node("AddExpression", "");
+             | addExpression PLUS multExpression {$$ = new Node("AddExpression", "");
                                                  $$->children.push_back($1);
                                                  $$->children.push_back($3);
                                                  }
 
-            | addExpression SUB multExpression   {$$ = new Node("SubExpression", "");
+             | addExpression SUB multExpression   {$$ = new Node("SubExpression", "");
                                                  $$->children.push_back($1);
                                                  $$->children.push_back($3);
                                                  }
 
-multExpression: number {$$ = $1;}
+multExpression: negation_expression {$$ = $1;}
+              | number {$$ = $1;}
               | identifier {$$ = $1;}
-              | multExpression MUL number{$$ = new Node("MultExpression", "");
+              | multExpression MUL number {$$ = new Node("MultExpression", "");
                                           $$->children.push_back($1);
                                           $$->children.push_back($3);
                                           }
 
-              | multExpression DIV number{$$ = new Node("DivExpression", "");
+              | multExpression DIV number {$$ = new Node("DivExpression", "");
                                           $$->children.push_back($1);
                                           $$->children.push_back($3);
                                           }
-              | multExpression MUL identifier{$$ = new Node("MultExpression", "");
+              | multExpression MUL identifier {$$ = new Node("MultExpression", "");
                                           $$->children.push_back($1);
                                           $$->children.push_back($3);
                                           }
 
-              | multExpression DIV identifier{$$ = new Node("DivExpression", "");
+              | multExpression DIV identifier {$$ = new Node("DivExpression", "");
+                                          $$->children.push_back($1);
+                                          $$->children.push_back($3);
+                                          }
+
+negation_expression: par_expression {$$ = $1;}
+                   | ESX expression {$$ = new Node("NegationExpression", "");
+                                               $$->children.push_back($2);
+                                               }
+
+par_expression: LP expression RP {$$ = new Node("ParExpression", "");
+                            $$->children.push_back($2);
+                            }
+              | expression DOT identifier LP argdeclaration_rep RP {$$ = new Node("ParExpression", "");
+                                          $$->children.push_back($1);
+                                          $$->children.push_back($3);
+                                          $$->children.push_back($3);
+                                          }
+              | expression DOT identifier LP RP {$$ = new Node("ParExpression", "");
+                                          $$->children.push_back($1);
+                                          $$->children.push_back($3);
+                                          }
+              | expression DOT LENGTH {$$ = new Node("ParExpression", "");
+                                          $$->children.push_back($1);
+                                          }
+              | NEW INT LB expression RB {$$ = new Node("ParExpression", "");
+                                          $$->children.push_back($4);
+                                          }
+              | expression LB expression RB {$$ = new Node("ParExpression", "");
                                           $$->children.push_back($1);
                                           $$->children.push_back($3);
                                           }

@@ -44,8 +44,9 @@
 
   #include <string>
   #include "Node.h"
+  #include <stdio.h>
 
-#line 49 "parser.tab.hh" // lalr1.cc:377
+#line 50 "parser.tab.hh" // lalr1.cc:377
 
 
 # include <cstdlib> // std::abort
@@ -122,7 +123,7 @@
 
 
 namespace yy {
-#line 126 "parser.tab.hh" // lalr1.cc:377
+#line 127 "parser.tab.hh" // lalr1.cc:377
 
 
 
@@ -285,7 +286,14 @@ namespace yy {
       // logExpression
       // addExpression
       // multExpression
-      // factor
+      // vardeclaration_rep
+      // classdeclaration_rep
+      // statement_rep
+      // methoddeclaration_rep
+      // parameterdeclaration_rep
+      // argdeclaration_rep
+      // identifier
+      // number
       char dummy1[sizeof(Node *)];
 
       // IF
@@ -308,12 +316,10 @@ namespace yy {
       // PLUS
       // CMP
       // EQUAL
-      // GT
       // LT
       // MT
       // OR
       // AND
-      // COMMENT
       // SYSTEMOUTPRINT
       // WHILE
       // ELSE
@@ -372,29 +378,27 @@ namespace yy {
         PLUS = 275,
         CMP = 276,
         EQUAL = 277,
-        GT = 278,
-        LT = 279,
-        MT = 280,
-        OR = 281,
-        AND = 282,
-        COMMENT = 283,
-        SYSTEMOUTPRINT = 284,
-        WHILE = 285,
-        ELSE = 286,
-        LCB = 287,
-        RCB = 288,
-        BOOLEAN = 289,
-        RETURN = 290,
-        PUBLIC = 291,
-        EXTENDS = 292,
-        CLASS = 293,
-        STRING = 294,
-        MAIN = 295,
-        VOID = 296,
-        STATIC = 297,
-        SEMICOLON = 298,
-        NUM = 299,
-        WORD = 300
+        LT = 278,
+        MT = 279,
+        OR = 280,
+        AND = 281,
+        SYSTEMOUTPRINT = 282,
+        WHILE = 283,
+        ELSE = 284,
+        LCB = 285,
+        RCB = 286,
+        BOOLEAN = 287,
+        RETURN = 288,
+        PUBLIC = 289,
+        EXTENDS = 290,
+        CLASS = 291,
+        STRING = 292,
+        MAIN = 293,
+        VOID = 294,
+        STATIC = 295,
+        SEMICOLON = 296,
+        NUM = 297,
+        WORD = 298
       };
     };
 
@@ -505,6 +509,10 @@ namespace yy {
 
     static inline
     symbol_type
+    make_IF (const std::string& v);
+
+    static inline
+    symbol_type
     make_INT (const std::string& v);
 
     static inline
@@ -594,10 +602,6 @@ namespace yy {
     static inline
     symbol_type
     make_AND (const std::string& v);
-
-    static inline
-    symbol_type
-    make_COMMENT (const std::string& v);
 
     static inline
     symbol_type
@@ -733,7 +737,7 @@ namespace yy {
     // Tables.
   // YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
   // STATE-NUM.
-  static const signed char yypact_[];
+  static const short int yypact_[];
 
   // YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
   // Performed when YYTABLE does not specify something else to do.  Zero
@@ -741,17 +745,17 @@ namespace yy {
   static const unsigned char yydefact_[];
 
   // YYPGOTO[NTERM-NUM].
-  static const signed char yypgoto_[];
+  static const short int yypgoto_[];
 
   // YYDEFGOTO[NTERM-NUM].
-  static const signed char yydefgoto_[];
+  static const short int yydefgoto_[];
 
   // YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
   // positive, shift that token.  If negative, reduce the rule whose
   // number is the opposite.  If YYTABLE_NINF, syntax error.
-  static const unsigned char yytable_[];
+  static const short int yytable_[];
 
-  static const signed char yycheck_[];
+  static const short int yycheck_[];
 
   // YYSTOS[STATE-NUM] -- The (internal number of the) accessing
   // symbol of state STATE-NUM.
@@ -772,7 +776,7 @@ namespace yy {
     static const char* const yytname_[];
 #if YYDEBUG
   // YYRLINE[YYN] -- Source line where rule number YYN was defined.
-  static const unsigned char yyrline_[];
+  static const unsigned short int yyrline_[];
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r);
     /// Print the state stack on the debug stream.
@@ -871,9 +875,9 @@ namespace yy {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 38,     ///< Last index in yytable_.
-      yynnts_ = 5,  ///< Number of nonterminal symbols.
-      yyfinal_ = 8, ///< Termination state number.
+      yylast_ = 307,     ///< Last index in yytable_.
+      yynnts_ = 25,  ///< Number of nonterminal symbols.
+      yyfinal_ = 6, ///< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
       yyntokens_ = 44  ///< Number of tokens.
@@ -920,8 +924,7 @@ namespace yy {
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
-      45
+      35,    36,    37,    38,    39,    40,    41,    42,    43
     };
     const unsigned int user_token_number_max_ = 298;
     const token_number_type undef_token_ = 2;
@@ -954,37 +957,57 @@ namespace yy {
   {
       switch (other.type_get ())
     {
-      case 45: // expression
-      case 46: // addExpression
-      case 47: // multExpression
-      case 48: // factor
+      case 45: // goal
+      case 46: // mainclass
+      case 47: // classdeclaration
+      case 48: // vardeclaration
+      case 49: // methoddeclaration
+      case 50: // type
+      case 51: // statement
+      case 52: // expression
+      case 53: // otherExpression
+      case 54: // boolExpression
+      case 55: // funccallExpression
+      case 56: // lengthExpression
+      case 57: // indexExpression
+      case 58: // logExpression
+      case 59: // addExpression
+      case 60: // multExpression
+      case 61: // vardeclaration_rep
+      case 62: // classdeclaration_rep
+      case 63: // statement_rep
+      case 64: // methoddeclaration_rep
+      case 65: // parameterdeclaration_rep
+      case 66: // argdeclaration_rep
+      case 67: // identifier
+      case 68: // number
         value.copy< Node * > (other.value);
         break;
 
-      case 3: // INT
-      case 4: // LP
-      case 5: // RP
-      case 6: // ESX
-      case 7: // NEW
-      case 8: // LB
-      case 9: // RB
-      case 10: // THIS
-      case 11: // FALSE
-      case 12: // TRUE
-      case 13: // DOT
-      case 14: // COMMA
-      case 15: // LENGTH
-      case 16: // SUB
-      case 17: // MUL
-      case 18: // DIV
-      case 19: // PLUS
-      case 20: // CMP
-      case 21: // EQUAL
-      case 22: // LT
-      case 23: // MT
-      case 24: // OR
-      case 25: // AND
-      case 26: // COMMENT
+      case 3: // IF
+      case 4: // INT
+      case 5: // LP
+      case 6: // RP
+      case 7: // ESX
+      case 8: // NEW
+      case 9: // LB
+      case 10: // RB
+      case 11: // THIS
+      case 12: // FALSE
+      case 13: // TRUE
+      case 14: // DOT
+      case 15: // COMMA
+      case 16: // LENGTH
+      case 17: // SUB
+      case 18: // MUL
+      case 19: // DIV
+      case 20: // PLUS
+      case 21: // CMP
+      case 22: // EQUAL
+      case 23: // LT
+      case 24: // MT
+      case 25: // OR
+      case 26: // AND
       case 27: // SYSTEMOUTPRINT
       case 28: // WHILE
       case 29: // ELSE
@@ -1021,37 +1044,57 @@ namespace yy {
     (void) v;
       switch (this->type_get ())
     {
-      case 45: // expression
-      case 46: // addExpression
-      case 47: // multExpression
-      case 48: // factor
+      case 45: // goal
+      case 46: // mainclass
+      case 47: // classdeclaration
+      case 48: // vardeclaration
+      case 49: // methoddeclaration
+      case 50: // type
+      case 51: // statement
+      case 52: // expression
+      case 53: // otherExpression
+      case 54: // boolExpression
+      case 55: // funccallExpression
+      case 56: // lengthExpression
+      case 57: // indexExpression
+      case 58: // logExpression
+      case 59: // addExpression
+      case 60: // multExpression
+      case 61: // vardeclaration_rep
+      case 62: // classdeclaration_rep
+      case 63: // statement_rep
+      case 64: // methoddeclaration_rep
+      case 65: // parameterdeclaration_rep
+      case 66: // argdeclaration_rep
+      case 67: // identifier
+      case 68: // number
         value.copy< Node * > (v);
         break;
 
-      case 3: // INT
-      case 4: // LP
-      case 5: // RP
-      case 6: // ESX
-      case 7: // NEW
-      case 8: // LB
-      case 9: // RB
-      case 10: // THIS
-      case 11: // FALSE
-      case 12: // TRUE
-      case 13: // DOT
-      case 14: // COMMA
-      case 15: // LENGTH
-      case 16: // SUB
-      case 17: // MUL
-      case 18: // DIV
-      case 19: // PLUS
-      case 20: // CMP
-      case 21: // EQUAL
-      case 22: // LT
-      case 23: // MT
-      case 24: // OR
-      case 25: // AND
-      case 26: // COMMENT
+      case 3: // IF
+      case 4: // INT
+      case 5: // LP
+      case 6: // RP
+      case 7: // ESX
+      case 8: // NEW
+      case 9: // LB
+      case 10: // RB
+      case 11: // THIS
+      case 12: // FALSE
+      case 13: // TRUE
+      case 14: // DOT
+      case 15: // COMMA
+      case 16: // LENGTH
+      case 17: // SUB
+      case 18: // MUL
+      case 19: // DIV
+      case 20: // PLUS
+      case 21: // CMP
+      case 22: // EQUAL
+      case 23: // LT
+      case 24: // MT
+      case 25: // OR
+      case 26: // AND
       case 27: // SYSTEMOUTPRINT
       case 28: // WHILE
       case 29: // ELSE
@@ -1124,37 +1167,57 @@ namespace yy {
     // Type destructor.
     switch (yytype)
     {
-      case 45: // expression
-      case 46: // addExpression
-      case 47: // multExpression
-      case 48: // factor
+      case 45: // goal
+      case 46: // mainclass
+      case 47: // classdeclaration
+      case 48: // vardeclaration
+      case 49: // methoddeclaration
+      case 50: // type
+      case 51: // statement
+      case 52: // expression
+      case 53: // otherExpression
+      case 54: // boolExpression
+      case 55: // funccallExpression
+      case 56: // lengthExpression
+      case 57: // indexExpression
+      case 58: // logExpression
+      case 59: // addExpression
+      case 60: // multExpression
+      case 61: // vardeclaration_rep
+      case 62: // classdeclaration_rep
+      case 63: // statement_rep
+      case 64: // methoddeclaration_rep
+      case 65: // parameterdeclaration_rep
+      case 66: // argdeclaration_rep
+      case 67: // identifier
+      case 68: // number
         value.template destroy< Node * > ();
         break;
 
-      case 3: // INT
-      case 4: // LP
-      case 5: // RP
-      case 6: // ESX
-      case 7: // NEW
-      case 8: // LB
-      case 9: // RB
-      case 10: // THIS
-      case 11: // FALSE
-      case 12: // TRUE
-      case 13: // DOT
-      case 14: // COMMA
-      case 15: // LENGTH
-      case 16: // SUB
-      case 17: // MUL
-      case 18: // DIV
-      case 19: // PLUS
-      case 20: // CMP
-      case 21: // EQUAL
-      case 22: // LT
-      case 23: // MT
-      case 24: // OR
-      case 25: // AND
-      case 26: // COMMENT
+      case 3: // IF
+      case 4: // INT
+      case 5: // LP
+      case 6: // RP
+      case 7: // ESX
+      case 8: // NEW
+      case 9: // LB
+      case 10: // RB
+      case 11: // THIS
+      case 12: // FALSE
+      case 13: // TRUE
+      case 14: // DOT
+      case 15: // COMMA
+      case 16: // LENGTH
+      case 17: // SUB
+      case 18: // MUL
+      case 19: // DIV
+      case 20: // PLUS
+      case 21: // CMP
+      case 22: // EQUAL
+      case 23: // LT
+      case 24: // MT
+      case 25: // OR
+      case 26: // AND
       case 27: // SYSTEMOUTPRINT
       case 28: // WHILE
       case 29: // ELSE
@@ -1198,37 +1261,57 @@ namespace yy {
     super_type::move(s);
       switch (this->type_get ())
     {
-      case 45: // expression
-      case 46: // addExpression
-      case 47: // multExpression
-      case 48: // factor
+      case 45: // goal
+      case 46: // mainclass
+      case 47: // classdeclaration
+      case 48: // vardeclaration
+      case 49: // methoddeclaration
+      case 50: // type
+      case 51: // statement
+      case 52: // expression
+      case 53: // otherExpression
+      case 54: // boolExpression
+      case 55: // funccallExpression
+      case 56: // lengthExpression
+      case 57: // indexExpression
+      case 58: // logExpression
+      case 59: // addExpression
+      case 60: // multExpression
+      case 61: // vardeclaration_rep
+      case 62: // classdeclaration_rep
+      case 63: // statement_rep
+      case 64: // methoddeclaration_rep
+      case 65: // parameterdeclaration_rep
+      case 66: // argdeclaration_rep
+      case 67: // identifier
+      case 68: // number
         value.move< Node * > (s.value);
         break;
 
-      case 3: // INT
-      case 4: // LP
-      case 5: // RP
-      case 6: // ESX
-      case 7: // NEW
-      case 8: // LB
-      case 9: // RB
-      case 10: // THIS
-      case 11: // FALSE
-      case 12: // TRUE
-      case 13: // DOT
-      case 14: // COMMA
-      case 15: // LENGTH
-      case 16: // SUB
-      case 17: // MUL
-      case 18: // DIV
-      case 19: // PLUS
-      case 20: // CMP
-      case 21: // EQUAL
-      case 22: // LT
-      case 23: // MT
-      case 24: // OR
-      case 25: // AND
-      case 26: // COMMENT
+      case 3: // IF
+      case 4: // INT
+      case 5: // LP
+      case 6: // RP
+      case 7: // ESX
+      case 8: // NEW
+      case 9: // LB
+      case 10: // RB
+      case 11: // THIS
+      case 12: // FALSE
+      case 13: // TRUE
+      case 14: // DOT
+      case 15: // COMMA
+      case 16: // LENGTH
+      case 17: // SUB
+      case 18: // MUL
+      case 19: // DIV
+      case 20: // PLUS
+      case 21: // CMP
+      case 22: // EQUAL
+      case 23: // LT
+      case 24: // MT
+      case 25: // OR
+      case 26: // AND
       case 27: // SYSTEMOUTPRINT
       case 28: // WHILE
       case 29: // ELSE
@@ -1316,6 +1399,12 @@ namespace yy {
   parser::make_END ()
   {
     return symbol_type (token::END);
+  }
+
+  parser::symbol_type
+  parser::make_IF (const std::string& v)
+  {
+    return symbol_type (token::IF, v);
   }
 
   parser::symbol_type
@@ -1457,12 +1546,6 @@ namespace yy {
   }
 
   parser::symbol_type
-  parser::make_COMMENT (const std::string& v)
-  {
-    return symbol_type (token::COMMENT, v);
-  }
-
-  parser::symbol_type
   parser::make_SYSTEMOUTPRINT (const std::string& v)
   {
     return symbol_type (token::SYSTEMOUTPRINT, v);
@@ -1567,7 +1650,7 @@ namespace yy {
 
 
 } // yy
-#line 1553 "parser.tab.hh" // lalr1.cc:377
+#line 1654 "parser.tab.hh" // lalr1.cc:377
 
 
 
