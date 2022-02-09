@@ -23,6 +23,8 @@
 %token <std::string>  IF INT LP RP ESX NEW LB RB THIS FALSE TRUE DOT COMMA LENGTH SUB MUL DIV PLUS CMP EQUAL GT LT MT OR AND COMMENT SYSTEMOUTPRINT WHILE ELSE LCB RCB BOOLEAN RETURN PUBLIC EXTENDS CLASS STRING MAIN VOID STATIC SEMICOLON NUM WORD
 %type <Node *> OR_expression AND_expression EQUALITY_expression REL_expression negation_expression par_expression statement_rep methoddeclaration_rep parameterdeclaration_rep argdeclaration_rep vardeclaration_rep classdeclaration_rep goal mainclass classdeclaration vardeclaration methoddeclaration type statement expression addExpression multExpression number identifier
 // definition of the production rules. All production rules are of type Node
+%right AND OR
+%left MT LT CMP ESX
 
 %%
 goal: mainclass classdeclaration_rep END {$$ = new Node("GOAL", "");
@@ -123,8 +125,6 @@ AND_expression: EQUALITY_expression {$$ = $1;}
                                                   $$->children.push_back($1);
                                                   $$->children.push_back($3);
                                                   }
-
-
 EQUALITY_expression: REL_expression {$$ = $1;}
                    | expression CMP expression {$$ = new Node("COMPARE", "");
                                                        $$->children.push_back($1);
