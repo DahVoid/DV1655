@@ -12,7 +12,8 @@ clean:
 		rm -f parser.tab.* lex.yy.c* compiler stack.hh tree.dot tree.pdf
 		rm -R compiler.dSYM
 
-
+symbol:	
+		g++ symbol_table.cpp -o symbol_table.exe -std=c++14
 
 # compiler: lex.yy.c main.cc
 # 		g++ -g -ocompiler lex.yy.c main.cc
