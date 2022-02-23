@@ -1,7 +1,0 @@
-"this is a string" this is not a string
-
-123
-
-int a = 6
-
-"sads"
