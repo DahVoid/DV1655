@@ -1,5 +1,6 @@
 #include<iostream>
 #include "parser.tab.hh"
+#include "symbol_table.cpp"
 
 extern Node* root;
 extern FILE* yyin;
@@ -24,7 +25,10 @@ int main(int argc, char **argv)
   if(!parser.parse()) {
     root->print_tree();
     root->generate_tree();
+    symbol_table(root);
   }
+  
+  
   
   return 0;
 }

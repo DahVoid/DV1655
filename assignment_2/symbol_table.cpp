@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 
+
 using namespace std;
 
 struct Var 
@@ -24,56 +25,16 @@ struct cls
 };
 
 
+int symbol_table(Node* root, int depth=0) 
+{
+    Node* child;
 
-
-int main() {
-
-    printf("Hello world\n");
-    ifstream myfile ("tree.dot");
-    string line;
-    int skips = 0;
-    if (myfile.is_open())
+    for (auto i = root->children.begin(); i != root->children.end(); i++)
     {
-        while( getline(myfile, line) )
-        {
-            cout << "skips == " << skips << endl;
-            
-            if(skips == 0)
-            {
-                int i = line.find("label=");
-                if(i > 0)
-                {
-                    int j = line.find("label=\"CLASSDECLARATION:\"");
-                    if(j > 0)
-                    {
-                        skips = 2;
-                    }
-                    j = line.find("label=\"METHODDECLARATION:\"");
-                    if(j > 0)
-                    {
-                        skips = 0;
-                    }
-                    j = line.find("label=\"VARDECLARATION:\"");
-                    if(j > 0)
-                    {
-                        skips = 0;
-                    }
-
-
-                    cout << line << '\n';
-
-                }
-            } else skips--;
-
-
-
-
-            
-        }
-        myfile.close();
-    } else cout << "Unable to open file";
-
-
-
-    return 0;
+        for(int i=0; i<depth; i++)
+        cout << "    ";
+        child = *i;
+        cout << "Type: " <<  child->type << "   Value: " << child->value << "\n";
+        symbol_table(child, depth+1);
+    }
 }

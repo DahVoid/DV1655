@@ -23,10 +23,14 @@ public:
 		value = "uninitialised"; }   // Bison needs this.
   
 	void print_tree(int depth=0) {
+		
 		for(int i=0; i<depth; i++)
+
 		cout << "  ";
 		cout << type << ":" << value << endl;
+
 		for(auto i=children.begin(); i!=children.end(); i++)
+
 		(*i)->print_tree(depth+1);
 	}
   
