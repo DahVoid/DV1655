@@ -19,13 +19,24 @@ class Record
         this -> id = id;
         this -> type = type;
         cout << "contructed: " << type << endl;
-    };
+    }
 
 
   void printRecord()
   {
     cout << "id: " << id << "\n" << "type: " <<  type << "\n";
   }
+};
+
+class Variable: public Record
+{
+    public:
+        // Constructor
+        Variable(string id, string type) : Record(id, type)
+        {
+
+        }
+
 };
 
 class Container: public Record
@@ -35,7 +46,7 @@ class Container: public Record
         Container(string id, string type) : Record(id, type)
         {
 
-        };
+        }
 
         void addVariable(string var_id)
         {
@@ -47,23 +58,13 @@ class Container: public Record
 
 };
 
-class Variable: public Record
-{
-    public:
-        // Constructor
-        Variable(string id, string type) : Record(id, type)
-        {
-
-        };
-
-};
 class Method: public Container
 {
   public: 
     map<string, Variable> parameters;
     Method(string id, string type) : Container(id, type)
     {
-    };  
+    }  
 
   void addParameter(string par_id)
   {
@@ -83,7 +84,7 @@ class Class: public Container
     Class(string id, string type) : Container(id, type)
     {
 
-    };
+    }
     
 
   void addMethod(string met_id)
