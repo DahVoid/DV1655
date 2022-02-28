@@ -247,7 +247,44 @@ class SymbolTable
 };
 
 
-int main()
+int tree_traverse(Node* root, int depth=0)
 {
-  return 0;
+    Node* child;
+
+    for (auto i = root->children.begin(); i != root->children.end(); i++)
+    {
+        for(int i=0; i<depth; i++) //pretty print
+        cout << "    ";
+        child = *i;
+        cout << "Type: " <<  child->type << "   Value: " << child->value << "\n";
+
+        //Write code here!
+
+        if (child->type == "MAINCLASS" || "CLASSDECLARATION")
+        {
+
+        }
+
+        else if (child->type == "METHODDECLARATION")
+        {
+
+        }
+
+        else if (child->type == "VARDECLARATION")
+        {
+
+        }
+
+        //Code ends here!
+
+        tree_traverse(child, depth+1);
+    }
+
+
 }
+
+int main(Node* root, int depth=0)
+{
+  tree_traverse(root, depth);
+}
+
