@@ -51,7 +51,6 @@ class Container: public Record
         void addVariable(string var_id)
         {
             Variable new_var = Variable(var_id, "Variable");
-            //Write code here:
             variables.insert(pair<string ,Variable>(var_id, new_var));
         }
  
@@ -68,9 +67,7 @@ class Method: public Container
 
   void addParameter(string par_id)
   {
-    //Write code here:
     Variable new_par = Variable(par_id, "Variable");
-    //Write code here:
     parameters.insert(pair<string ,Variable>(par_id, new_par));
 
   }
@@ -89,24 +86,35 @@ class Class: public Container
 
   void addMethod(string met_id)
   {
-    //Write code here:
     Method new_met = Method(met_id, "Method");
-    //Write code here:
     methods.insert(pair<string ,Method>(met_id, new_met));
 
 
   }
 
-  string lookupVariable()
+  Variable lookupVariable(string Key)
   {
-    //Write code here:
+    if(variables.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
+    {
+    return variables[Key];
+    } 
+    else
+    {
+        // do nooooothing
+    }
 
   }
 
-  string lookupMethod()
+  Method lookupMethod(string Key)
   {
-    //Write code here:
-
+    if(methods.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
+    {
+    return methods[Key];
+    }
+    else
+    {
+        // do nooooothing
+    }
   }
 };
 
@@ -159,7 +167,6 @@ class Scope
 
         return records[Key];
       }
-
       else
       {
         if (&parentScope == NULL)
