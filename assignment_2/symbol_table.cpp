@@ -16,8 +16,8 @@ class Record
     string type;
     Record(string id, string type)
     {
-        this.id = id;
-        this.type = type;
+        this -> id = id;
+        this -> type = type;
         cout << "contructed: " << type << endl;
     };
 
@@ -39,13 +39,13 @@ class Container: public Record
 
         void addVariable(string var_id)
         {
-            new_var = new Variable(var_id, "Variable");
+            Variable new_var = Variable(var_id, "Variable");
             //Write code here:
             variables.insert(pair<string ,Variable>(var_id, new_var));
         }
  
 
-}
+};
 
 class Variable: public Record
 {
@@ -68,7 +68,7 @@ class Method: public Container
   void addParameter(string par_id)
   {
     //Write code here:
-    new_par = new Variable(par_id, "Variable");
+    Variable new_par = Variable(par_id, "Variable");
     //Write code here:
     parameters.insert(pair<string ,Variable>(par_id, new_par));
 
@@ -89,9 +89,9 @@ class Class: public Container
   void addMethod(string met_id)
   {
     //Write code here:
-    new_met = new Method(met_id, "Method");
+    Method new_met = Method(met_id, "Method");
     //Write code here:
-    methods.insert(pair<string ,Method>(par_id, new_met));
+    methods.insert(pair<string ,Method>(met_id, new_met));
 
 
   }
