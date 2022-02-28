@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include <iterator>
 
 using namespace std;
 
@@ -56,7 +57,6 @@ class Variable: public Record
         };
 
 };
-
 class Method: public Container
 {
   public: 
@@ -113,9 +113,11 @@ class Scope
 {
   public:
     int next = 0; //next child to visit
-    // Scope* parentScope; //parent scope
-    list<Scope> childrenScopes; //children scopes
+    Scope* parentScope; //parent scope
+    vector<Scope> childrenScopes; //children scopes
+    // list<Scope> childrenScopes; //children scopes
     map<string, Record> records; //symbol to record map
+    map<string, Record>::iterator it;
 
     Scope(Scope* parentScope_in)
     {
@@ -127,11 +129,17 @@ class Scope
 
     }
 
+    void put(string Key, Record record)
+    {
+      records.insert(pair<string, Record>(Key, record));
+    }
+
     Scope next_Child()
     {
+      Scope nextChild(this); // VIKTIGT ------> insert "this" i in parameter till scope <--- VIKTIGT
+
       if(next == childrenScopes.size()) // create new child scopre
       {
-        Scope nextChild(this); // VIKTIGT ------> insert "this" i in parameter till scope <--- VIKTIGT
         childrenScopes.push_back(nextChild);
       }
 
@@ -145,21 +153,22 @@ class Scope
 
     Record lookup(string Key)
     {
-      if(records.containskey(Key)) //does it exist in the current scope? Använd map.count (records.count)
+      if(records.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
       {
-        return record.get(Key);
+
+        return records[Key];
       }
 
       else
       {
-        if (parent == null)
+        if (&parentScope == NULL)
         {
-          return null; //identifier not in the symbol table
+          //Exit no record found
         }
 
         else
         {
-          return parent.lookup(Key); // delegate the request to the parent scope
+          return parentScope->lookup(Key); // delegate the request to the parent scope
         }
       }
     }
@@ -167,9 +176,17 @@ class Scope
     void resetScope()
     {
       next = 0;
-      for(int i = 0; i < children.size(); i++)
+      for(int i = 0; i < childrenScopes.size(); i++)
       {
-        children.get(i).resetScope();
+        childrenScopes[i].resetScope();
+      }
+    }
+
+    void printScope() //Kommer behöva göras om
+    {
+      for (it = records.begin(); it != records.end(); it++)
+      {
+        cout << "VARIABLE Name: " << it->first << " Value: " << it->second.id << " & " << it->second.type <<  "\n";
       }
     }
 };
@@ -178,46 +195,47 @@ class Scope
 
 class SymbolTable
 {
-  Scope root;
-  Scope current;
+  public:
+    Scope root;
+    Scope current;
 
-  void SymbolTable()
-  {
-    root = new Scope(null);
-    current = root;
-  }
+    SymbolTable()
+    {
+      root = new Scope(NULL);
+      current = root;
+    }
 
-  void enterScope()
-  {
-    current = current.nextChild(); //create new scope if needed
-  }
+    void enterScope()
+    {
+      current = current.next_Child(); //create new scope if needed
+    }
 
-  void exitScope()
-  {
-    current = current.parent();
-  }
-
-
-  void put(String Key, Record item)
-  {
-    current.put(Key, item);
-  }
-
-  Record lookup(String Key)
-  {
-    return current.lookup(Key);
-  }
+    void exitScope()
+    {
+      current = current.parentScope;
+    }
 
 
-  void printTable()
-  {
-    root.printScope();
-  }
+    void put(string Key, Record item)
+    {
+      current.put(Key, item);
+    }
 
-  void resetTable()
-  {
-    root.resetScope();
-  }
+    Record lookup(string Key)
+    {
+      return current.lookup(Key);
+    }
+
+
+    void printTable()
+    {
+      root.printScope();
+    }
+
+    void resetTable()
+    {
+      root.resetScope();
+    }
 };
 
 
