@@ -14,18 +14,18 @@ class Record
   public:
     string id;
     string type;
-    Record(string id, string type)
+    Record(string id_in, string type_in)
     {
-        this -> id = id;
-        this -> type = type;
+        id = id_in;
+        type = type_in;
         cout << "contructed: " << type << endl;
     }
 
 
-  void printRecord()
-  {
-    cout << "id: " << id << "\n" << "type: " <<  type << "\n";
-  }
+    void printRecord()
+    {
+      cout << "id: " << id << "\n" << "type: " <<  type << "\n";
+    }
 };
 
 class Variable: public Record
@@ -51,19 +51,20 @@ class Container: public Record
         void addVariable(string var_id)
         {
             Variable new_var = Variable(var_id, "Variable");
+
             variables.insert(pair<string ,Variable>(var_id, new_var));
         }
- 
+
 
 };
 
 class Method: public Container
 {
-  public: 
+  public:
     map<string, Variable> parameters;
     Method(string id, string type) : Container(id, type)
     {
-    }  
+    };
 
   void addParameter(string par_id)
   {
@@ -82,7 +83,7 @@ class Class: public Container
     {
 
     }
-    
+
 
   void addMethod(string met_id)
   {
@@ -245,8 +246,7 @@ class SymbolTable
     }
 };
 
-
-int tree_traverse(Node* root, int depth=0)
+int tree_traverse(SymbolTable symboltable, Node* root, int depth=0)
 {
     Node* child;
 
@@ -261,29 +261,48 @@ int tree_traverse(Node* root, int depth=0)
 
         if (child->type == "MAINCLASS" || "CLASSDECLARATION")
         {
+          //Lägg till class i current scope (Kolla leftmost child)
+          name = child->children.begin();
+          symboltable.put(pair(name, "CLASS"));
+
+          //Skapa nytt scope som har current scope som parent
+          Scope new_scope(symboltable.current);
+
+          //Lägg till this i nya scopet (Bör nog göras i class constructorn (rad 80ish))
 
         }
 
         else if (child->type == "METHODDECLARATION")
         {
+          //Lägg till method i current scope (Kolla 2 leftmost child)
+          child->children::iterator it = child->children.begin();
 
+          type = *it;
+          advance(it, 1);
+          name = *it;
+
+          symboltable.put(pair(name, type));
+
+          //Skapa nytt scope som har current scope som parent
         }
 
         else if (child->type == "VARDECLARATION")
         {
-
+          //Lägg till variabel i current scope (Kolla alla children)
+          type = child->children.begin();
+          name = child->children.end();
+          symboltable.put(pair(name, type));
         }
 
         //Code ends here!
 
-        tree_traverse(child, depth+1);
+        tree_traverse(root_scope ,child, depth+1);
     }
-
-
 }
 
-int main(Node* root, int depth=0)
+int symbol_table(Node* root, int depth=0) // BYT NAMN?
 {
-  tree_traverse(root, depth);
+  SymbolTable symboltable();
+  tree_traverse(symboltable, root, depth);
+  return 0;
 }
-
