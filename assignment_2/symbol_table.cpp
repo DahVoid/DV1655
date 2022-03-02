@@ -7,6 +7,7 @@
 #include <list>
 #include <iterator>
 
+
 using namespace std;
 
 class Record
@@ -202,6 +203,7 @@ class Scope
 
 
 
+
 class SymbolTable
 {
   public:
@@ -235,6 +237,7 @@ class SymbolTable
       return current.lookup(Key);
     }
 
+
     void printTable()
     {
       root.printScope();
@@ -263,12 +266,15 @@ int tree_traverse(SymbolTable symboltable, Node* root, int depth=0)
         {
           //Lägg till class i current scope (Kolla leftmost child)
           name = child->children.begin();
-          symboltable.put(pair(name, "CLASS"));
+          Class class_rec(name, "CLASS");
+          symboltable.put(pair(name, class_rec));
+
 
           //Skapa nytt scope som har current scope som parent
           Scope new_scope(symboltable.current);
-
-          //Lägg till this i nya scopet (Bör nog göras i class constructorn (rad 80ish))
+          Variable class_this("this", name);
+          new_scope.put("this", class_this);
+          symboltable.childrenScopes.push_back(new_scope);
 
         }
 
