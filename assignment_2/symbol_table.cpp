@@ -96,7 +96,7 @@ class Class: public Container
   {
     if(variables.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
     {
-    return variables[Key];
+      return variables.at(Key);
     } 
     else
     {
@@ -109,7 +109,7 @@ class Class: public Container
   {
     if(methods.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
     {
-    return methods[Key];
+    return methods.at(Key);
     }
     else
     {
@@ -165,7 +165,7 @@ class Scope
       if(records.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
       {
 
-        return records[Key];
+        return records.at(Key);
       }
       else
       {
@@ -233,7 +233,6 @@ class SymbolTable
     {
       return current.lookup(Key);
     }
-
 
     void printTable()
     {
