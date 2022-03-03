@@ -64,13 +64,11 @@ class Container: public Record
           for (auto i = varbody->children.begin(); i != varbody->children.end(); i++)
           {
             child = *i;
-            if (child->type == "VARDECLARATION")
-            {
-              //Lägg till variabel i current scope (Kolla alla children)
-              type = child->children.begin();
-              name = child->children.end();
-              symboltable.put(name, type);
-            }
+            //Lägg till variabel i current scope (Kolla alla children)
+            type = child->children.begin();
+            name = child->children.end();
+            symboltable.put(name, type);
+          
           }
         }
 
@@ -101,6 +99,7 @@ class Class: public Container
     {
 
     }
+
 
 
   void addMethod(string met_id)
@@ -229,7 +228,25 @@ class SymbolTable
       root = new Scope(NULL);
       current = root;
     }
+    void class_dec(Node* class_body)
+    {
+      Node* child;
+      for (auto i = class_body->children.begin(); i != class_body->children.end(); i++)
+      { 
+        //Lägg till class i current scope (Kolla leftmost child)
+        list<Node*>::iterator name = class_body->children.begin();
 
+        Class class_rec(name*.id , "CLASS");
+        symboltable.put(name*, class_rec);
+
+        //Skapa nytt scope som har current scope som parent
+        Scope new_scope(symboltable.current);
+        Variable class_this("this", name);
+        new_scope.put("this", class_this);
+        symboltable.childrenScopes.push_back(new_scope);
+      }
+      
+    }
     void enterScope()
     {
       current = current.next_Child(); //create new scope if needed
