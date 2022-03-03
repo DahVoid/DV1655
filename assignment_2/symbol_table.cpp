@@ -6,6 +6,7 @@
 #include <map>
 #include <list>
 #include <iterator>
+#include "Node.h"
 
 
 using namespace std;
@@ -56,6 +57,22 @@ class Container: public Record
             variables.insert(pair<string ,Variable>(var_id, new_var));
         }
 
+        void init_varbody(Node* varbody)
+        {
+          Node* child;
+
+          for (auto i = varbody->children.begin(); i != varbody->children.end(); i++)
+          {
+            child = *i;
+            if (child->type == "VARDECLARATION")
+            {
+              //Lägg till variabel i current scope (Kolla alla children)
+              type = child->children.begin();
+              name = child->children.end();
+              symboltable.put(name, type);
+            }
+          }
+        }
 
 };
 
@@ -201,9 +218,6 @@ class Scope
     }
 };
 
-
-
-
 class SymbolTable
 {
   public:
@@ -257,6 +271,7 @@ int tree_traverse(SymbolTable symboltable, Node* root, int depth=0)
     {
         for(int i=0; i<depth; i++) //pretty print
         cout << "    ";
+
         child = *i;
         cout << "Type: " <<  child->type << "   Value: " << child->value << "\n";
 
@@ -265,9 +280,10 @@ int tree_traverse(SymbolTable symboltable, Node* root, int depth=0)
         if (child->type == "MAINCLASS" || "CLASSDECLARATION")
         {
           //Lägg till class i current scope (Kolla leftmost child)
-          name = child->children.begin();
-          Class class_rec(name, "CLASS");
-          symboltable.put(pair(name, class_rec));
+          list<Node*>::iterator name = root->children.begin();
+ 
+          Class class_rec(name*.id , "CLASS");
+          symboltable.put(name*, class_rec);
 
 
           //Skapa nytt scope som har current scope som parent
@@ -297,7 +313,7 @@ int tree_traverse(SymbolTable symboltable, Node* root, int depth=0)
           //Lägg till variabel i current scope (Kolla alla children)
           type = child->children.begin();
           name = child->children.end();
-          symboltable.put(pair(name, type));
+          symboltable.put(name, type);
         }
 
         //Code ends here!

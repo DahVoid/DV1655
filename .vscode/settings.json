@@ -5,6 +5,8 @@
         "istream": "cpp",
         "string": "cpp",
         "fstream": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "system_error": "cpp",
+        "xlocale": "cpp"
     }
 }
