@@ -112,7 +112,7 @@ expression: OR_expression {$$ = $1;}
           | TRUE {$$ = new Node("boolExpression", $1);}
           | FALSE {$$ = new Node("boolExpression", $1);}
           | THIS {$$ = new Node("THIS", $1);}
-          | NEW identifier LP RP {$$ = new Node("OtherExpression", $1);}
+          | NEW identifier LP RP {$$ = $2;}
 
 OR_expression: AND_expression {$$ = $1;}
              | expression OR expression {$$ = new Node("OR", "");
@@ -185,7 +185,7 @@ par_expression: LP expression RP {$$ = new Node("PARENTHESES", "");
               | expression DOT identifier LP argdeclaration_rep RP {$$ = new Node("MEMBER SELECTION FUNCTION CALL", "");
                                           $$->children.push_back($1);
                                           $$->children.push_back($3);
-                                          $$->children.push_back($3);
+                                          $$->children.push_back($5);
                                           }
               | expression DOT identifier LP RP {$$ = new Node("MEMBER SELECTION", "");
                                           $$->children.push_back($1);
@@ -202,72 +202,48 @@ par_expression: LP expression RP {$$ = new Node("PARENTHESES", "");
                                           $$->children.push_back($3);
                                           }
 
-vardeclaration_rep: %empty {$$ = NULL;}
-                  | vardeclaration_rep vardeclaration {$$ = new Node("VARDECLARATION_REP", "");
-                                              $$->children.push_back($1);
-                                              if ($1 == NULL)
-                                              {
-                                                 $$->children.pop_back();
-                                              }
+vardeclaration_rep: %empty {$$ = new Node("VARBODY", "");}
+                  | vardeclaration_rep vardeclaration {$$ = new Node("VARDECLARATION", "");
+                                              $$ = $1;
                                               $$->children.push_back($2);
                                               }
 
-classdeclaration_rep: %empty {$$ = NULL;}
-                    | classdeclaration_rep classdeclaration {$$ = new Node("CLASSDECLARATION_REP", "");
-                                                $$->children.push_back($1);
-                                                if ($1 == NULL)
-                                                {
-                                                   $$->children.pop_back();
-                                                }
+classdeclaration_rep: %empty {$$ = new Node("CLASSBODY", "");}
+                    | classdeclaration_rep classdeclaration {$$ = new Node("CLASSDECLARATION", "");
+                                                $$ = $1;
                                                 $$->children.push_back($2);
                                                 }
 
-statement_rep: %empty {$$ = NULL;}
-             | statement statement_rep {$$ = new Node("STATEMENT_REP", "");
-                                         $$->children.push_back($1);
-                                         $$->children.push_back($2);
-                                         if ($2 == NULL)
-                                         {
-                                            $$->children.pop_back();
-                                         }
-                                         }
+statement_rep: %empty {$$ = new Node("EOS", "");}
+             | statement statement_rep {$$ = new Node("STATEMENT", "");
+                                       $$ = $1;
+                                       $$->children.push_back($2);
+                                       }
 
-methoddeclaration_rep: %empty {$$ = NULL;}
-                      | methoddeclaration_rep methoddeclaration {$$ = new Node("METHODDECLARATION_REP", "");
-                                             $$->children.push_back($1);
-                                             if ($1 == NULL)
-                                             {
-                                                $$->children.pop_back();
-                                             }
-                                             $$->children.push_back($2);
+methoddeclaration_rep: %empty {$$ = new Node("METHODBODY", "");}
+                      | methoddeclaration_rep methoddeclaration {$$ = new Node("METHODDECLARATION", "");
+                                              $$ = $1;
+                                              $$->children.push_back($2);
                                              }
 
-parameterdeclaration_rep: %empty {$$ = NULL;}
-                         |type identifier {$$ = new Node("PARAMETER_REP", "");
-                            $$->children.push_back($1);
-                            $$->children.push_back($2);
+parameterdeclaration_rep: %empty {$$ = new Node("END", "");}
+                         |type identifier {
+                             $$ = $1;
+                             $$ = $2;
                             }
-                        | type identifier COMMA parameterdeclaration_rep {$$ = new Node("PARAMETER_REP", "");
-                                                    $$->children.push_back($1);
-                                                    $$->children.push_back($2);
-                                                    $$->children.push_back($4);
-                                                    if ($4 == NULL)
-                                                    {
-                                                       $$->children.pop_back();
-                                                    }
+                        | type identifier COMMA parameterdeclaration_rep {
+                                                    $$ = $1;
+                                                    $$ = $2;
+                                                    $$ = $4;
                                                     }
 
-argdeclaration_rep: %empty {$$ = NULL;}
-                 | expression {$$ = new Node("ARGUMENT_REP", "");
-                            $$->children.push_back($1);
+argdeclaration_rep: %empty {$$ = new Node("END", "");}
+                 | expression {
+                            $$ = $1;
                             }
-                 | expression COMMA argdeclaration_rep {$$ = new Node("ARGUMENT_REP", "");
-                                             $$->children.push_back($1);
-                                             $$->children.push_back($3);
-                                             if ($3 == NULL)
-                                             {
-                                                $$->children.pop_back();
-                                             }
+                 | expression COMMA argdeclaration_rep {
+                                             $$ = $1;
+                                             $$ = $3;
                                              }
 
 

@@ -278,6 +278,79 @@ class SymbolTable
     {
       root.resetScope();
     }
+
+    void start(Node* root)
+    {
+      //_>_>_>_>_>_>_>_>_>_>_>_> MAINCLASS <_<_<_<_<_<_<_<_<_<_<_<_<_<_
+      //Isolera MAINCLASS och gör mainclass för hand
+      Node* mainclass = *root->children.begin();
+
+      string type = mainclass->type;
+      string name = mainclass->name;
+      mainclass_rec = new Class(name, type);
+      symboltable.put(name, mainclass_rec);
+
+      //Skapa mainclass scope
+      Scope main_scope(symboltable.current_class);
+      // symboltable.enterScope();
+      Variable class_this("this", name);
+      main_scope.put("this", class_this);
+
+      Method methmainclass("main", "void");
+      main_scope.put("main", methmainclass);
+
+      //Skapa method main i mainclass //KAN BEHÖVA ÄNDRAS MED EN ITERATOR
+      advance(mainclass, 1);
+      string vtype = mainclass->type;
+      string vname = mainclass->name;
+      Variable vmethod_main(vname, vtype);
+
+      symboltable.current = main_scope;
+      Scope main_meth_scope(symboltable.current_class);
+
+      symboltable.current = main_meth_scope;
+      symboltable.put(mname,vmethod_main);
+
+      symboltable.current = scope->parentScope;
+      symboltable.current = scope->parentScope;
+
+      //_>_>_>_>_>_>_>_>_>_>_>_> Classbody <_<_<_<_<_<_<_<_<_<_<_<_<_<_
+      classbody(root->children.end());
+
+      return;
+    }
+
+    void classbody(Node* root)
+    {
+      Node* child;
+
+      for(auto i = root->children.begin(); i != root->children.end(); i++)
+      {
+        child = *i;
+        //Skapa scope för varje class_declaration
+        class_declaration(child);
+      }
+
+      return;
+    }
+
+    void class_declaration(Node* root)
+    {
+      return;
+    }
+
+    void methbody(Node* root)
+    {
+      Node* child;
+
+      for(auto i = root->children.begin(); i != root->children.end(); i++)
+      {
+        child = *i;
+        //Skapa scope för varje class_declaration
+        method_declaration(child);
+      }
+      return;
+    }
 };
 
 int tree_traverse(SymbolTable symboltable, Node* root, int depth=0)
@@ -304,6 +377,9 @@ int tree_traverse(SymbolTable symboltable, Node* root, int depth=0)
 
 
           //Skapa nytt scope som har current scope som parent
+          symboltable
+
+          //Ska göras om
           Scope new_scope(symboltable.current);
           Variable class_this("this", name);
           new_scope.put("this", class_this);
@@ -320,9 +396,11 @@ int tree_traverse(SymbolTable symboltable, Node* root, int depth=0)
           advance(it, 1);
           name = *it;
 
-          symboltable.put(pair(name, type));
+          current_method = new Method(name, type);
 
-          //Skapa nytt scope som har current scope som parent
+          symboltable.put(name, current_method);
+
+          //Fixa med scope
         }
 
         else if (child->type == "VARDECLARATION")
@@ -330,7 +408,10 @@ int tree_traverse(SymbolTable symboltable, Node* root, int depth=0)
           //Lägg till variabel i current scope (Kolla alla children)
           type = child->children.begin();
           name = child->children.end();
-          symboltable.put(name, type);
+
+          current_variable = new Variable(name, type);
+
+          symboltable.put(name, current_variable);
         }
 
         //Code ends here!
@@ -342,6 +423,6 @@ int tree_traverse(SymbolTable symboltable, Node* root, int depth=0)
 int symbol_table(Node* root, int depth=0) // BYT NAMN?
 {
   SymbolTable symboltable();
-  tree_traverse(symboltable, root, depth);
+  symboltable.start(root);
   return 0;
 }
