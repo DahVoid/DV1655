@@ -21,7 +21,7 @@
 // definition of set of tokens. All tokens are of type string
 %token END 0 "end of file"
 %token <std::string>  IF INT LP RP ESX NEW LB RB THIS FALSE TRUE DOT COMMA LENGTH SUB MUL DIV PLUS CMP EQUAL GT LT MT OR AND COMMENT SYSTEMOUTPRINT WHILE ELSE LCB RCB BOOLEAN RETURN PUBLIC EXTENDS CLASS STRING MAIN VOID STATIC SEMICOLON NUM WORD
-%type <Node *> OR_expression AND_expression EQUALITY_expression REL_expression negation_expression par_expression statement_rep methoddeclaration_rep parameterdeclaration_rep argdeclaration_rep vardeclaration_rep classdeclaration_rep goal mainclass classdeclaration vardeclaration methoddeclaration type statement expression addExpression multExpression number identifier
+%type <Node *> parameter OR_expression AND_expression EQUALITY_expression REL_expression negation_expression par_expression statement_rep methoddeclaration_rep parameterdeclaration_rep argdeclaration_rep vardeclaration_rep classdeclaration_rep goal mainclass classdeclaration vardeclaration methoddeclaration type statement expression addExpression multExpression number identifier
 // definition of the production rules. All production rules are of type Node
 %right AND OR
 %left MT LT CMP ESX
@@ -82,8 +82,8 @@ type: INT LB RB {$$ = new Node("INT ARRAY", "");
                           $$->children.push_back($1);
                           }
 
-statement: LCB statement_rep RCB {$$ = new Node("PARAMETER","");
-                          $$->children.push_back($2);
+statement: LCB statement_rep RCB {
+                          $$ = $2;
                           }
 
          | IF LP expression RP statement ELSE statement {$$ = new Node("IF","");
@@ -214,10 +214,10 @@ classdeclaration_rep: %empty {$$ = new Node("CLASSBODY", "");}
                                                 $$->children.push_back($2);
                                                 }
 
-statement_rep: %empty {$$ = new Node("EOS", "");}
+statement_rep: %empty {$$ = new Node("STATEMENTBODY", "");}
              | statement statement_rep {$$ = new Node("STATEMENT", "");
-                                       $$ = $1;
-                                       $$->children.push_back($2);
+                                       $$ = $2;
+                                       $$->children.push_back($1);
                                        }
 
 methoddeclaration_rep: %empty {$$ = new Node("METHODBODY", "");}
@@ -226,15 +226,12 @@ methoddeclaration_rep: %empty {$$ = new Node("METHODBODY", "");}
                                               $$->children.push_back($2);
                                              }
 
-parameterdeclaration_rep: %empty {$$ = new Node("END", "");}
-                         |type identifier {
-                             $$ = $1;
-                             $$ = $2;
+parameterdeclaration_rep: parameter {$$ = new Node("PARAMETERBODY", "");
+                            $$->children.push_back($1);
                             }
-                        | type identifier COMMA parameterdeclaration_rep {
+                         | parameterdeclaration_rep COMMA parameter{
                                                     $$ = $1;
-                                                    $$ = $2;
-                                                    $$ = $4;
+                                                    $$->children.push_back($3);
                                                     }
 
 argdeclaration_rep: %empty {$$ = new Node("END", "");}
@@ -246,8 +243,12 @@ argdeclaration_rep: %empty {$$ = new Node("END", "");}
                                              $$ = $3;
                                              }
 
+parameter: type identifier {$$ = new Node("PARAMETER", "");
+                            $$->children.push_back($1);
+                            $$->children.push_back($2);
+                            }
 
 identifier: WORD {$$ = new Node("IDENTIFIER", $1);}
 
-number: NUM {$$ = new Node("NUMBER", $1);}
+number: NUM {$$ = new Node("INT", $1);}
       | LP expression RP {$$ = $2;}
