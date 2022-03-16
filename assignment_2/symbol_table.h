@@ -34,6 +34,11 @@ class Record
     {
       cout << "id: " << id << "\n" << "type: " <<  type << "\n";
     }
+
+    string getclass()
+    {
+      return "RECORD";
+    }
 };
 
 class Variable: public Record
@@ -43,6 +48,11 @@ class Variable: public Record
         Variable(string id, string type) : Record(id, type)
         {
 
+        }
+
+        string getclass()
+        {
+          return "VARIABLE";
         }
 
 };
@@ -61,6 +71,7 @@ class Container: public Record
 
             variables.insert(pair<string ,Variable>(var_id, new_var));
         }
+
 };
 
 class Method: public Container
@@ -91,6 +102,11 @@ class Class: public Container
     Class(string id, string type) : Container(id, type)
     {
 
+    }
+
+    string getclass()
+    {
+      return "CLASS";
     }
 
 
@@ -166,18 +182,18 @@ class Scope
     {
       cout << "Looking for key: " << Key << "\n";
 
-      Record current_record;
-      map<string, Record>:: iterator it;
-      advance(records, parentScope->next);
-      current_record = *it;
-
-      if(current_record.getclass() == "METHOD")
-      {
-        if (current_record.count(Key) > 0)
-        {
-          return current_record.parameters.at(Key);
-        }
-      }
+      // Record current_record;
+      // map<string, Record>:: iterator it;
+      // advance(records, parentScope->next);
+      // current_record = it->second;
+      //
+      // if(current_record.getclass() == "METHOD")
+      // {
+      //   if (current_record.parameters.count(Key) > 0)
+      //   {
+      //     return current_record.parameters.at(Key);
+      //   }
+      // }
 
       if(records.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
       {
@@ -201,20 +217,20 @@ class Scope
       }
     }
 
-    Record checkparameters()
-    {
-      Scope* current_record;
-      map<string, Record>:: iterator it;
-      advance(records, current->parentScope.next);
-      current_record = *it;
-      if(current_record.getclass() == "METHOD")
-      {
-        if (current_record.count(Key) > 0)
-        {
-          return current_record.parameters.at(Key);
-        }
-      }
-    }
+    // Record checkparameters()
+    // {
+    //   Scope* current_record;
+    //   map<string, Record>:: iterator it;
+    //   advance(records, current->parentScope.next);
+    //   current_record = *it;
+    //   if(current_record.getclass() == "METHOD")
+    //   {
+    //     if (current_record.count(Key) > 0)
+    //     {
+    //       return current_record.parameters.at(Key);
+    //     }
+    //   }
+    // }
 
     void resetScope()
     {
@@ -409,7 +425,6 @@ class SymbolTable
         this->current->childrenScopes.push_back(new_scope);
         this->current = new_scope;
         method_declaration(child);
-        this->exitScope();
       }
       return;
     }
@@ -448,7 +463,11 @@ class SymbolTable
             grandchild = *j;
             Node* grandchildnamenode = grandchild->children.back();
             string name = grandchildnamenode->value;
+            grandchildnamenode = grandchild->children.front();
+            string type = grandchildnamenode->type;
+            Variable *new_var = new Variable(name, type);
             method_rec->addParameter(name);
+            this->put(name, new_var);
           }
         }
 
@@ -460,6 +479,7 @@ class SymbolTable
 
         counter++;
       }
+      this->exitScope();
       this->put(name, method_rec);
       return;
     }
@@ -497,6 +517,7 @@ class SymbolTable
 
         string type = grandchild1->type;
         string name = grandchild2->value;
+        cout << "type : " << type << "   name: " << name << "\n";
         Variable *new_var = new Variable(name, type);
         //Lägg till variabel i current scope (Kolla alla children)
         this->put(name, new_var);

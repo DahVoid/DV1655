@@ -8,6 +8,8 @@
         "vector": "cpp",
         "system_error": "cpp",
         "xlocale": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "ostream": "cpp",
+        "iostream": "cpp"
     }
 }

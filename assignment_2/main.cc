@@ -1,9 +1,11 @@
 #include<iostream>
 #include "parser.tab.hh"
-#include "symbol_table.cpp"
+#include "semantic.cpp"
+#include "symbol_table.h"
 
 extern Node* root;
 extern FILE* yyin;
+// extern SymbolTable* symboltable;
 
 void yy::parser::error(std::string const&err)
 {
@@ -21,15 +23,19 @@ int main(int argc, char **argv)
   }
 
   yy::parser parser;
-	  
+  SymbolTable* symboltable;
   if(!parser.parse()) {
     root->print_tree();
     root->generate_tree();
-    symbol_table(root);
+    symboltable = symbol_table(root);
+    symboltable->printTable();
+    cout << "entering symbol_table\n";
+    semantic(root, symboltable);
+    cout << "exited symbol_table\n";
   }
-  
-  
-  
+
+
+
   return 0;
 }
 

@@ -223,21 +223,104 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
 
         if (child->type == "WHILE")
         {
+          // check so everything is OK
+          // Kiddos
+          Node* node_1 = child->children.front();
+          //  check if a boolean statement
+          
+          
+          if(node_1->type == "IDENTIFIER" || node_1->type == "LESS" || node_1->type == "MORE" || node_1->type == "COMPARE" || node_1->type == "boolExpression" || node_1->type == "NEGATION")
+          {
+
+          } else
+          {
+            cout << "SEMANTIC ERROR: A boolean expression is required for WHILE statement." << endl;
+            // TODO: exit
+          }
+
 
         }
 
         if (child->type == "IF")
         {
+          Node* node_1 = child->children.front();
+          if(node_1->type == "LESS" || node_1->type == "MORE" || node_1->type == "COMPARE" || node_1->type == "boolExpression"  || node_1->type == "NEGATION")
+          {
+            cout << "I validated IF" << endl;
+          }
+          else
+          {
+            if(node_1->type == "MEMBER SELECTION FUNCTION CALL") 
+            {
+              Node* child;
+              // to lookup on function to get type
+              for (auto j = node_1->children.begin(); j != node_1->children.end(); j++)
+              {
+                child = *j;
+                if(child->type == "IDENTIFIER")
+                {
+                  Record node_j_rec = symboltable->lookup(child->value);
+                  if(node_j_rec.type == "BOOL")
+                  {
+                    cout << "I validated IF" << endl;
+                    break;
+                  }
+                  else
+                  {
+                    cout << "SEMANTIC ERROR: A boolean expression is required for IF statement." << endl;
+                    // TODO: exit
+                  }
+                }
+              }
+            }
+            else
+            {
+              cout << "SEMANTIC ERROR: A boolean expression is required for IF statement." << endl;
+              // TODO: exit
+            }
+            
+
+          }
 
         }
 
-        if (child->type == "NEGATION")
-        {
+      if (child->type == "NEGATION")
+      {
+          Node* node_1 = child->children.front();
+          
+          // Negatable expressions
+          if(node_1->type == "PARENTHESES" || node_1->type == "boolExpression")
+          {
+            cout << "NEGATED BOOL OR PARENTHESES" << endl;
+          }
+          else
+          {
+            Record node_1_rec = symboltable->lookup(node_1->value);
+            if(node_1_rec.type == "BOOL")
+            {
+              cout << "NEGATED BOOL VARIABLE" << endl;
+            }           
+            else
+            {
+              cout << "SEMANTIC ERROR: The expression is not negateable" << endl;
+              // TODO: exit
+            }
+          }
 
         }
 
         if (child->type == "PARENTHESES")
         {
+          Node* node_1 = child->children.front();
+          // If it has a child im happy with
+          if(child->children.size() >= 1)
+          {
+
+          } else
+          {
+            cout << "SEMANTIC ERROR: Wild parentheses are not allowed" << endl;
+            // TODO: exit
+          }
 
         }
 
