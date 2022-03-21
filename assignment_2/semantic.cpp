@@ -59,6 +59,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
         child = *i;
         cout << "Type: " <<  child->type << "   Value: " << child->value << "\n";
 
+
         if(child->type == "MAINCLASS")
         {
           scope_depth = -1;
@@ -116,8 +117,8 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           Node* node_1 = child->children.front();
           Node* node_2 = child->children.back();
           // cout << "1\n";
-          Record node_1_rec;
-          Record node_2_rec;
+          Record* node_1_rec;
+          Record* node_2_rec;
           string node_1_type;
           string node_2_type;
 
@@ -126,7 +127,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
             // cout << "1.1\n";
             node_1_rec = symboltable->lookup(node_1->value);
             // cout << "1.2\n";
-            node_1_type = node_1_rec.type;
+            node_1_type = node_1_rec->type;
             // cout << "node_2_type =  " << node_2_type << "\n";
             // node_1_rec.printRecord();
 
@@ -135,7 +136,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           if (node_2->type == "IDENTIFIER")
           {
             node_2_rec = symboltable->lookup(node_2->value);
-            node_2_type = node_2_rec.type;
+            node_2_type = node_2_rec->type;
             // cout << "node_2_type =  " << node_2_type << "\n";
             // node_2_rec.printRecord();
           }
@@ -172,8 +173,8 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           cout << "TYPE CHECKING HAS BEGUN\n";
           Node* node_1 = child->children.front();
           Node* node_2 = child->children.back();
-          Record node_1_rec;
-          Record node_2_rec;
+          Record* node_1_rec;
+          Record* node_2_rec;
           string node_1_type;
           string node_2_type;
 
@@ -191,13 +192,13 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           if (node_1->type == "IDENTIFIER")
           {
             node_1_rec = symboltable->lookup(node_1->value);
-            node_1_type = node_1_rec.type;
+            node_1_type = node_1_rec->type;
           }
 
           if (node_2->type == "IDENTIFIER")
           {
             node_2_rec = symboltable->lookup(node_2->value);
-            node_2_type = node_2_rec.type;
+            node_2_type = node_2_rec->type;
           }
 
           if (node_2->type == "ARRAY SUBSCRIPT")
@@ -212,16 +213,16 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
             //**!*!**!*!**!*!**!*!**!*!**!*!**!!!!!!!!!!!!!***********************!!!!!!!!!!!*!*!**!!!!!!!!!!!!***
             Node* child_2;
             int counter = 0;
-            Record child_rec;
+            Record* child_rec;
             // list<Node*>::iterator it;
             // advance(node_2->children, 1);
-            for (auto j = node_2->children.begin(); j != root->children.end(); j++)
+            for (auto j = node_2->children.begin(); j != node_2->children.end(); j++)
             {
               if(counter == 1)
               {
                 child = *j;
                 child_rec = symboltable->lookup(child->value);
-                node_2_type = child_rec.type;
+                node_2_type = child_rec->type;
                 break;
               }
               counter++;
@@ -235,9 +236,9 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
             cout << "\n\n\n\n\n";
 
             Node* child_2 = *node_2->children.begin();
-            Record child_rec;
+            Record* child_rec;
             child_rec = symboltable->lookup(child_2->value);
-            node_2_type = child_rec.type;
+            node_2_type = child_rec->type;
             if (node_2_type == "INT ARRAY")
             {
               node_2_type = "INT";
@@ -255,16 +256,16 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
             // cout << "\n\n\n\n\n";
             Node* child_2;
             int counter = 0;
-            Record child_rec;
+            Record* child_rec;
             // list<Node*>::iterator it;
             // advance(node_2->children, 1);
-            for (auto j = node_2->children.begin(); j != root->children.end(); j++)
+            for (auto j = node_2->children.begin(); j != node_2->children.end(); j++)
             {
               if(counter == 1)
               {
                 child = *j;
                 child_rec = symboltable->lookup(child->value);
-                node_2_type = child_rec.type;
+                node_2_type = child_rec->type;
                 break;
               }
               counter++;
@@ -280,17 +281,17 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           {
             Node* child_2;
             int counter = 0;
-            Record child_rec;
+            Record* child_rec;
             // list<Node*>::iterator it;
             // advance(node_2->children, 1);
-            for (auto j = node_2->children.begin(); j != root->children.end(); j++)
+            for (auto j = node_2->children.begin(); j != node_2->children.end(); j++)
             {
               child = *j;
               if(counter == 0)
               {
 
                 child_rec = symboltable->lookup(child->value);
-                if (child_rec.type != "INT ARRAY")
+                if (child_rec->type != "INT ARRAY")
                 {
                   cout << "CANNOT INDEX A NON ARRAY VARIABLE\n";
                   // return 0;
@@ -300,7 +301,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
               if(counter == 1)
               {
                 child_rec = symboltable->lookup(child->value);
-                if(child_rec.type != "INT")
+                if(child_rec->type != "INT")
                 {
                   cout << "CANNOT INDEX AN A ARRAY WITH A NON INT VARIABLE\n";
                   // return 0;
@@ -316,17 +317,17 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           {
             Node* child_2;
             int counter = 0;
-            Record child_rec;
+            Record* child_rec;
             // list<Node*>::iterator it;
             // advance(node_2->children, 1);
-            for (auto j = node_2->children.begin(); j != root->children.end(); j++)
+            for (auto j = node_2->children.begin(); j != node_2->children.end(); j++)
             {
               child = *j;
               if(counter == 0)
               {
 
                 child_rec = symboltable->lookup(child->value);
-                if (child_rec.type != "INT")
+                if (child_rec->type != "INT")
                 {
                   cout << "CANNOT CREATE A NEW ARRAY WITH A NON INT SIZE\n";
                 }
@@ -354,9 +355,78 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
         //TYPE CHECKING ends here
 
 
-        if (child->type == "MEMBER FUNCTION CALL")
+        if (child->type == "MEMBER SELECTION FUNCTION CALL")
         {
+          cout << "\n\n\n\n\n\n\n\n\n\n";
+          cout << "MEMBER FUNCTION CALL\n";
+          cout << "\n\n\n\n\n\n\n\n\n\n";
 
+          Method* node_method_rec;
+          Record* node_parameter_rec;
+          string node_method_type;
+          string node_parameter_type;
+          map<string, Variable*> parameters;
+
+
+          Node* child_2;
+          int counter = 0;
+          Class* child_rec;
+
+          int parameter_counter = 0;
+          //Check number of parameters begins here
+          Record* parameter;
+          for (auto p = symboltable->current->records.begin(); p != symboltable->current->records.end(); p++)
+          {
+            parameter = p->second;
+            if (parameter->id == "PARAMETER")
+            {
+              parameter_counter++;
+            }
+          }
+          cout << "Number of parameters: " << parameter_counter << "\n";
+          //Check number of parameters ends here
+
+          for (auto j = child->children.begin(); j != child->children.end(); j++)
+          {
+            child = *j;
+            if(counter == 0)
+            {
+              //Check if "THIS" exists in scope
+              child_rec = (Class*)symboltable->lookup(child->value);
+            }
+
+            if(counter == 1)
+            {
+              //Check if method exists in scope
+              cout << "1\n";
+              node_method_rec = child_rec->lookupMethod(child->value);
+              cout << "2\n";
+              // node_method_rec = symboltable->lookup(child->value);
+              cout << node_method_rec->id << "\n";
+              cout << node_method_rec->type << "\n";
+              node_method_type = node_method_rec->type;
+              cout << "3\n";
+            }
+
+            if(counter > 1)
+            {
+              node_parameter_rec = symboltable->lookup(child->value);
+
+              //Parameter check
+            }
+            counter++;
+          }
+          //CHECK SCOPE ENDS HERE
+
+
+          //CHECK PARAMETERS BEGINS HERE
+
+          //CHECK PARAMETERS ENDS HERE
+
+
+          //CHECK RETURN TYPE BEGINS HERE
+
+          //CHECK RETURN TYPE ENDS HERE
         }
 
         if (child->type == "SYSTEMOUTPRINT")
@@ -383,7 +453,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
         {
 
         }
-        
+
         if (child->type == "WHILE")
         {
           // check so everything is OK
@@ -400,9 +470,9 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
             cout << "SEMANTIC ERROR: A boolean expression is required for WHILE statement." << endl;
             // TODO: exit
           }
-
-
         }
+
+
 
         if (child->type == "IF")
         {

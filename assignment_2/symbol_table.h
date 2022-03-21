@@ -60,16 +60,20 @@ class Variable: public Record
 class Container: public Record
 {
     public:
-        map<string, Variable> variables;
+        map<string, Variable*> variables;
         Container(string id, string type) : Record(id, type)
+        {
+
+        }
+        Container()
         {
 
         }
         void addVariable(string var_id)
         {
-            Variable new_var = Variable(var_id, "Variable");
+            Variable *new_var = new Variable(var_id, "Variable");
 
-            variables.insert(pair<string ,Variable>(var_id, new_var));
+            variables.insert(pair<string ,Variable*>(var_id, new_var));
         }
 
 };
@@ -77,15 +81,18 @@ class Container: public Record
 class Method: public Container
 {
   public:
-    map<string, Variable> parameters;
+    map<string, Variable*> parameters;
     Method(string id, string type) : Container(id, type)
     {
-    };
+    }
+    Method() : Container()
+    {
+    }
 
   void addParameter(string par_id)
   {
-    Variable new_par = Variable(par_id, "Variable");
-    parameters.insert(pair<string ,Variable>(par_id, new_par));
+    Variable *new_par = new Variable(par_id, "Variable");
+    parameters.insert(pair<string ,Variable*>(par_id, new_par));
   }
 
   string getclass()
@@ -98,10 +105,14 @@ class Method: public Container
 class Class: public Container
 {
   public:
-    map<string, Method> methods;
+    map<string, Method*> methods;
     Class(string id, string type) : Container(id, type)
     {
 
+    }
+
+    Class() : Container()
+    {
     }
 
     string getclass()
@@ -113,30 +124,31 @@ class Class: public Container
 
   void addMethod(string met_id)
   {
-    Method new_met = Method(met_id, "Method");
-    methods.insert(pair<string ,Method>(met_id, new_met));
-
-
-  }
-
-  Variable lookupVariable(string Key)
-  {
-    if(variables.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
-    {
-      return variables.at(Key);
-    }
-    else
-    {
-        // do nooooothing
-    }
+    Method *new_met = new Method(met_id, "Method");
+    methods.insert(pair<string ,Method*>(met_id, new_met));
 
   }
 
-  Method lookupMethod(string Key)
+  // Variable lookupVariable(string Key)
+  // {
+  //   if(variables.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
+  //   {
+  //     return variables.at(Key);
+  //   }
+  //   else
+  //   {
+  //       // do nooooothing
+  //   }
+  //
+  // }
+
+  Method* lookupMethod(string Key)
   {
+    cout << "i got here \n";
     if(methods.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
     {
-    return methods.at(Key);
+      cout << "FOUND KEY: " << Key << "\n";
+      return methods.at(Key);
     }
     else
     {
@@ -152,8 +164,8 @@ class Scope
     Scope* parentScope; //parent scope
     vector<Scope*> childrenScopes; //children scopes
     // list<Scope> childrenScopes; //children scopes
-    map<string, Record> records; //symbol to record map
-    map<string, Record>::iterator it;
+    map<string, Record*> records; //symbol to record map
+    map<string, Record*>::iterator it;
 
     Scope(Scope* parentScope_in)
     {
@@ -167,7 +179,7 @@ class Scope
 
     void put(string Key, Record* record)
     {
-      records.insert(pair<string, Record>(Key, *record));
+      records.insert(pair<string, Record*>(Key, record));
       return;
     }
 
@@ -178,16 +190,18 @@ class Scope
       return childrenScopes[next];
     }
 
-    Record lookup(string Key)
+    Record* lookup(string Key)
     {
       cout << "Looking for key: " << Key << "\n";
 
       // Record current_record;
+      // Method current_method;
       // map<string, Record>:: iterator it;
       // advance(records, parentScope->next);
       // current_record = it->second;
+      // current_method = it->second;
       //
-      // if(current_record.getclass() == "METHOD")
+      // if(current_method.getclass() == "METHOD")
       // {
       //   if (current_record.parameters.count(Key) > 0)
       //   {
@@ -198,7 +212,8 @@ class Scope
       if(records.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
       {
         cout << "FOUND KEY! \n";
-        return records.at(Key);
+        Record* retval = records.at(Key);
+        return retval;
       }
 
       else
@@ -212,14 +227,39 @@ class Scope
         else
         {
           cout << "did not find key in scope! \n";
-          return parentScope->lookup(Key); // delegate the request to the parent scope
+          Record* retval = parentScope->lookup(Key);
+          return retval; // delegate the request to the parent scope
         }
       }
     }
 
-    // Record checkparameters()
+    // Class lookup_class(string Key)
     // {
-    //   Scope* current_record;
+    //   if(records.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
+    //   {
+    //     cout << "FOUND KEY! \n";
+    //     return records.at(Key);
+    //   }
+    //
+    //   else
+    //   {
+    //     if (&parentScope == NULL)
+    //     {
+    //       cout << "No key found :,( \n";
+    //       //Exit no record found
+    //     }
+    //
+    //     else
+    //     {
+    //       cout << "did not find key in scope! \n";
+    //       return parentScope->lookup(Key); // delegate the request to the parent scope
+    //     }
+    //   }
+    // }
+
+    // Method checkparameters(string key)
+    // {
+    //   Method current_record;
     //   map<string, Record>:: iterator it;
     //   advance(records, current->parentScope.next);
     //   current_record = *it;
@@ -244,10 +284,10 @@ class Scope
     void printScope() //Kommer behöva göras om
     {
       cout << "\nnew scope!\n";
-      map<string, Record>::iterator it;
+      map<string, Record*>::iterator it;
       for (it = records.begin(); it != records.end(); it++)
       {
-        cout << "VARIABLE Name: " << it->first << " Value: " << it->second.id << " & " << it->second.type <<  "\n";
+        cout << "VARIABLE Name: " << it->first << " Value: " << it->second->id << " & " << it->second->type <<  "\n";
       }
 
       // list<Scope*>::iterator its;
@@ -289,7 +329,7 @@ class SymbolTable
       current->put(Key, item);
     }
 
-    Record lookup(string Key)
+    Record* lookup(string Key)
     {
       return current->lookup(Key);
     }
@@ -465,7 +505,7 @@ class SymbolTable
             string name = grandchildnamenode->value;
             grandchildnamenode = grandchild->children.front();
             string type = grandchildnamenode->type;
-            Variable *new_var = new Variable(name, type);
+            Variable *new_var = new Variable("PARAMETER", type);
             method_rec->addParameter(name);
             this->put(name, new_var);
           }
