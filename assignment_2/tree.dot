@@ -43,165 +43,57 @@ n22 -> n23
 n24 [label="IDENTIFIER:num_aux"];
 n22 -> n24
 n21 -> n22
-n25 [label="VARDECLARATION:"];
-n26 [label="INT:"];
-n25 -> n26
-n27 [label="IDENTIFIER:foo"];
-n25 -> n27
-n21 -> n25
 n14 -> n21
-n28 [label="STATEMENTBODY:"];
-n29 [label="IF:"];
-n30 [label="LESS:"];
-n31 [label="IDENTIFIER:num"];
-n30 -> n31
-n32 [label="INT:1"];
-n30 -> n32
-n29 -> n30
-n33 [label="EQUAL:"];
+n25 [label="STATEMENTBODY:"];
+n26 [label="IF:"];
+n27 [label="LESS:"];
+n28 [label="IDENTIFIER:num"];
+n27 -> n28
+n29 [label="INT:1"];
+n27 -> n29
+n26 -> n27
+n30 [label="STATEMENTBODY:"];
+n31 [label="EQUAL:"];
+n32 [label="IDENTIFIER:num_aux"];
+n31 -> n32
+n33 [label="MEMBER SELECTION LENGTH:"];
 n34 [label="IDENTIFIER:num_aux"];
 n33 -> n34
-n35 [label="INT:1"];
-n33 -> n35
-n29 -> n33
-n36 [label="EQUAL:"];
-n37 [label="IDENTIFIER:num_aux"];
-n36 -> n37
-n38 [label="MUL:"];
-n39 [label="IDENTIFIER:num"];
+n31 -> n33
+n30 -> n31
+n35 [label="EQUAL:"];
+n36 [label="IDENTIFIER:num_aux"];
+n35 -> n36
+n37 [label="INT:1"];
+n35 -> n37
+n30 -> n35
+n26 -> n30
+n38 [label="EQUAL:"];
+n39 [label="IDENTIFIER:num_aux"];
 n38 -> n39
-n40 [label="MEMBER SELECTION FUNCTION CALL:"];
-n41 [label="THIS:this"];
+n40 [label="MUL:"];
+n41 [label="IDENTIFIER:num"];
 n40 -> n41
-n42 [label="IDENTIFIER:ComputeFac"];
+n42 [label="MEMBER SELECTION FUNCTION CALL:"];
+n43 [label="THIS:this"];
+n42 -> n43
+n44 [label="IDENTIFIER:ComputeFac"];
+n42 -> n44
+n45 [label="SUB:"];
+n46 [label="IDENTIFIER:num"];
+n45 -> n46
+n47 [label="INT:1"];
+n45 -> n47
+n42 -> n45
 n40 -> n42
-n43 [label="SUB:"];
-n44 [label="IDENTIFIER:num"];
-n43 -> n44
-n45 [label="INT:1"];
-n43 -> n45
-n40 -> n43
 n38 -> n40
-n36 -> n38
-n29 -> n36
-n28 -> n29
-n14 -> n28
-n46 [label="IDENTIFIER:num_aux"];
-n14 -> n46
+n26 -> n38
+n25 -> n26
+n14 -> n25
+n48 [label="IDENTIFIER:num_aux"];
+n14 -> n48
 n13 -> n14
 n10 -> n13
 n9 -> n10
-n47 [label="CLASSDECLARATION:"];
-n48 [label="IDENTIFIER:B"];
-n47 -> n48
-n49 [label="VARBODY:"];
-n50 [label="VARDECLARATION:"];
-n51 [label="INT:"];
-n50 -> n51
-n52 [label="IDENTIFIER:foo"];
-n50 -> n52
-n49 -> n50
-n47 -> n49
-n53 [label="METHODBODY:"];
-n54 [label="METHODDECLARATION:"];
-n55 [label="OBJECT:"];
-n56 [label="IDENTIFIER:Fac"];
-n55 -> n56
-n54 -> n55
-n57 [label="IDENTIFIER:get_class_type"];
-n54 -> n57
-n58 [label="VARBODY:"];
-n59 [label="VARDECLARATION:"];
-n60 [label="OBJECT:"];
-n61 [label="IDENTIFIER:Fac"];
-n60 -> n61
-n59 -> n60
-n62 [label="IDENTIFIER:cls"];
-n59 -> n62
-n58 -> n59
-n63 [label="VARDECLARATION:"];
-n64 [label="INT ARRAY:"];
-n63 -> n64
-n65 [label="IDENTIFIER:arr"];
-n63 -> n65
-n58 -> n63
-n54 -> n58
-n66 [label="STATEMENTBODY:"];
-n67 [label="EQUAL:"];
-n68 [label="IDENTIFIER:cls"];
-n67 -> n68
-n69 [label="IDENTIFIER:Fac"];
-n67 -> n69
-n66 -> n67
-n70 [label="EQUAL:"];
-n71 [label="IDENTIFIER:arr"];
-n70 -> n71
-n72 [label="MEMBER SELECTION:"];
-n73 [label="THIS:this"];
-n72 -> n73
-n74 [label="IDENTIFIER:get_arr"];
-n72 -> n74
-n70 -> n72
-n66 -> n70
-n54 -> n66
-n75 [label="IDENTIFIER:cls"];
-n54 -> n75
-n53 -> n54
-n76 [label="METHODDECLARATION:"];
-n77 [label="INT:"];
-n76 -> n77
-n78 [label="IDENTIFIER:get_1"];
-n76 -> n78
-n79 [label="VARBODY:"];
-n76 -> n79
-n80 [label="STATEMENTBODY:"];
-n76 -> n80
-n81 [label="INT:1"];
-n76 -> n81
-n53 -> n76
-n82 [label="METHODDECLARATION:"];
-n83 [label="INT ARRAY:"];
-n82 -> n83
-n84 [label="IDENTIFIER:get_arr"];
-n82 -> n84
-n85 [label="VARBODY:"];
-n86 [label="VARDECLARATION:"];
-n87 [label="INT ARRAY:"];
-n86 -> n87
-n88 [label="IDENTIFIER:arr"];
-n86 -> n88
-n85 -> n86
-n89 [label="VARDECLARATION:"];
-n90 [label="INT:"];
-n89 -> n90
-n91 [label="IDENTIFIER:num"];
-n89 -> n91
-n85 -> n89
-n82 -> n85
-n92 [label="STATEMENTBODY:"];
-n93 [label="EQUAL:"];
-n94 [label="IDENTIFIER:arr"];
-n93 -> n94
-n95 [label="NEW ARRAY SUBSCRIPT:"];
-n96 [label="IDENTIFIER:num"];
-n95 -> n96
-n93 -> n95
-n92 -> n93
-n97 [label="EQUAL:"];
-n98 [label="IDENTIFIER:num"];
-n97 -> n98
-n99 [label="MEMBER SELECTION:"];
-n100 [label="THIS:this"];
-n99 -> n100
-n101 [label="IDENTIFIER:get_1"];
-n99 -> n101
-n97 -> n99
-n92 -> n97
-n82 -> n92
-n102 [label="IDENTIFIER:arr"];
-n82 -> n102
-n53 -> n82
-n47 -> n53
-n9 -> n47
 n0 -> n9
 }
