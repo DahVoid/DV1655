@@ -492,8 +492,8 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
                 child = *j;
                 if(child->type == "IDENTIFIER")
                 {
-                  Record node_j_rec = symboltable->lookup(child->value);
-                  if(node_j_rec.type == "BOOL")
+                  Record *node_j_rec = symboltable->lookup(child->value);
+                  if(node_j_rec -> type == "BOOL")
                   {
                     cout << "I validated IF" << endl;
                     break;
@@ -528,8 +528,8 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           }
           else
           {
-            Record node_1_rec = symboltable->lookup(node_1->value);
-            if(node_1_rec.type == "BOOL")
+            Record *node_1_rec = symboltable->lookup(node_1->value);
+            if(node_1_rec -> type == "BOOL")
             {
               cout << "NEGATED BOOL VARIABLE" << endl;
             }           
@@ -544,7 +544,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
 
         if (child->type == "PARENTHESES")
         {
-          Node* node_1 = child->children.front();
+          Node *node_1 = child->children.front();
           // If it has a child im happy with
           if(child->children.size() >= 1)
           {
