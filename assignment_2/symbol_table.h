@@ -122,11 +122,14 @@ class Class: public Container
 
 
 
-  void addMethod(string met_id)
+  void addMethod(string met_id, Method* new_met)
   {
-    Method *new_met = new Method(met_id, "Method");
+    cout << met_id << "\n";
+    cout << new_met->id << "  " << new_met->type <<  "\n";
+    // Method* new_met = new Method(met_id, "Method");
+    cout << "2\n";
     methods.insert(pair<string ,Method*>(met_id, new_met));
-
+    cout << "3\n";
   }
 
   // Variable lookupVariable(string Key)
@@ -416,6 +419,7 @@ class SymbolTable
     void class_dec(Node* class_body)
     {
       Node* child;
+      Class* class_rec;
       int counter = 0;
       for (auto i = class_body->children.begin(); i != class_body->children.end(); i++)
       {
@@ -424,10 +428,11 @@ class SymbolTable
         child = *i;
         //Lägg till class i current scope (Kolla leftmost child)
         // list<Node*>::iterator name = class_body->children.begin();
+        // Class *class_rec = new Class(child->value , "CLASS");
+
         if (counter == 0)
         {
-          Class *class_rec = new Class(child->value , "CLASS"); //Type kanske ska va class namnet
-          this->put(child->value, class_rec);
+          class_rec = new Class(child->value , "CLASS"); //Type kanske ska va class namnet
           //Skapa nytt scope som har current scope som parent
           Scope *new_scope = new Scope(this->current);
           Variable *class_this = new Variable("this", child->value);
@@ -443,18 +448,26 @@ class SymbolTable
 
         if (child->type == "METHODBODY")
         {
-          this->methbody(child);
+          this->methbody(child, class_rec);
         }
 
         counter++;
       }
+      // Class* child_rec;
+      map<string, Method*>::iterator i;
 
+      for (i = class_rec->methods.begin(); i != class_rec->methods.end(); i++)
+      {
+        cout << i->first <<"\n";
+      }
+      // cout << "First method name: " <<class_rec->methods.front().first() << "\n";
       this->exitScope();
+      this->put(class_rec->id, class_rec);
       return;
     }
 
 
-    void methbody(Node* root)
+    void methbody(Node* root, Class* class_rec)
     {
       Node* child;
       for(auto i = root->children.begin(); i != root->children.end(); i++)
@@ -464,12 +477,12 @@ class SymbolTable
         Scope *new_scope = new Scope(this->current);
         this->current->childrenScopes.push_back(new_scope);
         this->current = new_scope;
-        method_declaration(child);
+        method_declaration(child, class_rec);
       }
       return;
     }
 
-    void method_declaration(Node* method)
+    void method_declaration(Node* method, Class* class_rec)
     {
       //Declare method
       Node* child;
@@ -506,7 +519,8 @@ class SymbolTable
             grandchildnamenode = grandchild->children.front();
             string type = grandchildnamenode->type;
             Variable *new_var = new Variable("PARAMETER", type);
-            method_rec->addParameter(name);
+            // method_rec->addParameter(name);
+            method_rec->parameters.insert(pair<string, Variable*>(name, new_var));
             this->put(name, new_var);
           }
         }
@@ -520,6 +534,10 @@ class SymbolTable
         counter++;
       }
       this->exitScope();
+      // class_rec->addMethod(name, method_rec);
+      cout << name << "  "<< method_rec->id << "  " << method_rec->type <<  "\n";
+      class_rec->methods.insert(pair<string, Method*>(name, method_rec));
+      // cout << "2\n";
       this->put(name, method_rec);
       return;
     }

@@ -358,7 +358,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
         if (child->type == "MEMBER SELECTION FUNCTION CALL")
         {
           cout << "\n\n\n\n\n\n\n\n\n\n";
-          cout << "MEMBER FUNCTION CALL\n";
+          cout << "MEMBER SELECTION FUNCTION CALL\n";
           cout << "\n\n\n\n\n\n\n\n\n\n";
 
           Method* node_method_rec;
@@ -392,15 +392,17 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
             if(counter == 0)
             {
               //Check if "THIS" exists in scope
+              cout << "1\n";
               child_rec = (Class*)symboltable->lookup(child->value);
+              cout << "2\n";
             }
 
             if(counter == 1)
             {
               //Check if method exists in scope
-              cout << "1\n";
+              // cout << "1\n";
               node_method_rec = child_rec->lookupMethod(child->value);
-              cout << "2\n";
+              // cout << "2\n";
               // node_method_rec = symboltable->lookup(child->value);
               cout << node_method_rec->id << "\n";
               cout << node_method_rec->type << "\n";
@@ -408,12 +410,47 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
               cout << "3\n";
             }
 
-            if(counter > 1)
+            if(counter == 2)
             {
-              node_parameter_rec = symboltable->lookup(child->value);
+              // node_parameter_rec = symboltable->lookup(child->value);
+              int parameter_counter = 0;
+              pair<string, Variable*> child_para;
+              // map<string, Variable*>::iterator it = node_method_rec->parameters.begin();
+              // <>
+              Node* child_2;
+              cout << "4\n";
+              cout << node_method_rec->parameters.size() <<"\n";
+              auto k = node_method_rec->parameters.begin();
+              auto q = j;
+              for (q, k; q != child_2->children.end(); q++, k++)
+              {
+                child_2 = *q;
+                child_para = *k;
+                cout << "I SHOULD BE HERE\n";
+                // advance(it, 1);
+                parameter_counter++;
+                cout << "5\n";
+                if (node_method_rec->parameters.size() >= parameter_counter)
+                {
+                  cout << "i should not be here\n";
+                  // cout << child->type << "\n";
+                  cout << child_para.second->type << "   " << child_2->type << "\n";
+                  cout << "5.1\n";
+                  if (child_para.second->type != child_2->type)
+                  {
+                    cout << "6\n";
+                    cout << "SEMANTIC ERROR: WRONG PARAMETER TYPE\n";
+                  }
+                }
 
-              //Parameter check
+                else
+                {
+                  cout << "SEMATIC ERROR: TO MANY PARAMETERS\n";
+                  break;
+                }
+              }
             }
+              //Parameter check
             counter++;
           }
           //CHECK SCOPE ENDS HERE
