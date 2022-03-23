@@ -1,99 +1,851 @@
 digraph {
 n0 [label="GOAL:"];
 n1 [label="MAINCLASS:"];
-n2 [label="IDENTIFIER:Factorial"];
+n2 [label="IDENTIFIER:BinarySearch"];
 n1 -> n2
 n3 [label="IDENTIFIER:a"];
 n1 -> n3
 n4 [label="SYSTEMOUTPRINT:"];
 n5 [label="MEMBER SELECTION FUNCTION CALL:"];
-n6 [label="IDENTIFIER:Fac"];
+n6 [label="IDENTIFIER:BS"];
 n5 -> n6
-n7 [label="IDENTIFIER:ComputeFac"];
+n7 [label="IDENTIFIER:Start"];
 n5 -> n7
-n8 [label="INT:10"];
+n8 [label="INT:20"];
 n5 -> n8
 n4 -> n5
 n1 -> n4
 n0 -> n1
 n9 [label="CLASSBODY:"];
 n10 [label="CLASSDECLARATION:"];
-n11 [label="IDENTIFIER:Fac"];
+n11 [label="IDENTIFIER:BS"];
 n10 -> n11
 n12 [label="VARBODY:"];
-n10 -> n12
-n13 [label="METHODBODY:"];
-n14 [label="METHODDECLARATION:"];
-n15 [label="INT:"];
-n14 -> n15
-n16 [label="IDENTIFIER:ComputeFac"];
-n14 -> n16
-n17 [label="PARAMETERBODY:"];
-n18 [label="PARAMETER:"];
-n19 [label="INT:"];
-n18 -> n19
-n20 [label="IDENTIFIER:num"];
-n18 -> n20
-n17 -> n18
-n14 -> n17
-n21 [label="VARBODY:"];
-n22 [label="VARDECLARATION:"];
-n23 [label="INT:"];
-n22 -> n23
-n24 [label="IDENTIFIER:num_aux"];
-n22 -> n24
-n21 -> n22
-n14 -> n21
-n25 [label="STATEMENTBODY:"];
-n26 [label="IF:"];
-n27 [label="LESS:"];
-n28 [label="IDENTIFIER:num"];
-n27 -> n28
-n29 [label="INT:1"];
-n27 -> n29
-n26 -> n27
-n30 [label="STATEMENTBODY:"];
-n31 [label="EQUAL:"];
-n32 [label="IDENTIFIER:num_aux"];
-n31 -> n32
-n33 [label="MEMBER SELECTION LENGTH:"];
-n34 [label="IDENTIFIER:num_aux"];
-n33 -> n34
-n31 -> n33
-n30 -> n31
-n35 [label="EQUAL:"];
-n36 [label="IDENTIFIER:num_aux"];
-n35 -> n36
-n37 [label="INT:1"];
-n35 -> n37
-n30 -> n35
-n26 -> n30
-n38 [label="EQUAL:"];
-n39 [label="IDENTIFIER:num_aux"];
-n38 -> n39
-n40 [label="MUL:"];
-n41 [label="IDENTIFIER:num"];
-n40 -> n41
-n42 [label="MEMBER SELECTION FUNCTION CALL:"];
-n43 [label="THIS:this"];
-n42 -> n43
-n44 [label="IDENTIFIER:ComputeFac"];
-n42 -> n44
-n45 [label="SUB:"];
-n46 [label="IDENTIFIER:num"];
-n45 -> n46
-n47 [label="INT:1"];
-n45 -> n47
-n42 -> n45
-n40 -> n42
-n38 -> n40
-n26 -> n38
-n25 -> n26
-n14 -> n25
-n48 [label="IDENTIFIER:num_aux"];
-n14 -> n48
+n13 [label="VARDECLARATION:"];
+n14 [label="INT ARRAY:"];
 n13 -> n14
-n10 -> n13
+n15 [label="IDENTIFIER:number"];
+n13 -> n15
+n12 -> n13
+n16 [label="VARDECLARATION:"];
+n17 [label="INT:"];
+n16 -> n17
+n18 [label="IDENTIFIER:size"];
+n16 -> n18
+n12 -> n16
+n10 -> n12
+n19 [label="METHODBODY:"];
+n20 [label="METHODDECLARATION:"];
+n21 [label="INT:"];
+n20 -> n21
+n22 [label="IDENTIFIER:Start"];
+n20 -> n22
+n23 [label="PARAMETERBODY:"];
+n24 [label="PARAMETER:"];
+n25 [label="INT:"];
+n24 -> n25
+n26 [label="IDENTIFIER:sz"];
+n24 -> n26
+n23 -> n24
+n20 -> n23
+n27 [label="VARBODY:"];
+n28 [label="VARDECLARATION:"];
+n29 [label="INT:"];
+n28 -> n29
+n30 [label="IDENTIFIER:aux01"];
+n28 -> n30
+n27 -> n28
+n31 [label="VARDECLARATION:"];
+n32 [label="INT:"];
+n31 -> n32
+n33 [label="IDENTIFIER:aux02"];
+n31 -> n33
+n27 -> n31
+n20 -> n27
+n34 [label="STATEMENTBODY:"];
+n35 [label="IF:"];
+n36 [label="MEMBER SELECTION FUNCTION CALL:"];
+n37 [label="THIS:this"];
+n36 -> n37
+n38 [label="IDENTIFIER:Search"];
+n36 -> n38
+n39 [label="INT:50"];
+n36 -> n39
+n35 -> n36
+n40 [label="SYSTEMOUTPRINT:"];
+n41 [label="INT:1"];
+n40 -> n41
+n35 -> n40
+n42 [label="SYSTEMOUTPRINT:"];
+n43 [label="INT:0"];
+n42 -> n43
+n35 -> n42
+n34 -> n35
+n44 [label="IF:"];
+n45 [label="MEMBER SELECTION FUNCTION CALL:"];
+n46 [label="THIS:this"];
+n45 -> n46
+n47 [label="IDENTIFIER:Search"];
+n45 -> n47
+n48 [label="INT:39"];
+n45 -> n48
+n44 -> n45
+n49 [label="SYSTEMOUTPRINT:"];
+n50 [label="INT:1"];
+n49 -> n50
+n44 -> n49
+n51 [label="SYSTEMOUTPRINT:"];
+n52 [label="INT:0"];
+n51 -> n52
+n44 -> n51
+n34 -> n44
+n53 [label="IF:"];
+n54 [label="MEMBER SELECTION FUNCTION CALL:"];
+n55 [label="THIS:this"];
+n54 -> n55
+n56 [label="IDENTIFIER:Search"];
+n54 -> n56
+n57 [label="INT:38"];
+n54 -> n57
+n53 -> n54
+n58 [label="SYSTEMOUTPRINT:"];
+n59 [label="INT:1"];
+n58 -> n59
+n53 -> n58
+n60 [label="SYSTEMOUTPRINT:"];
+n61 [label="INT:0"];
+n60 -> n61
+n53 -> n60
+n34 -> n53
+n62 [label="IF:"];
+n63 [label="MEMBER SELECTION FUNCTION CALL:"];
+n64 [label="THIS:this"];
+n63 -> n64
+n65 [label="IDENTIFIER:Search"];
+n63 -> n65
+n66 [label="INT:37"];
+n63 -> n66
+n62 -> n63
+n67 [label="SYSTEMOUTPRINT:"];
+n68 [label="INT:1"];
+n67 -> n68
+n62 -> n67
+n69 [label="SYSTEMOUTPRINT:"];
+n70 [label="INT:0"];
+n69 -> n70
+n62 -> n69
+n34 -> n62
+n71 [label="IF:"];
+n72 [label="MEMBER SELECTION FUNCTION CALL:"];
+n73 [label="THIS:this"];
+n72 -> n73
+n74 [label="IDENTIFIER:Search"];
+n72 -> n74
+n75 [label="INT:21"];
+n72 -> n75
+n71 -> n72
+n76 [label="SYSTEMOUTPRINT:"];
+n77 [label="INT:1"];
+n76 -> n77
+n71 -> n76
+n78 [label="SYSTEMOUTPRINT:"];
+n79 [label="INT:0"];
+n78 -> n79
+n71 -> n78
+n34 -> n71
+n80 [label="IF:"];
+n81 [label="MEMBER SELECTION FUNCTION CALL:"];
+n82 [label="THIS:this"];
+n81 -> n82
+n83 [label="IDENTIFIER:Search"];
+n81 -> n83
+n84 [label="INT:20"];
+n81 -> n84
+n80 -> n81
+n85 [label="SYSTEMOUTPRINT:"];
+n86 [label="INT:1"];
+n85 -> n86
+n80 -> n85
+n87 [label="SYSTEMOUTPRINT:"];
+n88 [label="INT:0"];
+n87 -> n88
+n80 -> n87
+n34 -> n80
+n89 [label="IF:"];
+n90 [label="MEMBER SELECTION FUNCTION CALL:"];
+n91 [label="THIS:this"];
+n90 -> n91
+n92 [label="IDENTIFIER:Search"];
+n90 -> n92
+n93 [label="INT:19"];
+n90 -> n93
+n89 -> n90
+n94 [label="SYSTEMOUTPRINT:"];
+n95 [label="INT:1"];
+n94 -> n95
+n89 -> n94
+n96 [label="SYSTEMOUTPRINT:"];
+n97 [label="INT:0"];
+n96 -> n97
+n89 -> n96
+n34 -> n89
+n98 [label="IF:"];
+n99 [label="MEMBER SELECTION FUNCTION CALL:"];
+n100 [label="THIS:this"];
+n99 -> n100
+n101 [label="IDENTIFIER:Search"];
+n99 -> n101
+n102 [label="INT:8"];
+n99 -> n102
+n98 -> n99
+n103 [label="SYSTEMOUTPRINT:"];
+n104 [label="INT:1"];
+n103 -> n104
+n98 -> n103
+n105 [label="SYSTEMOUTPRINT:"];
+n106 [label="INT:0"];
+n105 -> n106
+n98 -> n105
+n34 -> n98
+n107 [label="EQUAL:"];
+n108 [label="IDENTIFIER:aux02"];
+n107 -> n108
+n109 [label="MEMBER SELECTION:"];
+n110 [label="THIS:this"];
+n109 -> n110
+n111 [label="IDENTIFIER:Print"];
+n109 -> n111
+n107 -> n109
+n34 -> n107
+n112 [label="EQUAL:"];
+n113 [label="IDENTIFIER:aux01"];
+n112 -> n113
+n114 [label="MEMBER SELECTION FUNCTION CALL:"];
+n115 [label="THIS:this"];
+n114 -> n115
+n116 [label="IDENTIFIER:Init"];
+n114 -> n116
+n117 [label="IDENTIFIER:sz"];
+n114 -> n117
+n112 -> n114
+n34 -> n112
+n20 -> n34
+n118 [label="INT:999"];
+n20 -> n118
+n19 -> n20
+n119 [label="METHODDECLARATION:"];
+n120 [label="BOOL:"];
+n119 -> n120
+n121 [label="IDENTIFIER:Search"];
+n119 -> n121
+n122 [label="PARAMETERBODY:"];
+n123 [label="PARAMETER:"];
+n124 [label="INT:"];
+n123 -> n124
+n125 [label="IDENTIFIER:num"];
+n123 -> n125
+n122 -> n123
+n119 -> n122
+n126 [label="VARBODY:"];
+n127 [label="VARDECLARATION:"];
+n128 [label="BOOL:"];
+n127 -> n128
+n129 [label="IDENTIFIER:bs01"];
+n127 -> n129
+n126 -> n127
+n130 [label="VARDECLARATION:"];
+n131 [label="INT:"];
+n130 -> n131
+n132 [label="IDENTIFIER:right"];
+n130 -> n132
+n126 -> n130
+n133 [label="VARDECLARATION:"];
+n134 [label="INT:"];
+n133 -> n134
+n135 [label="IDENTIFIER:left"];
+n133 -> n135
+n126 -> n133
+n136 [label="VARDECLARATION:"];
+n137 [label="BOOL:"];
+n136 -> n137
+n138 [label="IDENTIFIER:var_cont"];
+n136 -> n138
+n126 -> n136
+n139 [label="VARDECLARATION:"];
+n140 [label="INT:"];
+n139 -> n140
+n141 [label="IDENTIFIER:medium"];
+n139 -> n141
+n126 -> n139
+n142 [label="VARDECLARATION:"];
+n143 [label="INT:"];
+n142 -> n143
+n144 [label="IDENTIFIER:aux01"];
+n142 -> n144
+n126 -> n142
+n145 [label="VARDECLARATION:"];
+n146 [label="INT:"];
+n145 -> n146
+n147 [label="IDENTIFIER:nt"];
+n145 -> n147
+n126 -> n145
+n119 -> n126
+n148 [label="STATEMENTBODY:"];
+n149 [label="IF:"];
+n150 [label="MEMBER SELECTION FUNCTION CALL:"];
+n151 [label="THIS:this"];
+n150 -> n151
+n152 [label="IDENTIFIER:Compare"];
+n150 -> n152
+n153 [label="IDENTIFIER:num"];
+n150 -> n153
+n149 -> n150
+n154 [label="EQUAL:"];
+n155 [label="IDENTIFIER:bs01"];
+n154 -> n155
+n156 [label="boolExpression:true"];
+n154 -> n156
+n149 -> n154
+n157 [label="EQUAL:"];
+n158 [label="IDENTIFIER:bs01"];
+n157 -> n158
+n159 [label="boolExpression:false"];
+n157 -> n159
+n149 -> n157
+n148 -> n149
+n160 [label="WHILE:"];
+n161 [label="IDENTIFIER:var_cont"];
+n160 -> n161
+n162 [label="STATEMENTBODY:"];
+n163 [label="IF:"];
+n164 [label="LESS:"];
+n165 [label="IDENTIFIER:right"];
+n164 -> n165
+n166 [label="IDENTIFIER:left"];
+n164 -> n166
+n163 -> n164
+n167 [label="EQUAL:"];
+n168 [label="IDENTIFIER:var_cont"];
+n167 -> n168
+n169 [label="boolExpression:false"];
+n167 -> n169
+n163 -> n167
+n170 [label="EQUAL:"];
+n171 [label="IDENTIFIER:nt"];
+n170 -> n171
+n172 [label="INT:0"];
+n170 -> n172
+n163 -> n170
+n162 -> n163
+n173 [label="IF:"];
+n174 [label="MEMBER SELECTION FUNCTION CALL:"];
+n175 [label="THIS:this"];
+n174 -> n175
+n176 [label="IDENTIFIER:Compare"];
+n174 -> n176
+n177 [label="IDENTIFIER:num"];
+n174 -> n177
+n173 -> n174
+n178 [label="EQUAL:"];
+n179 [label="IDENTIFIER:var_cont"];
+n178 -> n179
+n180 [label="boolExpression:false"];
+n178 -> n180
+n173 -> n178
+n181 [label="EQUAL:"];
+n182 [label="IDENTIFIER:var_cont"];
+n181 -> n182
+n183 [label="boolExpression:true"];
+n181 -> n183
+n173 -> n181
+n162 -> n173
+n184 [label="IF:"];
+n185 [label="LESS:"];
+n186 [label="IDENTIFIER:num"];
+n185 -> n186
+n187 [label="IDENTIFIER:aux01"];
+n185 -> n187
+n184 -> n185
+n188 [label="EQUAL:"];
+n189 [label="IDENTIFIER:right"];
+n188 -> n189
+n190 [label="SUB:"];
+n191 [label="IDENTIFIER:medium"];
+n190 -> n191
+n192 [label="INT:1"];
+n190 -> n192
+n188 -> n190
+n184 -> n188
+n193 [label="EQUAL:"];
+n194 [label="IDENTIFIER:left"];
+n193 -> n194
+n195 [label="ADD:"];
+n196 [label="IDENTIFIER:medium"];
+n195 -> n196
+n197 [label="INT:1"];
+n195 -> n197
+n193 -> n195
+n184 -> n193
+n162 -> n184
+n198 [label="EQUAL:"];
+n199 [label="IDENTIFIER:aux01"];
+n198 -> n199
+n200 [label="ARRAY SUBSCRIPT:"];
+n201 [label="IDENTIFIER:number"];
+n200 -> n201
+n202 [label="IDENTIFIER:medium"];
+n200 -> n202
+n198 -> n200
+n162 -> n198
+n203 [label="EQUAL:"];
+n204 [label="IDENTIFIER:medium"];
+n203 -> n204
+n205 [label="MEMBER SELECTION FUNCTION CALL:"];
+n206 [label="THIS:this"];
+n205 -> n206
+n207 [label="IDENTIFIER:Div"];
+n205 -> n207
+n208 [label="IDENTIFIER:medium"];
+n205 -> n208
+n203 -> n205
+n162 -> n203
+n209 [label="EQUAL:"];
+n210 [label="IDENTIFIER:medium"];
+n209 -> n210
+n211 [label="ADD:"];
+n212 [label="IDENTIFIER:left"];
+n211 -> n212
+n213 [label="IDENTIFIER:right"];
+n211 -> n213
+n209 -> n211
+n162 -> n209
+n160 -> n162
+n148 -> n160
+n214 [label="EQUAL:"];
+n215 [label="IDENTIFIER:var_cont"];
+n214 -> n215
+n216 [label="boolExpression:true"];
+n214 -> n216
+n148 -> n214
+n217 [label="EQUAL:"];
+n218 [label="IDENTIFIER:left"];
+n217 -> n218
+n219 [label="INT:0"];
+n217 -> n219
+n148 -> n217
+n220 [label="EQUAL:"];
+n221 [label="IDENTIFIER:right"];
+n220 -> n221
+n222 [label="SUB:"];
+n223 [label="IDENTIFIER:right"];
+n222 -> n223
+n224 [label="INT:1"];
+n222 -> n224
+n220 -> n222
+n148 -> n220
+n225 [label="EQUAL:"];
+n226 [label="IDENTIFIER:right"];
+n225 -> n226
+n227 [label="MEMBER SELECTION LENGTH:"];
+n228 [label="IDENTIFIER:number"];
+n227 -> n228
+n225 -> n227
+n148 -> n225
+n229 [label="EQUAL:"];
+n230 [label="IDENTIFIER:bs01"];
+n229 -> n230
+n231 [label="boolExpression:false"];
+n229 -> n231
+n148 -> n229
+n232 [label="EQUAL:"];
+n233 [label="IDENTIFIER:aux01"];
+n232 -> n233
+n234 [label="INT:0"];
+n232 -> n234
+n148 -> n232
+n119 -> n148
+n235 [label="IDENTIFIER:bs01"];
+n119 -> n235
+n19 -> n119
+n236 [label="METHODDECLARATION:"];
+n237 [label="INT:"];
+n236 -> n237
+n238 [label="IDENTIFIER:Div"];
+n236 -> n238
+n239 [label="PARAMETERBODY:"];
+n240 [label="PARAMETER:"];
+n241 [label="INT:"];
+n240 -> n241
+n242 [label="IDENTIFIER:num"];
+n240 -> n242
+n239 -> n240
+n236 -> n239
+n243 [label="VARBODY:"];
+n244 [label="VARDECLARATION:"];
+n245 [label="INT:"];
+n244 -> n245
+n246 [label="IDENTIFIER:count01"];
+n244 -> n246
+n243 -> n244
+n247 [label="VARDECLARATION:"];
+n248 [label="INT:"];
+n247 -> n248
+n249 [label="IDENTIFIER:count02"];
+n247 -> n249
+n243 -> n247
+n250 [label="VARDECLARATION:"];
+n251 [label="INT:"];
+n250 -> n251
+n252 [label="IDENTIFIER:aux03"];
+n250 -> n252
+n243 -> n250
+n236 -> n243
+n253 [label="STATEMENTBODY:"];
+n254 [label="WHILE:"];
+n255 [label="LESS:"];
+n256 [label="IDENTIFIER:count02"];
+n255 -> n256
+n257 [label="IDENTIFIER:aux03"];
+n255 -> n257
+n254 -> n255
+n258 [label="STATEMENTBODY:"];
+n259 [label="EQUAL:"];
+n260 [label="IDENTIFIER:count02"];
+n259 -> n260
+n261 [label="ADD:"];
+n262 [label="IDENTIFIER:count02"];
+n261 -> n262
+n263 [label="INT:2"];
+n261 -> n263
+n259 -> n261
+n258 -> n259
+n264 [label="EQUAL:"];
+n265 [label="IDENTIFIER:count01"];
+n264 -> n265
+n266 [label="ADD:"];
+n267 [label="IDENTIFIER:count01"];
+n266 -> n267
+n268 [label="INT:1"];
+n266 -> n268
+n264 -> n266
+n258 -> n264
+n254 -> n258
+n253 -> n254
+n269 [label="EQUAL:"];
+n270 [label="IDENTIFIER:aux03"];
+n269 -> n270
+n271 [label="SUB:"];
+n272 [label="IDENTIFIER:num"];
+n271 -> n272
+n273 [label="INT:1"];
+n271 -> n273
+n269 -> n271
+n253 -> n269
+n274 [label="EQUAL:"];
+n275 [label="IDENTIFIER:count02"];
+n274 -> n275
+n276 [label="INT:0"];
+n274 -> n276
+n253 -> n274
+n277 [label="EQUAL:"];
+n278 [label="IDENTIFIER:count01"];
+n277 -> n278
+n279 [label="INT:0"];
+n277 -> n279
+n253 -> n277
+n236 -> n253
+n280 [label="IDENTIFIER:count01"];
+n236 -> n280
+n19 -> n236
+n281 [label="METHODDECLARATION:"];
+n282 [label="BOOL:"];
+n281 -> n282
+n283 [label="IDENTIFIER:Compare"];
+n281 -> n283
+n284 [label="PARAMETERBODY:"];
+n285 [label="PARAMETER:"];
+n286 [label="INT:"];
+n285 -> n286
+n287 [label="IDENTIFIER:num1"];
+n285 -> n287
+n284 -> n285
+n288 [label="PARAMETER:"];
+n289 [label="INT:"];
+n288 -> n289
+n290 [label="IDENTIFIER:num2"];
+n288 -> n290
+n284 -> n288
+n281 -> n284
+n291 [label="VARBODY:"];
+n292 [label="VARDECLARATION:"];
+n293 [label="BOOL:"];
+n292 -> n293
+n294 [label="IDENTIFIER:retval"];
+n292 -> n294
+n291 -> n292
+n295 [label="VARDECLARATION:"];
+n296 [label="INT:"];
+n295 -> n296
+n297 [label="IDENTIFIER:aux02"];
+n295 -> n297
+n291 -> n295
+n281 -> n291
+n298 [label="STATEMENTBODY:"];
+n299 [label="IF:"];
+n300 [label="LESS:"];
+n301 [label="IDENTIFIER:num1"];
+n300 -> n301
+n302 [label="IDENTIFIER:num2"];
+n300 -> n302
+n299 -> n300
+n303 [label="EQUAL:"];
+n304 [label="IDENTIFIER:retval"];
+n303 -> n304
+n305 [label="boolExpression:false"];
+n303 -> n305
+n299 -> n303
+n306 [label="IF:"];
+n307 [label="NEGATION:"];
+n308 [label="PARENTHESES:"];
+n309 [label="LESS:"];
+n310 [label="IDENTIFIER:num1"];
+n309 -> n310
+n311 [label="IDENTIFIER:aux02"];
+n309 -> n311
+n308 -> n309
+n307 -> n308
+n306 -> n307
+n312 [label="EQUAL:"];
+n313 [label="IDENTIFIER:retval"];
+n312 -> n313
+n314 [label="boolExpression:false"];
+n312 -> n314
+n306 -> n312
+n315 [label="EQUAL:"];
+n316 [label="IDENTIFIER:retval"];
+n315 -> n316
+n317 [label="boolExpression:true"];
+n315 -> n317
+n306 -> n315
+n299 -> n306
+n298 -> n299
+n318 [label="EQUAL:"];
+n319 [label="IDENTIFIER:aux02"];
+n318 -> n319
+n320 [label="ADD:"];
+n321 [label="IDENTIFIER:num2"];
+n320 -> n321
+n322 [label="INT:1"];
+n320 -> n322
+n318 -> n320
+n298 -> n318
+n323 [label="EQUAL:"];
+n324 [label="IDENTIFIER:retval"];
+n323 -> n324
+n325 [label="boolExpression:false"];
+n323 -> n325
+n298 -> n323
+n281 -> n298
+n326 [label="IDENTIFIER:retval"];
+n281 -> n326
+n19 -> n281
+n327 [label="METHODDECLARATION:"];
+n328 [label="INT:"];
+n327 -> n328
+n329 [label="IDENTIFIER:Print"];
+n327 -> n329
+n330 [label="VARBODY:"];
+n331 [label="VARDECLARATION:"];
+n332 [label="INT:"];
+n331 -> n332
+n333 [label="IDENTIFIER:j"];
+n331 -> n333
+n330 -> n331
+n327 -> n330
+n334 [label="STATEMENTBODY:"];
+n335 [label="SYSTEMOUTPRINT:"];
+n336 [label="INT:99999"];
+n335 -> n336
+n334 -> n335
+n337 [label="WHILE:"];
+n338 [label="LESS:"];
+n339 [label="IDENTIFIER:j"];
+n338 -> n339
+n340 [label="PARENTHESES:"];
+n341 [label="IDENTIFIER:size"];
+n340 -> n341
+n338 -> n340
+n337 -> n338
+n342 [label="STATEMENTBODY:"];
+n343 [label="EQUAL:"];
+n344 [label="IDENTIFIER:j"];
+n343 -> n344
+n345 [label="ADD:"];
+n346 [label="IDENTIFIER:j"];
+n345 -> n346
+n347 [label="INT:1"];
+n345 -> n347
+n343 -> n345
+n342 -> n343
+n348 [label="SYSTEMOUTPRINT:"];
+n349 [label="ARRAY SUBSCRIPT:"];
+n350 [label="IDENTIFIER:number"];
+n349 -> n350
+n351 [label="IDENTIFIER:j"];
+n349 -> n351
+n348 -> n349
+n342 -> n348
+n337 -> n342
+n334 -> n337
+n352 [label="EQUAL:"];
+n353 [label="IDENTIFIER:j"];
+n352 -> n353
+n354 [label="INT:1"];
+n352 -> n354
+n334 -> n352
+n327 -> n334
+n355 [label="INT:0"];
+n327 -> n355
+n19 -> n327
+n356 [label="METHODDECLARATION:"];
+n357 [label="INT:"];
+n356 -> n357
+n358 [label="IDENTIFIER:Init"];
+n356 -> n358
+n359 [label="PARAMETERBODY:"];
+n360 [label="PARAMETER:"];
+n361 [label="INT:"];
+n360 -> n361
+n362 [label="IDENTIFIER:sz"];
+n360 -> n362
+n359 -> n360
+n356 -> n359
+n363 [label="VARBODY:"];
+n364 [label="VARDECLARATION:"];
+n365 [label="INT:"];
+n364 -> n365
+n366 [label="IDENTIFIER:j"];
+n364 -> n366
+n363 -> n364
+n367 [label="VARDECLARATION:"];
+n368 [label="INT:"];
+n367 -> n368
+n369 [label="IDENTIFIER:k"];
+n367 -> n369
+n363 -> n367
+n370 [label="VARDECLARATION:"];
+n371 [label="INT:"];
+n370 -> n371
+n372 [label="IDENTIFIER:aux02"];
+n370 -> n372
+n363 -> n370
+n373 [label="VARDECLARATION:"];
+n374 [label="INT:"];
+n373 -> n374
+n375 [label="IDENTIFIER:aux01"];
+n373 -> n375
+n363 -> n373
+n356 -> n363
+n376 [label="STATEMENTBODY:"];
+n377 [label="WHILE:"];
+n378 [label="LESS:"];
+n379 [label="IDENTIFIER:j"];
+n378 -> n379
+n380 [label="PARENTHESES:"];
+n381 [label="IDENTIFIER:size"];
+n380 -> n381
+n378 -> n380
+n377 -> n378
+n382 [label="STATEMENTBODY:"];
+n383 [label="EQUAL:"];
+n384 [label="IDENTIFIER:k"];
+n383 -> n384
+n385 [label="SUB:"];
+n386 [label="IDENTIFIER:k"];
+n385 -> n386
+n387 [label="INT:1"];
+n385 -> n387
+n383 -> n385
+n382 -> n383
+n388 [label="EQUAL:"];
+n389 [label="IDENTIFIER:j"];
+n388 -> n389
+n390 [label="ADD:"];
+n391 [label="IDENTIFIER:j"];
+n390 -> n391
+n392 [label="INT:1"];
+n390 -> n392
+n388 -> n390
+n382 -> n388
+n393 [label="INDEX EQUAL TO:"];
+n394 [label="IDENTIFIER:number"];
+n393 -> n394
+n395 [label="IDENTIFIER:j"];
+n393 -> n395
+n396 [label="ADD:"];
+n397 [label="IDENTIFIER:aux01"];
+n396 -> n397
+n398 [label="IDENTIFIER:aux02"];
+n396 -> n398
+n393 -> n396
+n382 -> n393
+n399 [label="EQUAL:"];
+n400 [label="IDENTIFIER:aux02"];
+n399 -> n400
+n401 [label="SUB:"];
+n402 [label="IDENTIFIER:k"];
+n401 -> n402
+n403 [label="INT:3"];
+n401 -> n403
+n399 -> n401
+n382 -> n399
+n404 [label="EQUAL:"];
+n405 [label="IDENTIFIER:aux01"];
+n404 -> n405
+n406 [label="MUL:"];
+n407 [label="INT:2"];
+n406 -> n407
+n408 [label="IDENTIFIER:j"];
+n406 -> n408
+n404 -> n406
+n382 -> n404
+n377 -> n382
+n376 -> n377
+n409 [label="EQUAL:"];
+n410 [label="IDENTIFIER:k"];
+n409 -> n410
+n411 [label="ADD:"];
+n412 [label="IDENTIFIER:size"];
+n411 -> n412
+n413 [label="INT:1"];
+n411 -> n413
+n409 -> n411
+n376 -> n409
+n414 [label="EQUAL:"];
+n415 [label="IDENTIFIER:j"];
+n414 -> n415
+n416 [label="INT:1"];
+n414 -> n416
+n376 -> n414
+n417 [label="EQUAL:"];
+n418 [label="IDENTIFIER:number"];
+n417 -> n418
+n419 [label="NEW ARRAY SUBSCRIPT:"];
+n420 [label="IDENTIFIER:sz"];
+n419 -> n420
+n417 -> n419
+n376 -> n417
+n421 [label="EQUAL:"];
+n422 [label="IDENTIFIER:size"];
+n421 -> n422
+n423 [label="IDENTIFIER:sz"];
+n421 -> n423
+n376 -> n421
+n356 -> n376
+n424 [label="INT:0"];
+n356 -> n424
+n19 -> n356
+n10 -> n19
 n9 -> n10
 n0 -> n9
 }
