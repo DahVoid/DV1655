@@ -37,7 +37,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
             symboltable->current = symboltable->current->parentScope;
           }
           scope_depth = 0;
-          cout << scope_depth << "\n";
+          // cout << scope_depth << "\n";
           symboltable->current = symboltable->current->next_Child();
         }
 
@@ -79,7 +79,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
         //INT HANDLING begins here
         if (child->type == "ADD" || child->type == "SUB" || child->type == "MUL" || child->type == "DIV" || child->type == "LESS" || child->type == "MORE")
         {
-          cout << "INT HANDLING HAS BEGUN\n";
+          // cout << "INT HANDLING HAS BEGUN\n";
           Node* node_1 = child->children.front();
           Node* node_2 = child->children.back();
           // cout << "1\n";
@@ -136,7 +136,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
         //TYPE CHECKING begins here
         if (child->type == "EQUAL")
         {
-          cout << "TYPE CHECKING HAS BEGUN\n";
+          // cout << "TYPE CHECKING HAS BEGUN\n";
           Node* node_1 = child->children.front();
           Node* node_2 = child->children.back();
           Record* node_1_rec;
@@ -218,7 +218,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
             }
             else
             {
-              cout << "A NON ARRAY VARIABLE DOES NOT HAVE A LENGTH\n";
+              cout << "SEMANTIC ERROR: A NON ARRAY VARIABLE DOES NOT HAVE A LENGTH\n";
               // return 0;
             }
           }
@@ -266,7 +266,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
                 child_rec = symboltable->lookup(child->value);
                 if (child_rec->type != "INT ARRAY")
                 {
-                  cout << "CANNOT INDEX A NON ARRAY VARIABLE\n";
+                  cout << "SEMANTIC ERROR: CANNOT INDEX A NON ARRAY VARIABLE\n";
                   // return 0;
                 }
               }
@@ -276,7 +276,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
                 child_rec = symboltable->lookup(child->value);
                 if(child_rec->type != "INT")
                 {
-                  cout << "CANNOT INDEX AN A ARRAY WITH A NON INT VARIABLE\n";
+                  cout << "SEMANTIC ERROR: CANNOT INDEX AN A ARRAY WITH A NON INT VARIABLE\n";
                   // return 0;
                 }
                 break;
@@ -302,7 +302,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
                 child_rec = symboltable->lookup(child->value);
                 if (child_rec->type != "INT")
                 {
-                  cout << "CANNOT CREATE A NEW ARRAY WITH A NON INT SIZE\n";
+                  cout << "SEMANTIC ERROR: CANNOT CREATE A NEW ARRAY WITH A NON INT SIZE\n";
                 }
                 break;
               }

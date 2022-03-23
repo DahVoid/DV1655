@@ -23,7 +23,7 @@ class Record
     {
         id = id_in;
         type = type_in;
-        cout << "contructed: " << type << "  " << id << endl;
+        // cout << "contructed: " << type << "  " << id << endl;
     }
 
     Record()
@@ -32,7 +32,7 @@ class Record
 
     void printRecord()
     {
-      cout << "id: " << id << "\n" << "type: " <<  type << "\n";
+      // cout << "id: " << id << "\n" << "type: " <<  type << "\n";
     }
 
     string getclass()
@@ -124,12 +124,12 @@ class Class: public Container
 
   void addMethod(string met_id, Method* new_met)
   {
-    cout << met_id << "\n";
-    cout << new_met->id << "  " << new_met->type <<  "\n";
+    // cout << met_id << "\n";
+    // cout << new_met->id << "  " << new_met->type <<  "\n";
     // Method* new_met = new Method(met_id, "Method");
-    cout << "2\n";
+    // cout << "2\n";
     methods.insert(pair<string ,Method*>(met_id, new_met));
-    cout << "3\n";
+    // cout << "3\n";
   }
 
   // Variable lookupVariable(string Key)
@@ -147,10 +147,10 @@ class Class: public Container
 
   Method* lookupMethod(string Key)
   {
-    cout << "i got here \n";
+    // cout << "i got here \n";
     if(methods.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
     {
-      cout << "FOUND KEY: " << Key << "\n";
+      // cout << "FOUND KEY: " << Key << "\n";
       return methods.at(Key);
     }
     else
@@ -169,15 +169,17 @@ class Scope
     // list<Scope> childrenScopes; //children scopes
     map<string, Record*> records; //symbol to record map
     map<string, Record*>::iterator it;
+    bool isroot;
 
     Scope(Scope* parentScope_in)
     {
       parentScope = parentScope_in;
+      isroot = false;
     }
 
     Scope()
     {
-
+      isroot = true;
     }
 
     void put(string Key, Record* record)
@@ -195,7 +197,7 @@ class Scope
 
     Record* lookup(string Key)
     {
-      cout << "Looking for key: " << Key << "\n";
+      // cout << "Looking for key: " << Key << "\n";
 
       // Record current_record;
       // Method current_method;
@@ -214,23 +216,38 @@ class Scope
 
       if(records.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
       {
-        cout << "FOUND KEY! \n";
+        // cout << "FOUND KEY! \n";
         Record* retval = records.at(Key);
         return retval;
       }
 
       else
       {
-        if (current())
+        // cout << " 1\n";
+        // if (this->childrenScopes.size() > 0)
+        // {
+        //   Scope* root_check;
+        //   root_check = this->childrenScopes.front();
+        //   // map<string, Record*> root_records = this->childrenScopes.front()->records;
+        //   cout << " 2\n";
+        //   if (root_check->records.count("main") >= 1)
+        //   {
+        //     cout << "No key found :,( \n";
+        //     Record *temp_retval = new Record("Notfound", "Notfound");
+        //     return temp_retval;
+        //   }
+        // }
+
+        if (this->isroot == true)
         {
-          cout << "No key found :,( \n";
           Record *temp_retval = new Record("Notfound", "Notfound");
           return temp_retval;
         }
 
         else
         {
-          cout << "did not find key in scope! \n";
+          // cout << "2\n";
+          // cout << "did not find key in scope! \n";
           Record* retval = parentScope->lookup(Key);
           return retval; // delegate the request to the parent scope
         }
@@ -310,11 +327,11 @@ class SymbolTable
 
     SymbolTable()
     {
-      cout << "creating: scope\n";
-      cout << "set scope to current \n";
+      // cout << "creating: scope\n";
+      // cout << "set scope to current \n";
       Scope *root = new Scope();
       current = root;
-      cout << "constructor done \n";
+      // cout << "constructor done \n";
     }
 
     // void enterScope()
@@ -400,7 +417,7 @@ class SymbolTable
       exitScope();
       //_>_>_>_>_>_>_>_>_>_>_>_> Classbody <_<_<_<_<_<_<_<_<_<_<_<_<_<_
       Node* class_body = root->children.back();
-      cout << class_body->value;
+      // cout << class_body->value;
       classbody(class_body);
       return;
     }
@@ -457,10 +474,10 @@ class SymbolTable
       // Class* child_rec;
       map<string, Method*>::iterator i;
 
-      for (i = class_rec->methods.begin(); i != class_rec->methods.end(); i++)
-      {
-        cout << i->first <<"\n";
-      }
+      // for (i = class_rec->methods.begin(); i != class_rec->methods.end(); i++)
+      // {
+      //   cout << i->first <<"\n";
+      // }
       // cout << "First method name: " <<class_rec->methods.front().first() << "\n";
       this->exitScope();
 
@@ -469,7 +486,9 @@ class SymbolTable
 
       if (temp->id != "Notfound")
       {
+        cout << "\n\n\n\n\n\n\n";
         cout << "DUPLICATE VARIABLE\n";
+        cout << "\n\n\n\n\n\n\n";
       }
 
       this->put(class_rec->id, class_rec);
@@ -551,7 +570,7 @@ class SymbolTable
       }
       this->exitScope();
       // class_rec->addMethod(name, method_rec);
-      cout << name << "  "<< method_rec->id << "  " << method_rec->type <<  "\n";
+      // cout << name << "  "<< method_rec->id << "  " << method_rec->type <<  "\n";
       class_rec->methods.insert(pair<string, Method*>(name, method_rec));
       // cout << "2\n";
       this->put(name, method_rec);
@@ -597,7 +616,7 @@ class SymbolTable
 
         string type = grandchild1->type;
         string name = grandchild2->value;
-        cout << "type : " << type << "   name: " << name << "\n";
+        // cout << "type : " << type << "   name: " << name << "\n";
         Variable *new_var = new Variable(name, type);
         //Lägg till variabel i current scope (Kolla alla children)
         Record* temp;
@@ -615,9 +634,9 @@ class SymbolTable
 
 SymbolTable* symbol_table(Node* root) // BYT NAMN?
 {
-  cout << "creating symboltable\n";
+  // cout << "creating symboltable\n";
   SymbolTable* symboltable = new SymbolTable();
-  cout << "starting symboltable\n";
+  // cout << "starting symboltable\n";
   symboltable->start(root);
   // symboltable->printTable();
   // map<string, Record>::iterator it;
