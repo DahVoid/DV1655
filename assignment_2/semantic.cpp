@@ -676,10 +676,15 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
                 cout << "SEMANTIC ERROR: Index is not of type int." << endl;
                 // TODO: exit
               }
-            } else if (counter == 2 && (child->type == "ADD" || child->type == "SUB" || child->type == "MUL" || child->type == "DIV"))
+            }
+            
+            if (counter == 2 && (child->type == "ADD" || child->type == "SUB" || child->type == "MUL" || child->type == "DIV"))
             {
               // I assume ints ;)
               break;
+            } else 
+            {
+              // TODO: exit
             }
             counter++;
           }
