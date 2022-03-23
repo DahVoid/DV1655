@@ -466,28 +466,60 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           //CHECK RETURN TYPE ENDS HERE
         }
 
-        if (child->type == "SYSTEMOUTPRINT")
-        {
-
-        }
-
         if (child->type == "ARRAY SUBSCRIPT")
         {
+          // Kolla så att child är array
+          Node* node_1 = child->children.front();
+          Node* node_2 = child->children.back();
+          
+          // check so node_1 is of type array 
+          Record *node_1_rec = symboltable->lookup(node_1-> value);
+          if(node_1_rec -> type == "INT ARRAY")
+          {
 
+          } else
+          {
+            // TODO: return på bra sätt
+            cout << "SEMANTIC ERROR: Must be int array."
+            // return -1;
+          }
+
+          // check node_2 is int
+          Record *node_2_rec = symboltable->lookup(node_2-> value);
+          if(node_2_rec -> type == "INT")
+          {
+
+          } else
+          {
+            // TODO: return på bra sätt
+            cout << "SEMANTIC ERROR: index must be of type int."
+            // return -1;
+          }
+          
         }
 
-        if (child->type == "NEW ARRAY SUBSCRIPT")
-        {
-
-        }
 
         if (child->type == "MEMBER SELECTION")
         {
-
+          // hoozter
         }
 
         if (child->type == "MEMBER SELECTION LENGTH")
         {
+          // Kolla så att child är array
+          Node* node_1 = child->children.front();
+          
+          // check so node_1 is of type array 
+          Record *node_1_rec = symboltable->lookup(node_1-> value);
+          if(node_1_rec -> type == "INT ARRAY")
+          {
+
+          } else
+          {
+            // TODO: return på bra sätt
+            cout << "SEMANTIC ERROR: Must be int array."
+            // return -1;
+          }
 
         }
 
@@ -501,6 +533,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           
           if(node_1->type == "IDENTIFIER" || node_1->type == "LESS" || node_1->type == "MORE" || node_1->type == "COMPARE" || node_1->type == "boolExpression" || node_1->type == "NEGATION")
           {
+            // kör lookup på identifier på grandkids 
 
           } else
           {
@@ -596,7 +629,60 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
 
         if (child->type == "INDEX EQUAL TO")
         {
+          // kollaifall array är fine for
+          // anta att höger sida matte är int 
+          // är de inte matte kolla int 
+          counter = 0;
+          for (auto j = node_1->children.begin(); j != node_1->children.end(); j++)
+          {
+            child = *j;
+            if(child->type == "IDENTIFIER" && counter == 0)
+            {
+              Record *node_j_rec = symboltable->lookup(child->value);
+              if(node_j_rec -> type == "INT ARRAY")
+              {
+                break;
+              }
+              else
+              {
+                cout << "SEMANTIC ERROR: is not of type int array." << endl;
+                // TODO: exit
+              }
+            }
 
+            if(child->type == "IDENTIFIER" && counter == 1)
+            {
+              Record *node_j_rec = symboltable->lookup(child->value);
+              if(node_j_rec -> type == "INT")
+              {
+                break;
+              }
+              else
+              {
+                cout << "SEMANTIC ERROR: Index is not of type int." << endl;
+                // TODO: exit
+              }
+            }
+            
+            if (child->type == "IDENTIFIER" && counter == 2)
+            { 
+              Record *node_j_rec = symboltable->lookup(child->value);
+              if(node_j_rec -> type == "INT")
+              {
+                break;
+              }
+              else
+              {
+                cout << "SEMANTIC ERROR: Index is not of type int." << endl;
+                // TODO: exit
+              }
+            } else if (counter == 2 && (child->type == "ADD" || child->type == "SUB" || child->type == "MUL" || child->type == "DIV"))
+            {
+              // I assume ints ;)
+              break;
+            }
+            counter++;
+          }
         }
 
         if (child->type == "OR" || child->type == "AND" || child->type == "COMPARE")
