@@ -12,7 +12,7 @@ class Fac {
 	if (num < 1) {
 		// boolean a; int b; b = b*a; if(a && b)
 	    num_aux = 1 ;
-		boolean a;
+		boolean a = true ;
 		num_aux = num_aux*a; 
 		if(a && b)
 			num_aux = 2;

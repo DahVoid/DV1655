@@ -18,10 +18,10 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
     for (auto i = root->children.begin(); i != root->children.end(); i++)
     {
       //SCOPE HANDLING STARTS HERE
-        for(int i=0; i<depth; i++)
-        cout << "    ";
+        // for(int i=0; i<depth; i++)
+        // cout << "    ";
         child = *i;
-        cout << "Type: " <<  child->type << "   Value: " << child->value << "\n";
+        // cout << "Type: " <<  child->type << "   Value: " << child->value << "\n";
 
 
         if(child->type == "MAINCLASS")
@@ -45,15 +45,19 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
         {
           if (scope_depth == -1)
           {
+            // cout << "1\n";
             symboltable->current = symboltable->current->parentScope;
+            // cout << "2\n";
           }
 
           else
           {
+            // cout << "3\n";
             scope_depth = -1;
           }
 
           symboltable->current = symboltable->current->next_Child();
+          // cout << "4\n";
         }
         //SCOPE HANDLING ENDS HERE
 
@@ -62,7 +66,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
 
         if (child->type == "STATEMENTBODY")
         {
-          cout << "\nSTATEMENTBODY\n\n";
+          // cout << "\nSTATEMENTBODY\n\n";
         }
 
         //SEMANTIC ANALYSIS STARTS HERE
@@ -87,6 +91,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           Record* node_2_rec;
           string node_1_type;
           string node_2_type;
+          Method* membertype;
 
           if (node_1->type == "IDENTIFIER")
           {
@@ -105,6 +110,24 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
             node_2_type = node_2_rec->type;
             // cout << "node_2_type =  " << node_2_type << "\n";
             // node_2_rec.printRecord();
+          }
+
+          if (node_2->type == "MEMBER SELECTION FUNCTION CALL")
+          {
+            Node* child_member;
+
+            int counter = 0;
+            for (auto p = node_2->children.begin(); p != node_2->children.end(); p++)
+            {
+              child_member = *p;
+              if (counter == 1)
+              {
+                membertype = (Method*)symboltable->lookup(child_member->value);
+                node_2_type = membertype->type;
+                break;
+              }
+              counter ++;
+            }
           }
           // cout << "3\n";
           if (node_1->type == "INT")
@@ -345,6 +368,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           int counter = 0;
           Class* child_rec;
           Class* child_2_rec;
+          Class* child_3_rec;
 
           int parameter_counter = 0;
           //Check number of parameters begins here
@@ -384,7 +408,12 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
 
               else
               {
+                // cout << "3\n";
+                child_3_rec = (Class*)symboltable->lookup(child_rec->id);
+                // cout << child_3_rec->id << " " << child_3_rec->type << " " << "\n";
+                // cout << child->value << "\n";
               node_method_rec = child_rec->lookupMethod(child->value);
+                // cout << "4\n";
               }
               // cout << "2\n";
               // node_method_rec = symboltable->lookup(child->value);
@@ -422,7 +451,15 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
                   // cout << child->type << "\n";
                   // cout << child_para.second->type << "   " << child_2->type << "\n";
                   // cout << "5.1\n";
-                  if (child_para.second->type != child_2->type)
+                  Record* child_rec;
+                  string child_type = child_2->type;
+                  if (child_2->type == "IDENTIFIER")
+                  {
+                    child_rec = symboltable->lookup(child_2->value);
+                    child_type = child_rec->type;
+                  }
+
+                  if (child_para.second->type != child_type)
                   {
                     // cout << "6\n";
                     cout << "SEMANTIC ERROR: WRONG PARAMETER TYPE\n";
@@ -460,16 +497,19 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           // Kolla så att child är array
           Node* node_1 = child->children.front();
           Node* node_2 = child->children.back();
-          
-          // check so node_1 is of type array 
+
+          // check so node_1 is of type array
           Record *node_1_rec = symboltable->lookup(node_1-> value);
+
           if(node_1_rec -> type == "INT ARRAY")
           {
 
-          } else
+          }
+
+          else
           {
             // TODO: return på bra sätt
-            cout << "SEMANTIC ERROR: Must be int array."
+            cout << "SEMANTIC ERROR: Must be int array.\n";
             // return -1;
           }
 
@@ -478,15 +518,15 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           if(node_2_rec -> type == "INT")
           {
 
-          } else
+          }
+
+          else
           {
             // TODO: return på bra sätt
-            cout << "SEMANTIC ERROR: index must be of type int."
+            cout << "SEMANTIC ERROR: index must be of type int.\n";
             // return -1;
           }
-          
         }
-
 
         if (child->type == "MEMBER SELECTION")
         {
@@ -497,16 +537,16 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
         {
           // Kolla så att child är array
           Node* node_1 = child->children.front();
-          
-          // check so node_1 is of type array 
+
+          // check so node_1 is of type array
           Record *node_1_rec = symboltable->lookup(node_1-> value);
-          if(node_1_rec -> type == "INT ARRAY")
+          if(node_1_rec->type == "INT ARRAY")
           {
 
           } else
           {
             // TODO: return på bra sätt
-            cout << "SEMANTIC ERROR: Must be int array."
+            cout << "SEMANTIC ERROR: Must be int array.\n";
             // return -1;
           }
 
@@ -518,11 +558,11 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           // Kiddos
           Node* node_1 = child->children.front();
           //  check if a boolean statement
-          
-          
+
+
           if(node_1->type == "IDENTIFIER" || node_1->type == "LESS" || node_1->type == "MORE" || node_1->type == "COMPARE" || node_1->type == "boolExpression" || node_1->type == "NEGATION")
           {
-            // kör lookup på identifier på grandkids 
+            // kör lookup på identifier på grandkids
 
           } else
           {
@@ -538,11 +578,11 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           Node* node_1 = child->children.front();
           if(node_1->type == "LESS" || node_1->type == "MORE" || node_1->type == "COMPARE" || node_1->type == "boolExpression"  || node_1->type == "NEGATION")
           {
-            cout << "I validated IF" << endl;
+            // cout << "I validated IF" << endl;
           }
           else
           {
-            if(node_1->type == "MEMBER SELECTION FUNCTION CALL") 
+            if(node_1->type == "MEMBER SELECTION FUNCTION CALL")
             {
               Node* child;
               // to lookup on function to get type
@@ -554,7 +594,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
                   Record *node_j_rec = symboltable->lookup(child->value);
                   if(node_j_rec -> type == "BOOL")
                   {
-                    cout << "I validated IF" << endl;
+                    // cout << "I validated IF" << endl;
                     break;
                   }
                   else
@@ -570,7 +610,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
               cout << "SEMANTIC ERROR: A boolean expression is required for IF statement." << endl;
               // TODO: exit
             }
-            
+
 
           }
 
@@ -579,19 +619,19 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
       if (child->type == "NEGATION")
       {
           Node* node_1 = child->children.front();
-          
+
           // Negatable expressions
           if(node_1->type == "PARENTHESES" || node_1->type == "boolExpression")
           {
-            cout << "NEGATED BOOL OR PARENTHESES" << endl;
+            // cout << "NEGATED BOOL OR PARENTHESES" << endl;
           }
           else
           {
             Record *node_1_rec = symboltable->lookup(node_1->value);
             if(node_1_rec -> type == "BOOL")
             {
-              cout << "NEGATED BOOL VARIABLE" << endl;
-            }           
+              // cout << "NEGATED BOOL VARIABLE" << endl;
+            }
             else
             {
               cout << "SEMANTIC ERROR: The expression is not negateable" << endl;
@@ -619,9 +659,10 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
         if (child->type == "INDEX EQUAL TO")
         {
           // kollaifall array är fine for
-          // anta att höger sida matte är int 
-          // är de inte matte kolla int 
-          counter = 0;
+          // anta att höger sida matte är int
+          // är de inte matte kolla int
+          Node *node_1 = child->children.front();
+          int counter = 0;
           for (auto j = node_1->children.begin(); j != node_1->children.end(); j++)
           {
             child = *j;
@@ -652,9 +693,9 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
                 // TODO: exit
               }
             }
-            
+
             if (child->type == "IDENTIFIER" && counter == 2)
-            { 
+            {
               Record *node_j_rec = symboltable->lookup(child->value);
               if(node_j_rec -> type == "INT")
               {
@@ -666,12 +707,12 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
                 // TODO: exit
               }
             }
-            
+
             if (counter == 2 && (child->type == "ADD" || child->type == "SUB" || child->type == "MUL" || child->type == "DIV"))
             {
               // I assume ints ;)
               break;
-            } else 
+            } else
             {
               // TODO: exit
             }

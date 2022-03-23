@@ -78,8 +78,8 @@ type: INT LB RB {$$ = new Node("INT ARRAY", "");
                           }
     | INT {$$ = new Node("INT", "");
                           }
-    | identifier {$$ = new Node("OBJECT", "");
-                          $$->children.push_back($1);
+    | identifier {$$ = $1;
+
                           }
 
 statement: LCB statement_rep RCB {

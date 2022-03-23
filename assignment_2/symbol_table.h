@@ -148,15 +148,22 @@ class Class: public Container
   Method* lookupMethod(string Key)
   {
     // cout << "i got here \n";
+    // cout << Key << "\n";
+    int a = methods.count(Key);
+    // cout << a << "\n";
     if(methods.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
     {
       // cout << "FOUND KEY: " << Key << "\n";
       return methods.at(Key);
     }
+
     else
     {
+      cout << "SEMANTIC FAULT: METHOD IS NOT DEFINED\n";
+      exit(-1);
         // do nooooothing
     }
+    // cout << "also here\n";
   }
 };
 
@@ -190,7 +197,7 @@ class Scope
 
     Scope* next_Child()
     {
-      cout << "NEW SCOPE\n\n";
+      // cout << "NEW SCOPE\n\n";
       next++;
       return childrenScopes[next];
     }
@@ -304,7 +311,7 @@ class Scope
 
     void printScope() //Kommer behöva göras om
     {
-      cout << "\nnew scope!\n";
+      // cout << "\nnew scope!\n";
       map<string, Record*>::iterator it;
       for (it = records.begin(); it != records.end(); it++)
       {
@@ -573,6 +580,12 @@ class SymbolTable
       // cout << name << "  "<< method_rec->id << "  " << method_rec->type <<  "\n";
       class_rec->methods.insert(pair<string, Method*>(name, method_rec));
       // cout << "2\n";
+      Record* temp;
+      temp = this->lookup(name);
+      if (temp->id != "Notfound")
+      {
+        cout << "DUPLICATE VARIABLE\n";
+      }
       this->put(name, method_rec);
       return;
     }

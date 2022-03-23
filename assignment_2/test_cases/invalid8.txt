@@ -11,7 +11,7 @@ class Fac {
 	int num_aux ;
 	// int a[]; boolean b; a[b]
 	int a[];
-	boolean b;
+	boolean b = true;
 	if (a[b] < 1)
 	    num_aux = 1 ;
 	else 
