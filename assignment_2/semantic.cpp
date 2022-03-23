@@ -11,42 +11,6 @@
 
 using namespace std;
 
-int expression()
-{
-
-  return 0;
-}
-
-int statement()
-{
-
-  return 0;
-}
-
-int method_dec()
-{
-
-  return 0;
-}
-
-int method_call()
-{
-
-  return 0;
-}
-
-int array_check()
-{
-
-  return 0;
-}
-
-// int scope_handling()
-// {
-//
-//   return 0;
-// }
-
 int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int depth=0)
 {
     Node* child;
@@ -93,6 +57,8 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
         }
         //SCOPE HANDLING ENDS HERE
 
+        //Check duplicates
+        // if (child->type == )
 
         if (child->type == "STATEMENTBODY")
         {
@@ -203,6 +169,13 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
 
           if (node_2->type == "ARRAY SUBSCRIPT")
           {
+            //**!*!**!*!**!*!**!*!**!*!**!*!**!!!!!!!!!!!!!***********************!!!!!!!!!!!*!*!**!!!!!!!!!!!!***
+            //GLÖM INTE
+            //**!*!**!*!**!*!**!*!**!*!**!*!**!!!!!!!!!!!!!***********************!!!!!!!!!!!*!*!**!!!!!!!!!!!!***
+          }
+
+          if (node_2->type == "NEW ARRAY SUBSCRIPT")
+          {
 
           }
 
@@ -231,9 +204,9 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
 
           if(node_2->type == "MEMBER SELECTION LENGTH")
           {
-            cout << "\n\n\n\n\n";
-            cout << "MEMBER SELECTION LENGTH\n";
-            cout << "\n\n\n\n\n";
+            // cout << "\n\n\n\n\n";
+            // cout << "MEMBER SELECTION LENGTH\n";
+            // cout << "\n\n\n\n\n";
 
             Node* child_2 = *node_2->children.begin();
             Record* child_rec;
@@ -343,8 +316,8 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           {
             node_2_type = "INT";
           }
-          cout << "node_1_type: " << node_1_type << "\n";
-          cout << "node_2_type: " << node_2_type << "\n";
+          // cout << "node_1_type: " << node_1_type << "\n";
+          // cout << "node_2_type: " << node_2_type << "\n";
           if (node_1_type != node_2_type)
           {
             cout << "SEMANTIC ERROR: Equal expressions must be between two identifiers of the same type\n";
@@ -357,9 +330,9 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
 
         if (child->type == "MEMBER SELECTION FUNCTION CALL")
         {
-          cout << "\n\n\n\n\n\n\n\n\n\n";
-          cout << "MEMBER SELECTION FUNCTION CALL\n";
-          cout << "\n\n\n\n\n\n\n\n\n\n";
+          // cout << "\n\n\n\n\n\n\n\n\n\n";
+          // cout << "MEMBER SELECTION FUNCTION CALL\n";
+          // cout << "\n\n\n\n\n\n\n\n\n\n";
 
           Method* node_method_rec;
           Record* node_parameter_rec;
@@ -371,6 +344,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
           Node* child_2;
           int counter = 0;
           Class* child_rec;
+          Class* child_2_rec;
 
           int parameter_counter = 0;
           //Check number of parameters begins here
@@ -383,7 +357,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
               parameter_counter++;
             }
           }
-          cout << "Number of parameters: " << parameter_counter << "\n";
+          // cout << "Number of parameters: " << parameter_counter << "\n";
           //Check number of parameters ends here
 
           for (auto j = child->children.begin(); j != child->children.end(); j++)
@@ -392,22 +366,32 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
             if(counter == 0)
             {
               //Check if "THIS" exists in scope
-              cout << "1\n";
+              // cout << "1\n";
               child_rec = (Class*)symboltable->lookup(child->value);
-              cout << "2\n";
+              // cout << "2\n";
             }
 
             if(counter == 1)
             {
               //Check if method exists in scope
               // cout << "1\n";
+              if (child_rec->id == "this")
+              {
+                // cout << "JAG HITTA EN THIS\n";
+                child_2_rec = (Class*)symboltable->lookup(child_rec->type);
+                node_method_rec = child_2_rec->lookupMethod(child->value);
+              }
+
+              else
+              {
               node_method_rec = child_rec->lookupMethod(child->value);
+              }
               // cout << "2\n";
               // node_method_rec = symboltable->lookup(child->value);
-              cout << node_method_rec->id << "\n";
-              cout << node_method_rec->type << "\n";
+              // cout << node_method_rec->id << "\n";
+              // cout << node_method_rec->type << "\n";
               node_method_type = node_method_rec->type;
-              cout << "3\n";
+              // cout << "3\n";
             }
 
             if(counter == 2)
@@ -418,38 +402,43 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
               // map<string, Variable*>::iterator it = node_method_rec->parameters.begin();
               // <>
               Node* child_2;
-              cout << "4\n";
-              cout << node_method_rec->parameters.size() <<"\n";
+              // cout << "4\n";
+              int size = node_method_rec->parameters.size();
               auto k = node_method_rec->parameters.begin();
-              auto q = j;
-              for (q, k; q != child_2->children.end(); q++, k++)
+              // auto q = j;
+              for (j, k; j != child->children.end(); j++, k++)
               {
-                child_2 = *q;
-                child_para = *k;
-                cout << "I SHOULD BE HERE\n";
-                // advance(it, 1);
                 parameter_counter++;
-                cout << "5\n";
-                if (node_method_rec->parameters.size() >= parameter_counter)
+                child_2 = *j;
+                child_para = *k;
+                // cout << "I SHOULD BE HERE\n";
+                // advance(it, 1);
+
+                // cout << size << " = " << parameter_counter << "\n";
+                // cout << "5\n";
+                if (size > parameter_counter)
                 {
-                  cout << "i should not be here\n";
+                  // cout << "i should not be here\n";
                   // cout << child->type << "\n";
-                  cout << child_para.second->type << "   " << child_2->type << "\n";
-                  cout << "5.1\n";
+                  // cout << child_para.second->type << "   " << child_2->type << "\n";
+                  // cout << "5.1\n";
                   if (child_para.second->type != child_2->type)
                   {
-                    cout << "6\n";
+                    // cout << "6\n";
                     cout << "SEMANTIC ERROR: WRONG PARAMETER TYPE\n";
                   }
+                  continue;
                 }
-
-                else
-                {
-                  cout << "SEMATIC ERROR: TO MANY PARAMETERS\n";
                   break;
-                }
               }
+              // cout << parameter_counter << " = " << size << "\n";
+              if (parameter_counter != size)
+              {
+                cout << "SEMANTIC ERROR: EITHER TO MANY OR TO FEW PARAMETERS!\n";
+              }
+              break;
             }
+
               //Parameter check
             counter++;
           }
@@ -705,6 +694,7 @@ int tree_traversal(Node* root, SymbolTable* symboltable, int scope_depth, int de
 int semantic(Node* root, SymbolTable* symboltable) // BYT NAMN?
 {
   int scope_depth = 0;
+  // duplicate_check(symboltable);
   tree_traversal(root, symboltable, scope_depth);
   return 0;
 }

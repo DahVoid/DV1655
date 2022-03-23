@@ -221,10 +221,11 @@ class Scope
 
       else
       {
-        if (&parentScope == NULL)
+        if (current())
         {
           cout << "No key found :,( \n";
-          //Exit no record found
+          Record *temp_retval = new Record("Notfound", "Notfound");
+          return temp_retval;
         }
 
         else
@@ -462,6 +463,15 @@ class SymbolTable
       }
       // cout << "First method name: " <<class_rec->methods.front().first() << "\n";
       this->exitScope();
+
+      Record* temp;
+      temp = this->lookup(class_rec->id);
+
+      if (temp->id != "Notfound")
+      {
+        cout << "DUPLICATE VARIABLE\n";
+      }
+
       this->put(class_rec->id, class_rec);
       return;
     }
@@ -520,6 +530,12 @@ class SymbolTable
             string type = grandchildnamenode->type;
             Variable *new_var = new Variable("PARAMETER", type);
             // method_rec->addParameter(name);
+            Record* temp;
+            temp = this->lookup(name);
+            if (temp->id != "Notfound")
+            {
+              cout << "DUPLICATE VARIABLE\n";
+            }
             method_rec->parameters.insert(pair<string, Variable*>(name, new_var));
             this->put(name, new_var);
           }
@@ -556,6 +572,12 @@ class SymbolTable
         string name = grandchild2->value;
         Variable *new_var = new Variable(name, type);
         //Lägg till variabel i current scope (Kolla alla children)
+        Record* temp;
+        temp = this->lookup(name);
+        if (temp->id != "Notfound")
+        {
+          cout << "DUPLICATE VARIABLE\n";
+        }
         this->put(name, new_var);
       }
       return;
@@ -578,6 +600,12 @@ class SymbolTable
         cout << "type : " << type << "   name: " << name << "\n";
         Variable *new_var = new Variable(name, type);
         //Lägg till variabel i current scope (Kolla alla children)
+        Record* temp;
+        temp = this->lookup(name);
+        if (temp->id != "Notfound")
+        {
+          cout << "DUPLICATE VARIABLE\n";
+        }
         this->put(name, new_var);
       }
       return;
