@@ -209,6 +209,7 @@ class IR {
                 {
                     if(i == 0)
                     { // is conditon
+
                         Condition_expression cond = Condition_expression(child->type, child->children.front()->value, child->children.back()->value, root-> type);
                         curr_block.condition = cond;
                     } else if (i == 1)
@@ -241,7 +242,32 @@ class IR {
                 
             }
             else if (root -> type == "WHILE")
-            {
+            { 
+                // child 0 is the condition, 1 is the true block, 2 is the false block
+                // true block/node will be the current one because of the while loop
+                int i = 0;
+                for(auto const& child : root->children)
+                {
+                    if(i == 0)
+                    { // is conditon
+                    
+                        Condition_expression cond = Condition_expression(child->type, child->children.front()->value, child->children.back()->value, root-> type);
+                        curr_block.condition = cond;
+                    } else if (i == 1)
+                    { // is true block
+                        curr_block.trueExit = &curr_block;
+                    } else if(i == 2)
+                    { // is false block
+                        curr_block.falseExit = new BBlock();
+                        curr_block.falseExit->label = genName();
+                    }
+                    i++;
+                }
+
+                // create false exit block
+                curr_block = *curr_block.falseExit;
+                create_tree(root->children.back(), symbol_table);
+                               
 
             } else if (root -> type == "MEMBER SELECTION FUNCTION CALL")
             {
