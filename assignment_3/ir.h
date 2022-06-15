@@ -1,12 +1,13 @@
 #include <string>
 #include <vector>
-#include <Node.h>
+#include <iostream>
+#include "Node.h"
 
 
 
 using namespace std;
 int counter = 0;
-BBlock curr_block;
+
 class Tac
 {
     public:
@@ -14,7 +15,7 @@ class Tac
 
         // Getters & Setters
         void dump(){
-            printf("%s := %s %s %s", res.c_str(), lhs.c_str(), op.c_str(), rhs.c_str());
+            printf("%s := %s %s %s\n", res.c_str(), lhs.c_str(), op.c_str(), rhs.c_str());
         }
 };
 
@@ -146,11 +147,15 @@ class Cond_jump : public Tac {
 };
 
 string genName() {
-    string name = "block" + to_string(counter);
+    string name = "block_" + to_string(counter);
     counter++;
     return name;
 }
+
 class BBlock {
+
+
+
     public:
         vector<Tac> Tacs;
         Tac condition;
@@ -166,27 +171,32 @@ class BBlock {
 };
 
 class IR {
+
+
+    BBlock curr_block;
+    BBlock* root_block = &curr_block;
     public:
-        void ir_traverse_tree(Node * root, symbol_table symbol_table))
-        {
-            // print cfg to .dot file
-            if(root.type == "IF")
+        void create_tree(Node *root, SymbolTable *symbol_table)
+        { // This function is used to translate the AST to IR (basic blocks with TACs)
+            // Translate statements
+            if(root -> type == "IF")
             {
                 
             }
-            else if (root.type == "WHILE")
+            else if (root -> type == "WHILE")
             {
 
-            } else if (root.type == "MEMBER SELECTION FUNCTION CALL")
+            } else if (root -> type == "MEMBER SELECTION FUNCTION CALL")
             {
                 
             } else
-            {  
-                if(root-> type == "VARDECLARATION")
+            {  // tanslate expressions
+                if(root ->type == "VARDECLARATION")
                 {
-                    curr_block.Tacs.push_back(new Copy_expression(root->children[0]->value, root->children[1]->value));
+                    Copy_expression exp =  Copy_expression(root->children.front()->value, root->children.back()->value);
+                    curr_block.Tacs.push_back(exp);
                 }
-                else if(root-> type =="")
+                else if(root -> type =="")
                 { 
 
                 }
@@ -196,17 +206,74 @@ class IR {
             
             if (root != NULL)
             {
-                ir_traverse_tree(root->left, symbol_table);
-                ir_traverse_tree(root->right, symbol_table);
+                for(auto const& child : root->children)
+                {
+                    create_tree(child, symbol_table);
+                }
                 return;
             }
         }
 
+        void generate_tree()
+        {
+
+            std::cout << "root block label: " << root_block->label << std::endl;
+            std::ofstream outStream;
+            outStream.open("ir.dot");
+            
+            int count = 0;
+            outStream << "digraph G {" << endl;
+            outStream << "node [shape = box];" << endl;
+            outStream << "block_0 [label=\"block_0\"];" << endl;
+            generate_tree_bb(&outStream, root_block);
+
+            string final_block_label = genName();
+            outStream << final_block_label << " [label=\"" << final_block_label << "\"];" << endl;
+            outStream << "}" << endl;
+            outStream.close();
+
+            std::cout << "Generated IR Tree" << endl;
+            system("dot -Tpng ir.dot -o ir.png");
+
+
+            return;
+        }
+
+        void generate_tree_bb(ofstream *outStream, BBlock *bb)
+        {
+            // create current block
+            *outStream << bb->label << " [label=\""<< bb->label << "\n";
+
+            // add tacs to block
+            *outStream << "test TAC \n" << endl;
+            for(auto tac_in_block = bb->Tacs.begin(); tac_in_block != bb->Tacs.end(); tac_in_block++)
+            {
+                (*tac_in_block).dump();
+            }
+
+            // close block
+            *outStream << "\"];" << endl;
+            // create block relationships
+            if(bb->trueExit != NULL)
+            {
+                *outStream << bb->label << " -> " << bb->trueExit->label << ";" << endl;
+                generate_tree_bb(outStream, bb->trueExit);
+            } else
+            {
+                return;
+            }
+
+            if (bb->falseExit != NULL)
+            {
+                *outStream << bb->label << " -> " << bb->trueExit->label << ";" << endl;
+                generate_tree_bb(outStream, bb->falseExit);
+            }
+
+            return;
+        }
 
 
 
         
 
-    }
-
-}
+};
