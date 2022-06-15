@@ -146,6 +146,18 @@ class Cond_jump : public Tac {
     }
 };
 
+class Condition_expression : public Tac {
+    public:
+    Condition_expression(string op, string x1, string x2, string label)
+    {
+        this->op = op;
+        this->lhs = x1;
+        this->rhs = x2;
+        this->res = label;
+    }
+};
+
+
 string genName() {
     string name = "block_" + to_string(counter);
     counter++;
@@ -179,8 +191,53 @@ class IR {
         void create_tree(Node *root, SymbolTable *symbol_table)
         { // This function is used to translate the AST to IR (basic blocks with TACs)
             // Translate statements
+            if (root != NULL)
+            {
+                for(auto const& child : root->children)
+                {
+                    create_tree(child, symbol_table);
+                }
+            } else {
+                return;
+            }
+            
             if(root -> type == "IF")
             {
+                // child 0 is the condition, 1 is the true block, 2 is the false block
+                int i = 0;
+                for(auto const& child : root->children)
+                {
+                    if(i == 0)
+                    { // is conditon
+                        Condition_expression cond = Condition_expression(child->type, child->children.front()->value, child->children.back()->value, root-> type);
+                        curr_block.condition = cond;
+                    } else if (i == 1)
+                    { // is true block
+                        curr_block.trueExit = new BBlock();
+                        curr_block.trueExit->label = genName();
+                    } else if(i == 2)
+                    { // is false block
+                        curr_block.falseExit = new BBlock();
+                        curr_block.falseExit->label = genName();
+                    }
+                    i++;
+                }
+
+                if (curr_block.trueExit != NULL)
+                {
+                    // create true exit block
+                    auto true_block_node = root->children.begin();
+                    advance(true_block_node, 1);
+                    curr_block = *curr_block.trueExit;
+                    create_tree(*true_block_node, symbol_table);
+                }
+
+                if (curr_block.falseExit != NULL)
+                {
+                    // create false exit block
+                    curr_block = *curr_block.falseExit;
+                    create_tree(root->children.back(), symbol_table);
+                }
                 
             }
             else if (root -> type == "WHILE")
@@ -202,16 +259,10 @@ class IR {
                 }
 
             }
+            return;
 
             
-            if (root != NULL)
-            {
-                for(auto const& child : root->children)
-                {
-                    create_tree(child, symbol_table);
-                }
-                return;
-            }
+
         }
 
         void generate_tree()
