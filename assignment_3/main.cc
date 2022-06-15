@@ -2,6 +2,7 @@
 #include "parser.tab.hh"
 #include "semantic.cpp"
 #include "symbol_table.h"
+#include "ir.cpp"
 
 extern Node* root;
 extern FILE* yyin;
@@ -31,7 +32,8 @@ int main(int argc, char **argv)
     // symboltable->printTable();
     semantic(root, symboltable);
   }
-
+  // assigment 3 traverse tree by root node.
+  ir_traverse_tree(root, symbol_table);
 
 
   return 0;

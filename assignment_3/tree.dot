@@ -1,0 +1,135 @@
+digraph {
+n0 [label="GOAL:"];
+n1 [label="MAINCLASS:"];
+n2 [label="IDENTIFIER:Factorial"];
+n1 -> n2
+n3 [label="IDENTIFIER:a"];
+n1 -> n3
+n4 [label="SYSTEMOUTPRINT:"];
+n5 [label="MEMBER SELECTION FUNCTION CALL:"];
+n6 [label="IDENTIFIER:Fac"];
+n5 -> n6
+n7 [label="IDENTIFIER:ComputeFac"];
+n5 -> n7
+n8 [label="INT:10"];
+n5 -> n8
+n4 -> n5
+n1 -> n4
+n0 -> n1
+n9 [label="CLASSBODY:"];
+n10 [label="CLASSDECLARATION:"];
+n11 [label="IDENTIFIER:Fac"];
+n10 -> n11
+n12 [label="VARBODY:"];
+n10 -> n12
+n13 [label="METHODBODY:"];
+n14 [label="METHODDECLARATION:"];
+n15 [label="INT:"];
+n14 -> n15
+n16 [label="IDENTIFIER:get_1"];
+n14 -> n16
+n17 [label="VARBODY:"];
+n18 [label="VARDECLARATION:"];
+n19 [label="INT:"];
+n18 -> n19
+n20 [label="IDENTIFIER:foo"];
+n18 -> n20
+n17 -> n18
+n14 -> n17
+n21 [label="STATEMENTBODY:"];
+n22 [label="EQUAL:"];
+n23 [label="IDENTIFIER:foo"];
+n22 -> n23
+n24 [label="INT:1"];
+n22 -> n24
+n21 -> n22
+n14 -> n21
+n25 [label="INT:1"];
+n14 -> n25
+n13 -> n14
+n26 [label="METHODDECLARATION:"];
+n27 [label="INT:"];
+n26 -> n27
+n28 [label="IDENTIFIER:ComputeFac"];
+n26 -> n28
+n29 [label="PARAMETERBODY:"];
+n30 [label="PARAMETER:"];
+n31 [label="INT:"];
+n30 -> n31
+n32 [label="IDENTIFIER:num"];
+n30 -> n32
+n29 -> n30
+n26 -> n29
+n33 [label="VARBODY:"];
+n34 [label="VARDECLARATION:"];
+n35 [label="INT:"];
+n34 -> n35
+n36 [label="IDENTIFIER:num_aux"];
+n34 -> n36
+n33 -> n34
+n37 [label="VARDECLARATION:"];
+n38 [label="INT:"];
+n37 -> n38
+n39 [label="IDENTIFIER:foo"];
+n37 -> n39
+n33 -> n37
+n26 -> n33
+n40 [label="STATEMENTBODY:"];
+n41 [label="IF:"];
+n42 [label="LESS:"];
+n43 [label="IDENTIFIER:num"];
+n42 -> n43
+n44 [label="INT:1"];
+n42 -> n44
+n41 -> n42
+n45 [label="STATEMENTBODY:"];
+n46 [label="EQUAL:"];
+n47 [label="IDENTIFIER:num_aux"];
+n46 -> n47
+n48 [label="INT:1"];
+n46 -> n48
+n45 -> n46
+n41 -> n45
+n49 [label="STATEMENTBODY:"];
+n50 [label="EQUAL:"];
+n51 [label="IDENTIFIER:num_aux"];
+n50 -> n51
+n52 [label="MUL:"];
+n53 [label="IDENTIFIER:num"];
+n52 -> n53
+n54 [label="SUB:"];
+n55 [label="IDENTIFIER:num"];
+n54 -> n55
+n56 [label="INT:1"];
+n54 -> n56
+n52 -> n54
+n50 -> n52
+n49 -> n50
+n41 -> n49
+n40 -> n41
+n26 -> n40
+n57 [label="IDENTIFIER:num_aux"];
+n26 -> n57
+n13 -> n26
+n58 [label="METHODDECLARATION:"];
+n59 [label="INT ARRAY:"];
+n58 -> n59
+n60 [label="IDENTIFIER:get_arr"];
+n58 -> n60
+n61 [label="VARBODY:"];
+n62 [label="VARDECLARATION:"];
+n63 [label="INT ARRAY:"];
+n62 -> n63
+n64 [label="IDENTIFIER:arr"];
+n62 -> n64
+n61 -> n62
+n58 -> n61
+n65 [label="STATEMENTBODY:"];
+n58 -> n65
+n66 [label="IDENTIFIER:arr"];
+n58 -> n66
+n13 -> n58
+n10 -> n13
+n9 -> n10
+n0 -> n9
+}

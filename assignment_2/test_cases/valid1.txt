@@ -8,46 +8,34 @@ class Factorial{
 
 
 class Fac {
+    
+        public int get_1() {
+        int foo;
+        foo = 1;
+        return 1;
+    }
 
     public int ComputeFac(int num){
         int num_aux ;
         int foo;
-        if (num < 1)
+        if (num < 1){
             num_aux = 1 ;
-        else 
-            num_aux = num * (this.ComputeFac(num-1)) ;
+        }
+        else {
+            num_aux = num * (num - 1) ;
+        }
         return num_aux ;
     }
 
-}
-
-class B { 
-    int foo;
 
 
-    public int get_1 () {
-     return 1; 
-    }
-
-    public int[] get_arr () { 
+    public int[] get_arr() {
         int[] arr;
-        int num;
-        
-        num = this.get_1 ();
-        arr = new int [num];
+
         return arr;
     }
 
-    public Fac get_class_type () {
-    Fac cls;
-    int[] arr;
-    arr = this.get_arr();  
-    cls = new Fac();
-    
-
-    return cls;
-    }
-
 }
+
 
 

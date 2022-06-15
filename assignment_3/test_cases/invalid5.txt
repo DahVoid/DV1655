@@ -1,4 +1,4 @@
-// What if we use a method call as a statement?
+// Undefined types
 class Factorial{
     public static void main(String[] a){
 	System.out.println(new Fac().ComputeFac(10));
@@ -7,18 +7,13 @@ class Factorial{
 
 class Fac {
 
-	public int get_1() {
-    	return 1; 
-    }
-
     public int ComputeFac(int num){
-	int num_aux ;
-	if (num < 1){
-	// method as statement
-	    get_1();
-	}
-	else {
-	}
+    // tni is undefined type
+	tni num_aux;
+	if (num < 1)
+	    num_aux = 1 ;
+	else 
+	    num_aux = num * (this.ComputeFac(num-1)) ;
 	return num_aux ;
     }
 
