@@ -120,51 +120,29 @@ class Class: public Container
       return "CLASS";
     }
 
-
-
   void addMethod(string met_id, Method* new_met)
   {
-    // cout << met_id << "\n";
-    // cout << new_met->id << "  " << new_met->type <<  "\n";
-    // Method* new_met = new Method(met_id, "Method");
-    // cout << "2\n";
-    methods.insert(pair<string ,Method*>(met_id, new_met));
-    // cout << "3\n";
-  }
 
-  // Variable lookupVariable(string Key)
-  // {
-  //   if(variables.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
-  //   {
-  //     return variables.at(Key);
-  //   }
-  //   else
-  //   {
-  //       // do nooooothing
-  //   }
-  //
-  // }
+    methods.insert(pair<string ,Method*>(met_id, new_met));
+
+  }
 
   Method* lookupMethod(string Key)
   {
-    // cout << "i got here \n";
-    // cout << Key << "\n";
+
     int a = methods.count(Key);
-    // cout << a << "\n";
+
     if(methods.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
     {
-      // cout << "FOUND KEY: " << Key << "\n";
       return methods.at(Key);
-    }
-
-    else
+    }else
     {
       cout << "SEMANTIC FAULT: METHOD IS NOT DEFINED\n";
       exit(-1);
         // do nooooothing
     }
-    // cout << "also here\n";
   }
+    
 };
 
 class Scope
@@ -204,23 +182,6 @@ class Scope
 
     Record* lookup(string Key)
     {
-      // cout << "Looking for key: " << Key << "\n";
-
-      // Record current_record;
-      // Method current_method;
-      // map<string, Record>:: iterator it;
-      // advance(records, parentScope->next);
-      // current_record = it->second;
-      // current_method = it->second;
-      //
-      // if(current_method.getclass() == "METHOD")
-      // {
-      //   if (current_record.parameters.count(Key) > 0)
-      //   {
-      //     return current_record.parameters.at(Key);
-      //   }
-      // }
-
       if(records.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
       {
         // cout << "FOUND KEY! \n";
@@ -230,20 +191,6 @@ class Scope
 
       else
       {
-        // cout << " 1\n";
-        // if (this->childrenScopes.size() > 0)
-        // {
-        //   Scope* root_check;
-        //   root_check = this->childrenScopes.front();
-        //   // map<string, Record*> root_records = this->childrenScopes.front()->records;
-        //   cout << " 2\n";
-        //   if (root_check->records.count("main") >= 1)
-        //   {
-        //     cout << "No key found :,( \n";
-        //     Record *temp_retval = new Record("Notfound", "Notfound");
-        //     return temp_retval;
-        //   }
-        // }
 
         if (this->isroot == true)
         {
@@ -259,54 +206,6 @@ class Scope
           return retval; // delegate the request to the parent scope
         }
       }
-    }
-
-    // Class lookup_class(string Key)
-    // {
-    //   if(records.count(Key) > 0) //does it exist in the current scope? Använd map.count (records.count)
-    //   {
-    //     cout << "FOUND KEY! \n";
-    //     return records.at(Key);
-    //   }
-    //
-    //   else
-    //   {
-    //     if (&parentScope == NULL)
-    //     {
-    //       cout << "No key found :,( \n";
-    //       //Exit no record found
-    //     }
-    //
-    //     else
-    //     {
-    //       cout << "did not find key in scope! \n";
-    //       return parentScope->lookup(Key); // delegate the request to the parent scope
-    //     }
-    //   }
-    // }
-
-    // Method checkparameters(string key)
-    // {
-    //   Method current_record;
-    //   map<string, Record>:: iterator it;
-    //   advance(records, current->parentScope.next);
-    //   current_record = *it;
-    //   if(current_record.getclass() == "METHOD")
-    //   {
-    //     if (current_record.count(Key) > 0)
-    //     {
-    //       return current_record.parameters.at(Key);
-    //     }
-    //   }
-    // }
-
-    void resetScope()
-    {
-      // next = 0;
-      // for(int i = 0; i < childrenScopes.size(); i++)
-      // {
-      //   childrenScopes[i].resetScope();
-      // }
     }
 
     void printScope() //Kommer behöva göras om
@@ -334,17 +233,11 @@ class SymbolTable
 
     SymbolTable()
     {
-      // cout << "creating: scope\n";
-      // cout << "set scope to current \n";
+
       Scope *root = new Scope();
       current = root;
-      // cout << "constructor done \n";
+     
     }
-
-    // void enterScope()
-    // {
-    //   current = current->next_Child(); //create new scope if needed
-    // }
 
     void exitScope()
     {
@@ -362,16 +255,15 @@ class SymbolTable
       return current->lookup(Key);
     }
 
-
     void printTable()
     {
       current->printScope();
     }
 
-    void resetTable()
-    {
-      root->resetScope();
-    }
+    // void resetTable()
+    // {
+    //   root->resetScope();
+    // }
 
     void start(Node* root)
     {
@@ -448,12 +340,8 @@ class SymbolTable
       int counter = 0;
       for (auto i = class_body->children.begin(); i != class_body->children.end(); i++)
       {
-        // cout << "Scope list size:  "<< this->current.childrenScopes.size() << "\n";
-        // cout << "Record list size:  "<< this->current.records.size() << "\n";
         child = *i;
         //Lägg till class i current scope (Kolla leftmost child)
-        // list<Node*>::iterator name = class_body->children.begin();
-        // Class *class_rec = new Class(child->value , "CLASS");
 
         if (counter == 0)
         {
@@ -481,11 +369,6 @@ class SymbolTable
       // Class* child_rec;
       map<string, Method*>::iterator i;
 
-      // for (i = class_rec->methods.begin(); i != class_rec->methods.end(); i++)
-      // {
-      //   cout << i->first <<"\n";
-      // }
-      // cout << "First method name: " <<class_rec->methods.front().first() << "\n";
       this->exitScope();
 
       Record* temp;
@@ -501,7 +384,6 @@ class SymbolTable
       this->put(class_rec->id, class_rec);
       return;
     }
-
 
     void methbody(Node* root, Class* class_rec)
     {
@@ -577,9 +459,7 @@ class SymbolTable
       }
       this->exitScope();
       // class_rec->addMethod(name, method_rec);
-      // cout << name << "  "<< method_rec->id << "  " << method_rec->type <<  "\n";
       class_rec->methods.insert(pair<string, Method*>(name, method_rec));
-      // cout << "2\n";
       Record* temp;
       temp = this->lookup(name);
       if (temp->id != "Notfound")
@@ -651,12 +531,7 @@ SymbolTable* symbol_table(Node* root) // BYT NAMN?
   SymbolTable* symboltable = new SymbolTable();
   // cout << "starting symboltable\n";
   symboltable->start(root);
-  // symboltable->printTable();
-  // map<string, Record>::iterator it;
-  // cout << "Scope list size:  "<< symboltable->current->childrenScopes.front()-> << "\n";
-  // cout << "Record list size:  "<< symboltable->current->records.size() << "\n";
-  //
-  // cout << "size of root records: " << symboltable->root->records.size() << "\n";
+
   return symboltable;
 }
 

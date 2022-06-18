@@ -129,11 +129,11 @@ class Return : public Tac {
 
 class Jump : public Tac {
     public:
-    Jump(string label)
-    {
-        this->op = "goto";
-        this->res = label;
-    }
+        Jump(string label)
+        {
+            this->op = "goto";
+            this->res = label;
+        }
 };
 
 class Cond_jump : public Tac {
@@ -165,9 +165,6 @@ string genName() {
 }
 
 class BBlock {
-
-
-
     public:
         vector<Tac> Tacs;
         Tac condition;
@@ -190,6 +187,11 @@ class IR {
     public:
         void create_tree(Node *root, SymbolTable *symbol_table)
         { // This function is used to translate the AST to IR (basic blocks with TACs)
+          // Måste gå på scopes och inte gå på Nodes/ följa tree.pdf som den gör nu
+
+            // get scope content from symbol table
+            cout << "Entering create tree" << endl;
+
             // Translate statements
             if (root != NULL)
             {
@@ -198,18 +200,19 @@ class IR {
                     create_tree(child, symbol_table);
                 }
             } else {
+                cout << "hit dead end" << endl;
                 return;
             }
             
-            if(root -> type == "IF")
-            {
+            if(root -> type == "IF") {
+                cout << "IF" << endl;
                 // child 0 is the condition, 1 is the true block, 2 is the false block
                 int i = 0;
                 for(auto const& child : root->children)
                 {
                     if(i == 0)
-                    { // is conditon
-
+                    { 
+                        // is conditon
                         Condition_expression cond = Condition_expression(child->type, child->children.front()->value, child->children.back()->value, root-> type);
                         curr_block.condition = cond;
                     } else if (i == 1)
@@ -240,9 +243,8 @@ class IR {
                     create_tree(root->children.back(), symbol_table);
                 }
                 
-            }
-            else if (root -> type == "WHILE")
-            { 
+            } else if (root -> type == "WHILE") { 
+                cout << "WHILE" << endl;
                 // child 0 is the condition, 1 is the true block, 2 is the false block
                 // true block/node will be the current one because of the while loop
                 int i = 0;
@@ -269,22 +271,31 @@ class IR {
                 create_tree(root->children.back(), symbol_table);
                                
 
-            } else if (root -> type == "MEMBER SELECTION FUNCTION CALL")
-            {
+            } else if (root -> type == "MEMBER SELECTION FUNCTION CALL")  {
+                cout << "MEMBER SELECTION FUNCTION CALL" << endl;
+
+
                 
             } else
             {  // tanslate expressions
                 if(root ->type == "VARDECLARATION")
                 {
+                    cout << "VARDECLARATION" << endl;
                     Copy_expression exp =  Copy_expression(root->children.front()->value, root->children.back()->value);
                     curr_block.Tacs.push_back(exp);
                 }
-                else if(root -> type =="")
+                // else if(root -> type =="ADD")
+                // {
+                //     cout << "ADD" << endl;
+                //     Add_expression exp = Add_expression(root->children.front()->value, root->children.back()->value);
+                //     curr_block.Tacs.push_back(exp);
+                // }
                 { 
 
                 }
 
             }
+            
             return;
 
             
