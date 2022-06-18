@@ -151,6 +151,14 @@ addExpression: multExpression {$$ = $1;}
                                                  $$->children.push_back($1);
                                                  $$->children.push_back($3);
                                                  }
+             | addExpression PLUS addExpression {$$ = new Node("ADD", "");
+                                                 $$->children.push_back($1);
+                                                 $$->children.push_back($3);
+                                                 }
+             | addExpression SUB addExpression   {$$ = new Node("SUB", "");
+                                                 $$->children.push_back($1);
+                                                 $$->children.push_back($3);
+                                                 }                                             
 
 multExpression: negation_expression {$$ = $1;}
               | number {$$ = $1;}
