@@ -375,7 +375,11 @@ class IR {
             if(bb->trueExit != NULL)
             {
                 *outStream << bb->label << " -> " << bb->trueExit->label << ";" << endl;
-                generate_tree_bb(outStream, bb->trueExit);
+                if(bb->trueExit !=bb)
+                {
+                    generate_tree_bb(outStream, bb->trueExit);
+                }
+                
             } else
             {
                 return;

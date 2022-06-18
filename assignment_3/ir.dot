@@ -5,5 +5,11 @@ block_6 [label="block_6
 test TAC 
 
 "];
-block_9 [label="block_9"];
+block_6 -> block_6;
+block_6 -> block_6;
+block_10 [label="block_10
+test TAC 
+
+"];
+block_11 [label="block_11"];
 }
