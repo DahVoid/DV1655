@@ -210,25 +210,55 @@ class IR {
                 int i = 0;
                 for(auto const& child : root->children)
                 {
+                    cout << "for start" << endl;
                     if(i == 0)
                     { 
                         // is conditon
-                        Condition_expression cond = Condition_expression(child->type, child->children.front()->value, child->children.back()->value, root-> type);
+                        string res;
+                        string op;
+                        string x1;
+                        string x2;
+
+                        cout << "condition" << endl;
+                        if(child->type == "IDENTIFIER")
+                        {
+                            cout << "child is identifier" << endl;
+                            res = child->value;
+                            op = "";
+                            x1 = "";
+                            x2 = "";
+                        } else {
+                            cout << "child is other" << endl;
+                            cout << child->type << endl;
+                            res = root->type;
+                            op = child->type;
+                            x1 = child->children.front()->value;
+                            x2 = child->children.back()->value;
+                        }
+
+
+
+
+                        Condition_expression cond = Condition_expression(op, x1, x2, res);
                         curr_block.condition = cond;
                     } else if (i == 1)
                     { // is true block
+                        cout << "true block" << endl;
                         curr_block.trueExit = new BBlock();
                         curr_block.trueExit->label = genName();
                     } else if(i == 2)
                     { // is false block
+                        cout << " false block" << endl;
                         curr_block.falseExit = new BBlock();
                         curr_block.falseExit->label = genName();
                     }
                     i++;
+                    cout << "i = " << i << endl;
                 }
-
+                cout << "out of for loop" << endl;
                 if (curr_block.trueExit != NULL)
                 {
+                    cout << "true exit" << endl;
                     // create true exit block
                     auto true_block_node = root->children.begin();
                     advance(true_block_node, 1);
@@ -238,6 +268,7 @@ class IR {
 
                 if (curr_block.falseExit != NULL)
                 {
+                    cout << "false exit" << endl;
                     // create false exit block
                     curr_block = *curr_block.falseExit;
                     create_tree(root->children.back(), symbol_table);
@@ -252,22 +283,22 @@ class IR {
                 {
                     if(i == 0)
                     { // is conditon
-                    
                         Condition_expression cond = Condition_expression(child->type, child->children.front()->value, child->children.back()->value, root-> type);
                         curr_block.condition = cond;
                     } else if (i == 1)
                     { // is true block
+
                         curr_block.trueExit = &curr_block;
-                    } else if(i == 2)
-                    { // is false block
-                        curr_block.falseExit = new BBlock();
-                        curr_block.falseExit->label = genName();
-                    }
+                    } 
+
                     i++;
                 }
 
                 // create false exit block
-                curr_block = *curr_block.falseExit;
+                cout << "create false exit block" << endl;
+                curr_block.falseExit = new BBlock();
+                curr_block.falseExit->label = genName();
+                cout << "about to create new tree" << endl;
                 create_tree(root->children.back(), symbol_table);
                                
 
@@ -283,23 +314,22 @@ class IR {
                     cout << "VARDECLARATION" << endl;
                     Copy_expression exp =  Copy_expression(root->children.front()->value, root->children.back()->value);
                     curr_block.Tacs.push_back(exp);
-                }
-                // else if(root -> type =="ADD")
-                // {
-                //     cout << "ADD" << endl;
-                //     Add_expression exp = Add_expression(root->children.front()->value, root->children.back()->value);
-                //     curr_block.Tacs.push_back(exp);
-                // }
-                { 
+                } else if(root -> type =="EQUAL")
+                {   
+                    cout << "EQUAL" << endl;
+                    if(root->children.back()->type == "ADD")
+                    {
+                        cout << "ADD" << endl;
+                        Expression exp = Expression("+", root->children.back()->children.front()->value,
+                             root->children.back()->children.back()->value, root->children.front()->value);
+                        curr_block.Tacs.push_back(exp);
+                    }
 
                 }
 
             }
-            
+            cout <<"returning from create tree" << endl;
             return;
-
-            
-
         }
 
         void generate_tree()

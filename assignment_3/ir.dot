@@ -1,9 +1,9 @@
 digraph G {
 node [shape = box];
 block_0 [label="block_0"];
-block_2 [label="block_2
+block_6 [label="block_6
 test TAC 
 
 "];
-block_5 [label="block_5"];
+block_9 [label="block_9"];
 }
