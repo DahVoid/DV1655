@@ -36,7 +36,7 @@ int main(int argc, char **argv)
     semantic(root, symboltable);
     IR ir;
     cout << "Creating IR tree" << endl;
-    ir.create_tree(root, symboltable);
+    ir.start(root, symboltable);
     cout << "Generating graph" << endl;
     ir.generate_tree();
   }
