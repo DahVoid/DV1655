@@ -8,36 +8,6 @@
 using namespace std;
 int counter = 0;
 
-int lookup_method(node *root,string classname, string methodname, string input)
-{
-    if (root != NULL)
-    {
-        for (auto const& child: root->children)
-        {
-            lookup_method(child, classname, methodname, input);
-        }
-    }
-    else 
-    {
-        cout << "hit dead end" << endl;
-        return;
-    }
-    
-    if (root->type == "METHODDECLARATION")
-    {
-        for(auto const& child : root->children)
-        {
-            if (i == 1 || child->name == methodname)
-            {
-                //Build tree 
-                
-                return;
-            }
-        }    
-    }
-
-}
-
 class Tac
 {
     public:
@@ -213,16 +183,19 @@ class IR {
 
 
     BBlock curr_block;
-    BBlock* root_block = &curr_block;
+    vector<BBlock*> root_blocks;
     Node *save_root;
 
     public:
         void start(Node *root, SymbolTable *symbol_table)
-            this.save_root = root;
-
-            create_tree(Node *root, SymbolTable *symbol_table)
+        {
+            this->save_root = root;
+            BBlock* curr_block = new BBlock;
+            curr_block->label = genName();
+            root_blocks.push_back(curr_block);
+            create_tree(root, symbol_table);
             return;
-
+        }
 
         void create_tree(Node *root, SymbolTable *symbol_table)
         { // This function is used to translate the AST to IR (basic blocks with TACs)
@@ -433,7 +406,36 @@ class IR {
             return;
         }
 
+        void lookup_method(Node *root, string classname, string methodname, string input)
+        {
+            if (root != NULL)
+            {
+                for (auto const& child: root->children)
+                {
+                    lookup_method(child, classname, methodname, input);
+                }
+            }
+            else 
+            {
+                cout << "hit dead end" << endl;
+                return;
+            }
+            
+            if (root->type == "METHODDECLARATION")
+            {
+                int i=0;
+                for(auto const& child : root->children)
+                {
+                    if (i == 1 || child->value == methodname)
+                    {
+                        //Build tree 
+                        this->start(root, symbol_table);
+                        return;
+                    }
+                }    
+            }
 
+        }
 
         
 
