@@ -8,6 +8,36 @@
 using namespace std;
 int counter = 0;
 
+int lookup_method(node *root,string classname, string methodname, string input)
+{
+    if (root != NULL)
+    {
+        for (auto const& child: root->children)
+        {
+            lookup_method(child, classname, methodname, input);
+        }
+    }
+    else 
+    {
+        cout << "hit dead end" << endl;
+        return;
+    }
+    
+    if (root->type == "METHODDECLARATION")
+    {
+        for(auto const& child : root->children)
+        {
+            if (i == 1 || child->name == methodname)
+            {
+                //Build tree 
+                
+                return;
+            }
+        }    
+    }
+
+}
+
 class Tac
 {
     public:
@@ -184,7 +214,16 @@ class IR {
 
     BBlock curr_block;
     BBlock* root_block = &curr_block;
+    Node *save_root;
+
     public:
+        void start(Node *root, SymbolTable *symbol_table)
+            this.save_root = root;
+
+            create_tree(Node *root, SymbolTable *symbol_table)
+            return;
+
+
         void create_tree(Node *root, SymbolTable *symbol_table)
         { // This function is used to translate the AST to IR (basic blocks with TACs)
           // Måste gå på scopes och inte gå på Nodes/ följa tree.pdf som den gör nu
