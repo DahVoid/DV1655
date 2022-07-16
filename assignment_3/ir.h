@@ -344,21 +344,35 @@ class IR {
             return;
         }
 
-        void generate_tree()
-        {
+        BBlock test_bb_tree() {
+            BBlock bb = BBlock();
+            bb.label = "1";
+            bb.trueExit = new BBlock();
+            bb.trueExit->label = "2";
+            bb.falseExit = new BBlock();
+            bb.falseExit->label = "3";
+            bb.condition = Condition_expression("<", "x", "y", "result");
+            return bb;
+        }
 
-            std::cout << "root block label: " << root_block->label << std::endl;
+        void generate_tree()
+        {   
+            std::cout << "root block label: " << root_blocks.front()->label << std::endl;
+            BBlock root_block = test_bb_tree();
+            BBlock* ptr_block = &root_block;
+
             std::ofstream outStream;
             outStream.open("ir.dot");
             
             int count = 0;
             outStream << "digraph G {" << endl;
             outStream << "node [shape = box];" << endl;
-            outStream << "block_0 [label=\"block_0\"];" << endl;
-            generate_tree_bb(&outStream, root_block);
+            //outStream << "block_0 [label=\"block_0\"];" << endl;
+            generate_tree_bb(&outStream,  ptr_block);
 
-            string final_block_label = genName();
-            outStream << final_block_label << " [label=\"" << final_block_label << "\"];" << endl;
+            //   Might need to add back later with a relation to the last bblock
+            //string final_block_label = genName();
+            // outStream << final_block_label << " [label=\"" << final_block_label << "\"];" << endl;
             outStream << "}" << endl;
             outStream.close();
 
@@ -369,8 +383,13 @@ class IR {
             return;
         }
 
+
+
+
         void generate_tree_bb(ofstream *outStream, BBlock *bb)
         {
+
+
             // create current block
             *outStream << bb->label << " [label=\""<< bb->label << "\n";
 
@@ -384,11 +403,13 @@ class IR {
             // close block
             *outStream << "\"];" << endl;
             // create block relationships
+            cout << "create block relationships" << endl;
             if(bb->trueExit != NULL)
             {
                 *outStream << bb->label << " -> " << bb->trueExit->label << ";" << endl;
                 if(bb->trueExit !=bb)
                 {
+                    cout << "true exit" << endl;
                     generate_tree_bb(outStream, bb->trueExit);
                 }
                 
@@ -399,7 +420,7 @@ class IR {
 
             if (bb->falseExit != NULL)
             {
-                *outStream << bb->label << " -> " << bb->trueExit->label << ";" << endl;
+                *outStream << bb->label << " -> " << bb->falseExit->label << ";" << endl;
                 generate_tree_bb(outStream, bb->falseExit);
             }
 
@@ -429,7 +450,7 @@ class IR {
                     if (i == 1 || child->value == methodname)
                     {
                         //Build tree 
-                        this->start(root, symbol_table);
+                        //this->start(root, symbol_table);
                         return;
                     }
                 }    
