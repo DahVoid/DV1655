@@ -191,38 +191,31 @@ class IR {
         {
             this->save_root = root;
             BBlock* curr_block = new BBlock;
-            curr_block->label = genName();
             root_blocks.push_back(curr_block);
-            create_tree(root, symbol_table);
+            BBlock new_bb = create_bb(curr_block, save_root, symbol_table);
+            curr_block->trueExit = &new_bb;
+            //create_tree(root, symbol_table);
             return;
         }
 
-        void create_tree(Node *root, SymbolTable *symbol_table)
-        { // This function is used to translate the AST to IR (basic blocks with TACs)
-          // Måste gå på scopes och inte gå på Nodes/ följa tree.pdf som den gör nu
-
-            // get scope content from symbol table
-            cout << "Entering create tree" << endl;
-
-            // Translate statements
-            if (root != NULL)
+        void add_tacs(BBlock *curr_bb, Scope *scope)
+        {
+            // Iterate on all children and add the corresponding TAC
+            for(auto const& rec: scope->records)
             {
-                for(auto const& child : root->children)
-                {
-                    create_tree(child, symbol_table);
-                }
-            } else {
-                cout << "hit dead end" << endl;
-                return;
+
             }
-            
+        }
+
+        void add_cond(BBlock *curr_bb, Node *root, SymbolTable *symbol_table)
+        {
+            // Add the condition TAC to bb
             if(root -> type == "IF") {
                 cout << "IF" << endl;
                 // child 0 is the condition, 1 is the true block, 2 is the false block
                 int i = 0;
                 for(auto const& child : root->children)
                 {
-                    cout << "for start" << endl;
                     if(i == 0)
                     { 
                         // is conditon
@@ -256,34 +249,15 @@ class IR {
                     } else if (i == 1)
                     { // is true block
                         cout << "true block" << endl;
-                        curr_block.trueExit = new BBlock();
-                        curr_block.trueExit->label = genName();
+                        BBlock new_bb = create_bb(curr_bb, child, symbol_table);
+                        curr_block.trueExit = &new_bb;
                     } else if(i == 2)
                     { // is false block
                         cout << " false block" << endl;
-                        curr_block.falseExit = new BBlock();
-                        curr_block.falseExit->label = genName();
+                        BBlock new_bb = create_bb(curr_bb, child, symbol_table);
+                        curr_block.falseExit = &new_bb;
                     }
                     i++;
-                    cout << "i = " << i << endl;
-                }
-                cout << "out of for loop" << endl;
-                if (curr_block.trueExit != NULL)
-                {
-                    cout << "true exit" << endl;
-                    // create true exit block
-                    auto true_block_node = root->children.begin();
-                    advance(true_block_node, 1);
-                    curr_block = *curr_block.trueExit;
-                    create_tree(*true_block_node, symbol_table);
-                }
-
-                if (curr_block.falseExit != NULL)
-                {
-                    cout << "false exit" << endl;
-                    // create false exit block
-                    curr_block = *curr_block.falseExit;
-                    create_tree(root->children.back(), symbol_table);
                 }
                 
             } else if (root -> type == "WHILE") { 
@@ -307,43 +281,72 @@ class IR {
                 }
 
                 // create false exit block
-                cout << "create false exit block" << endl;
-                curr_block.falseExit = new BBlock();
-                curr_block.falseExit->label = genName();
-                cout << "about to create new tree" << endl;
-                create_tree(root->children.back(), symbol_table);
-                               
+                BBlock new_bb = create_bb(curr_bb, root, symbol_table);
+                curr_block.falseExit = &new_bb;                         
 
             } else if (root -> type == "MEMBER SELECTION FUNCTION CALL")  {
                 cout << "MEMBER SELECTION FUNCTION CALL" << endl;
 
-
-                
-            } else
-            {  // tanslate expressions
-                if(root ->type == "VARDECLARATION")
-                {
-                    cout << "VARDECLARATION" << endl;
-                    Copy_expression exp =  Copy_expression(root->children.front()->value, root->children.back()->value);
-                    curr_block.Tacs.push_back(exp);
-                } else if(root -> type =="EQUAL")
-                {   
-                    cout << "EQUAL" << endl;
-                    if(root->children.back()->type == "ADD")
-                    {
-                        cout << "ADD" << endl;
-                        Expression exp = Expression("+", root->children.back()->children.front()->value,
-                             root->children.back()->children.back()->value, root->children.front()->value);
-                        curr_block.Tacs.push_back(exp);
-                    }
-
-                }
-
             }
-            cout <<"returning from create tree" << endl;
-            return;
+
+        }
+        
+        BBlock create_bb(BBlock *parent_bb, Node *root, SymbolTable *symbol_table) {
+            // Navigate all the BBs and solve the relations between them
+            BBlock *new_bb = new BBlock;
+            add_tacs(*new_bb);
+
+           
+
+            return *new_bb;
         }
 
+
+        // void create_tree(Node *root, SymbolTable *symbol_table)
+        // { // This function is used to translate the AST to IR (basic blocks with TACs)
+        //   // Måste gå på scopes och inte gå på Nodes/ följa tree.pdf som den gör nu
+
+        //     // get scope content from symbol table
+        //     cout << "Entering create tree" << endl;
+
+        //     // // Translate statements
+        //     // if (root != NULL)
+        //     // {
+        //     //     for(auto const& child : root->children)
+        //     //     {
+        //     //         create_tree(child, symbol_table);
+        //     //     }
+        //     // } else {
+        //     //     cout << "hit dead end" << endl;
+        //     //     return;
+        //     // }
+            
+        //      else
+        //     {  // tanslate expressions
+        //         if(root ->type == "VARDECLARATION")
+        //         {
+        //             cout << "VARDECLARATION" << endl;
+        //             Copy_expression exp =  Copy_expression(root->children.front()->value, root->children.back()->value);
+        //             curr_block.Tacs.push_back(exp);
+        //         } else if(root -> type =="EQUAL")
+        //         {   
+        //             cout << "EQUAL" << endl;
+        //             if(root->children.back()->type == "ADD")
+        //             {
+        //                 cout << "ADD" << endl;
+        //                 Expression exp = Expression("+", root->children.back()->children.front()->value,
+        //                      root->children.back()->children.back()->value, root->children.front()->value);
+        //                 curr_block.Tacs.push_back(exp);
+        //             }
+
+        //         }
+
+        //     }
+        //     cout <<"returning from create tree" << endl;
+        //     return;
+        // }
+
+        // graph functions
         BBlock test_bb_tree() {
             BBlock bb = BBlock();
             bb.label = "1";
@@ -358,8 +361,9 @@ class IR {
         void generate_tree()
         {   
             std::cout << "root block label: " << root_blocks.front()->label << std::endl;
-            BBlock root_block = test_bb_tree();
-            BBlock* ptr_block = &root_block;
+            // BBlock root_block = test_bb_tree();
+            //BBlock* ptr_block = &root_block;
+            BBlock* ptr_block = root_blocks.front();
 
             std::ofstream outStream;
             outStream.open("ir.dot");
@@ -382,9 +386,6 @@ class IR {
 
             return;
         }
-
-
-
 
         void generate_tree_bb(ofstream *outStream, BBlock *bb)
         {
