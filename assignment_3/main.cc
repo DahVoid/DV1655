@@ -30,7 +30,7 @@ int main(int argc, char **argv)
     // root->print_tree();
     root->generate_tree();
     symboltable = symbol_table(root);
-    //symboltable->printTable();
+    symboltable->printTable();
 
     // turn off semantic analysis for now
     semantic(root, symboltable);

@@ -7,7 +7,6 @@
 
 using namespace std;
 int counter = 0;
-int depth = 0;
 
 class Tac
 {
@@ -130,12 +129,10 @@ class Return : public Tac {
 
 class Jump : public Tac {
     public:
-        Jump(string obj, string bb_label)
+        Jump(string label)
         {
-            this->lhs = "Call";
-            this->op = obj;
-            this->rhs = bb_label;
-            this->res = "_+" + to_string(depth);
+            this->op = "goto";
+            this->res = label;
         }
 };
 
@@ -182,17 +179,9 @@ class BBlock {
 
 };
 
-class Selection_name {
-
-    public:
-        string parent_name = "";
-        string name = "";
-        string param = "";
-};
-
 class IR {
 
-    map <Selection_name*, BBlock*> bb_map;
+
     BBlock curr_block;
     vector<BBlock*> root_blocks;
     Node *save_root;
@@ -325,7 +314,8 @@ class IR {
                 create_tree(root->children.back(), symbol_table);
                                
 
-            } else if (root -> type == "MEMBER SELECTION" || root -> type == "MEMBER SELECTION FUNCTION CALL") {
+            } else if (root -> type == "MEMBER SELECTION FUNCTION CALL")  {
+                cout << "MEMBER SELECTION FUNCTION CALL" << endl;
 
 
                 
@@ -338,35 +328,15 @@ class IR {
                     curr_block.Tacs.push_back(exp);
                 } else if(root -> type =="EQUAL")
                 {   
-
                     cout << "EQUAL" << endl;
-                    check_math(root);  
-                    // if(root->children.back()->type == "ADD") 
-                    // {
-                    //     cout << "ADD" << endl;
-                    //     Expression exp = Expression("+", root->children.back()->children.front()->value,
-                    //          root->children.back()->children.back()->value, root->children.front()->value);
-                    //     curr_block.Tacs.push_back(exp);
-                    // } else if(root->children.back()->type == "SUB")
-                    // {
-                    //     cout << "SUB" << endl;
-                    //     Expression exp = Expression("-", root->children.back()->children.front()->value,
-                    //          root->children.back()->children.back()->value, root->children.front()->value);
-                    //     curr_block.Tacs.push_back(exp);
-                    // } else if(root->children.back()->type == "MUL")
-                    // {
-                    //     cout << "MUL" << endl;
-                    //     Expression exp = Expression("*", root->children.back()->children.front()->value,
-                    //          root->children.back()->children.back()->value, root->children.front()->value);
-                    //     curr_block.Tacs.push_back(exp);
-                    // } else if(root->children.back()->type == "MUL")
-                    // {
-                    //     cout << "DIV" << endl;
-                    //     Expression exp = Expression("/", root->children.back()->children.front()->value,
-                    //          root->children.back()->children.back()->value, root->children.front()->value);
-                    //     curr_block.Tacs.push_back(exp);
-                    // }
-        
+                    if(root->children.back()->type == "ADD")
+                    {
+                        cout << "ADD" << endl;
+                        Expression exp = Expression("+", root->children.back()->children.front()->value,
+                             root->children.back()->children.back()->value, root->children.front()->value);
+                        curr_block.Tacs.push_back(exp);
+                    }
+
                 }
 
             }
@@ -414,25 +384,21 @@ class IR {
             // close block
             *outStream << "\"];" << endl;
             // create block relationships
-            cout << "true exit: "<< bb->trueExit << endl;
             if(bb->trueExit != NULL)
             {
-                
                 *outStream << bb->label << " -> " << bb->trueExit->label << ";" << endl;
-                if(bb->trueExit != bb)
+                if(bb->trueExit !=bb)
                 {
                     generate_tree_bb(outStream, bb->trueExit);
                 }
                 
             } else
             {
-                cout << "no true exit" << endl;
                 return;
             }
 
             if (bb->falseExit != NULL)
             {
-                cout << "true exit" << endl;
                 *outStream << bb->label << " -> " << bb->trueExit->label << ";" << endl;
                 generate_tree_bb(outStream, bb->falseExit);
             }
@@ -474,17 +440,3 @@ class IR {
         
 
 };
-
-    private:
-        void check_math(Node *root) {
-            if(root->children.back()->type == ("ADD") || root->children.back()->type == ("SUB") || root->children.back()->type == ("MUL") || root->children.back()->type == ("DIV"))
-            {
-                depth = depth + 1;
-
-            } else {
-                return;
-            } 
-}
-
-
-
