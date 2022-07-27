@@ -6,7 +6,8 @@
 
 
 using namespace std;
-int counter = 0;
+int counterBB = 0;
+int counterTAC = 0;
 
 class Tac
 {
@@ -14,8 +15,8 @@ class Tac
         string op, lhs, rhs, res;
 
         // Getters & Setters
-        void dump(){
-            printf("%s := %s %s %s\n", res.c_str(), lhs.c_str(), op.c_str(), rhs.c_str());
+        string dump(){
+            return (res + " := " + lhs + " "+ op + " " + rhs);
         }
 };
 
@@ -158,9 +159,14 @@ class Condition_expression : public Tac {
 };
 
 
-string genName() {
-    string name = "block_" + to_string(counter);
-    counter++;
+string genNameBB() {
+    string name = "block_" + to_string(counterBB);
+    counterBB++;
+    return name;
+}
+string genNameTAC() {
+    string name = "_+" + to_string(counterTAC);
+    counterTAC++;
     return name;
 }
 
@@ -168,7 +174,7 @@ class BBlock {
     public:
         vector<Tac> Tacs;
         Tac condition;
-        string label = genName();
+        string label = genNameBB();
         BBlock *trueExit, *falseExit;
         BBlock()
         {
@@ -187,118 +193,166 @@ class IR {
     Node *save_root;
 
     public:
-        void start(Node *root, SymbolTable *symbol_table)
+        void start(Node* root, SymbolTable* symbol_table)
         {
             this->save_root = root;
             BBlock* curr_block = new BBlock;
             root_blocks.push_back(curr_block);
-            BBlock new_bb = create_bb(curr_block, save_root, symbol_table);
-            curr_block->trueExit = &new_bb;
+            BBlock* new_bb = create_bb(curr_block, save_root, symbol_table);
+            curr_block->trueExit = new_bb;
             //create_tree(root, symbol_table);
             return;
         }
 
-        void add_tacs(BBlock *curr_bb, Scope *scope)
+        string traverse_ast(BBlock* parent_bb, Node* root, SymbolTable* symbol_table, string tempVar = "")
         {
+            cout << "traversing " << root->type << ", Children: "<< root->children.size() << endl;
             // Iterate on all children and add the corresponding TAC
-            for(auto const& rec: scope->records)
+            if(root->children.size() == 0) 
             {
+                return "";
 
             }
+            string res ="";
+            if(root->type == "ADD" || root->type == "SUB" || root->type == "MUL" || root->type == "DIV" )
+            {
+                cout << "enter expression handling for "<< root->type << endl;
+                string lhs = "";
+                string rhs = "";
+
+                // lhs
+                if(root->children.front()->type == "INT")
+                {
+                    lhs = "$" + root->children.front()->value;
+                }
+                else
+                {
+                    lhs = traverse_ast(parent_bb, root->children.front(), symbol_table);
+                }
+                cout << "lhs: " << lhs << endl;
+                // rhs
+                if(root->children.back()->type == "INT")
+                {
+                    rhs = "$" + root->children.back()->value;   
+                }
+                else
+                {
+                    rhs = traverse_ast(parent_bb, root->children.back(), symbol_table);
+                }
+                cout << "rhs: " << rhs << endl;
+                // op
+                string op = root->type;
+                res = genNameTAC();  
+                Expression tac = Expression(op, lhs, rhs, res);
+                parent_bb->Tacs.push_back(tac);
+                cout << tac.dump() << endl;
+                cout << "exit expression handling for "<< root->type << endl;
+                
+            } else {
+                for(auto const& child : root->children)
+                {
+                   res = traverse_ast(parent_bb, child, symbol_table);
+                }
+            }
+            
+
+            return res;
         }
 
-        void add_cond(BBlock *curr_bb, Node *root, SymbolTable *symbol_table)
+        void add_cond(BBlock* curr_bb, Node* root, SymbolTable* symbol_table)
         {
+            //föytta scope djupare
             // Add the condition TAC to bb
-            if(root -> type == "IF") {
-                cout << "IF" << endl;
-                // child 0 is the condition, 1 is the true block, 2 is the false block
-                int i = 0;
-                for(auto const& child : root->children)
-                {
-                    if(i == 0)
-                    { 
-                        // is conditon
-                        string res;
-                        string op;
-                        string x1;
-                        string x2;
+            // if(root -> type == "IF") {
+            //     cout << "IF" << endl;
+            //     // child 0 is the condition, 1 is the true block, 2 is the false block
+            //     int i = 0;
+            //     for(auto const& child : root->children)
+            //     {
+            //         if(i == 0)
+            //         { 
+            //             // is conditon
+            //             string res;
+            //             string op;
+            //             string x1;
+            //             string x2;
 
-                        cout << "condition" << endl;
-                        if(child->type == "IDENTIFIER")
-                        {
-                            cout << "child is identifier" << endl;
-                            res = child->value;
-                            op = "";
-                            x1 = "";
-                            x2 = "";
-                        } else {
-                            cout << "child is other" << endl;
-                            cout << child->type << endl;
-                            res = root->type;
-                            op = child->type;
-                            x1 = child->children.front()->value;
-                            x2 = child->children.back()->value;
-                        }
-
-
+            //             cout << "condition" << endl;
+            //             if(child->type == "IDENTIFIER")
+            //             {
+            //                 cout << "child is identifier" << endl;
+            //                 res = child->value;
+            //                 op = "";
+            //                 x1 = "";
+            //                 x2 = "";
+            //             } else {
+            //                 cout << "child is other" << endl;
+            //                 cout << child->type << endl;
+            //                 res = root->type;
+            //                 op = child->type;
+            //                 x1 = child->children.front()->value;
+            //                 x2 = child->children.back()->value;
+            //             }
 
 
-                        Condition_expression cond = Condition_expression(op, x1, x2, res);
-                        curr_block.condition = cond;
-                    } else if (i == 1)
-                    { // is true block
-                        cout << "true block" << endl;
-                        BBlock new_bb = create_bb(curr_bb, child, symbol_table);
-                        curr_block.trueExit = &new_bb;
-                    } else if(i == 2)
-                    { // is false block
-                        cout << " false block" << endl;
-                        BBlock new_bb = create_bb(curr_bb, child, symbol_table);
-                        curr_block.falseExit = &new_bb;
-                    }
-                    i++;
-                }
+
+
+            //             Condition_expression cond = Condition_expression(op, x1, x2, res);
+            //             curr_block.condition = cond;
+            //         } else if (i == 1)
+            //         { // is true block
+            //             cout << "true block" << endl;
+            //             BBlock new_bb = create_bb(curr_bb, child, symbol_table);
+            //             curr_block.trueExit = &new_bb;
+            //         } else if(i == 2)
+            //         { // is false block
+            //             cout << " false block" << endl;
+            //             BBlock new_bb = create_bb(curr_bb, child, symbol_table);
+            //             curr_block.falseExit = &new_bb;
+            //         }
+            //         i++;
+            //     }
                 
-            } else if (root -> type == "WHILE") { 
-                cout << "WHILE" << endl;
-                // child 0 is the condition, 1 is the true block, 2 is the false block
-                // true block/node will be the current one because of the while loop
-                int i = 0;
-                for(auto const& child : root->children)
-                {
-                    if(i == 0)
-                    { // is conditon
-                        Condition_expression cond = Condition_expression(child->type, child->children.front()->value, child->children.back()->value, root-> type);
-                        curr_block.condition = cond;
-                    } else if (i == 1)
-                    { // is true block
+            // } else if (root -> type == "WHILE") { 
+            //     cout << "WHILE" << endl;
+            //     // child 0 is the condition, 1 is the true block, 2 is the false block
+            //     // true block/node will be the current one because of the while loop
+            //     int i = 0;
+            //     for(auto const& child : root->children)
+            //     {
+            //         if(i == 0)
+            //         { // is conditon
+            //             Condition_expression cond = Condition_expression(child->type, child->children.front()->value, child->children.back()->value, root-> type);
+            //             curr_block.condition = cond;
+            //         } else if (i == 1)
+            //         { // is true block
 
-                        curr_block.trueExit = &curr_block;
-                    } 
+            //             curr_block.trueExit = &curr_block;
+            //         } 
 
-                    i++;
-                }
+            //         i++;
+            //     }
 
-                // create false exit block
-                BBlock new_bb = create_bb(curr_bb, root, symbol_table);
-                curr_block.falseExit = &new_bb;                         
+            //     // create false exit block
+            //     BBlock new_bb = create_bb(curr_bb, root, symbol_table);
+            //     curr_block.falseExit = &new_bb;                         
 
-            } else if (root -> type == "MEMBER SELECTION FUNCTION CALL")  {
-                cout << "MEMBER SELECTION FUNCTION CALL" << endl;
+            // } else if (root -> type == "MEMBER SELECTION FUNCTION CALL")  {
+            //     cout << "MEMBER SELECTION FUNCTION CALL" << endl;
 
-            }
+            // }
 
         }
         
-        BBlock create_bb(BBlock *parent_bb, Node *root, SymbolTable *symbol_table) {
+        BBlock* create_bb(BBlock* parent_bb, Node* root, SymbolTable* symbol_table) {
             // Navigate all the BBs and solve the relations between them
-            BBlock *new_bb = new BBlock;
-            add_tacs(*new_bb);
+            cout << "create_bb" << endl;
+            BBlock* new_bb = new BBlock;
+            traverse_ast(new_bb, root, symbol_table);
 
            
 
-            return *new_bb;
+            return new_bb;
         }
 
 
@@ -347,21 +401,21 @@ class IR {
         // }
 
         // graph functions
-        BBlock test_bb_tree() {
-            BBlock bb = BBlock();
-            bb.label = "1";
-            bb.trueExit = new BBlock();
-            bb.trueExit->label = "2";
-            bb.falseExit = new BBlock();
-            bb.falseExit->label = "3";
-            bb.condition = Condition_expression("<", "x", "y", "result");
+        BBlock* test_bb_graph() {
+            BBlock* bb = new BBlock();
+            bb->label = "1";
+            bb->trueExit = new BBlock();
+            bb->trueExit->label = "2";
+            bb->falseExit = new BBlock();
+            bb->falseExit->label = "3";
+            bb->condition = Condition_expression("<", "x", "y", "result");
             return bb;
         }
 
-        void generate_tree()
+        void generate_graph()
         {   
             std::cout << "root block label: " << root_blocks.front()->label << std::endl;
-            // BBlock root_block = test_bb_tree();
+            //BBlock* ptr_block = test_bb_graph();
             //BBlock* ptr_block = &root_block;
             BBlock* ptr_block = root_blocks.front();
 
@@ -372,25 +426,25 @@ class IR {
             outStream << "digraph G {" << endl;
             outStream << "node [shape = box];" << endl;
             //outStream << "block_0 [label=\"block_0\"];" << endl;
-            generate_tree_bb(&outStream,  ptr_block);
+            generate_graph_bb(&outStream,  ptr_block);
 
             //   Might need to add back later with a relation to the last bblock
-            //string final_block_label = genName();
+            //string final_block_label = genNameBB();
             // outStream << final_block_label << " [label=\"" << final_block_label << "\"];" << endl;
             outStream << "}" << endl;
             outStream.close();
 
-            std::cout << "Generated IR Tree" << endl;
+            std::cout << "Generated IR graph" << endl;
             system("dot -Tpng ir.dot -o ir.png");
 
 
             return;
         }
 
-        void generate_tree_bb(ofstream *outStream, BBlock *bb)
+        void generate_graph_bb(ofstream *outStream, BBlock *bb)
         {
-
-
+            cout << "generate graph bb: "<< root_blocks.front()->label  << endl;
+            
             // create current block
             *outStream << bb->label << " [label=\""<< bb->label << "\n";
 
@@ -398,7 +452,8 @@ class IR {
             *outStream << "test TAC \n" << endl;
             for(auto tac_in_block = bb->Tacs.begin(); tac_in_block != bb->Tacs.end(); tac_in_block++)
             {
-                (*tac_in_block).dump();
+               cout << (*tac_in_block).dump() << endl;
+               *outStream << (*tac_in_block).dump() << endl;
             }
 
             // close block
@@ -411,7 +466,7 @@ class IR {
                 if(bb->trueExit !=bb)
                 {
                     cout << "true exit" << endl;
-                    generate_tree_bb(outStream, bb->trueExit);
+                    generate_graph_bb(outStream, bb->trueExit);
                 }
                 
             } else
@@ -422,7 +477,7 @@ class IR {
             if (bb->falseExit != NULL)
             {
                 *outStream << bb->label << " -> " << bb->falseExit->label << ";" << endl;
-                generate_tree_bb(outStream, bb->falseExit);
+                generate_graph_bb(outStream, bb->falseExit);
             }
 
             return;
