@@ -101,7 +101,6 @@ class Method: public Container
   }
 };
 
-
 class Class: public Container
 {
   public:

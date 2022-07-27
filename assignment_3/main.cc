@@ -35,10 +35,10 @@ int main(int argc, char **argv)
     // turn off semantic analysis for now
     semantic(root, symboltable);
     IR ir;
-    cout << "Creating IR tree" << endl;
+    cout << "\n -- Creating IR tree -- " << endl;
     ir.start(root, symboltable);
-    cout << "Generating graph" << endl;
-    ir.generate_tree();
+    cout << "\n -- Generating graph -- " << endl;
+    ir.generate_graph();
   }
   // assigment 3 traverse tree by root node.
 
