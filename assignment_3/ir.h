@@ -214,14 +214,16 @@ class IR {
 
             }
             string res ="";
-            if(root->type == "ADD" || root->type == "SUB" || root->type == "MUL" || root->type == "DIV" )
+            if(root->type == "ADD" || root->type == "SUB" || root->type == "MUL" || root->type == "DIV"
+            || root->type == "OR" || root->type == "COMPARE" || root->type == "AND" || root->type == "GREATER"
+            || root->type == "LESS" )
             {
                 cout << "enter expression handling for "<< root->type << endl;
                 string lhs = "";
                 string rhs = "";
 
                 // lhs
-                if(root->children.front()->type == "INT")
+                if(root->children.front()->type == "INT" || root->children.front()->type == "boolExpression")
                 {
                     lhs = "$" + root->children.front()->value;
                 }
@@ -231,7 +233,7 @@ class IR {
                 }
                 cout << "lhs: " << lhs << endl;
                 // rhs
-                if(root->children.back()->type == "INT")
+                if(root->children.back()->type == "INT" || root->children.back()->type == "boolExpression")
                 {
                     rhs = "$" + root->children.back()->value;   
                 }
@@ -248,13 +250,29 @@ class IR {
                 cout << tac.dump() << endl;
                 cout << "exit expression handling for "<< root->type << endl;
                 
+            } else if(root->type == "NEGATION" ) // Unary expression
+            {
+                cout << "enter expression handling for "<< root->type << endl;
+                string lhs = "";
+                string rhs = "";
+                if(root->children.front()->type == "boolExpression")
+                {
+                    rhs = "$" + root->children.front()->value;
+                }
+                string op = "!";
+                res = genNameTAC();
+                Unary_expression tac = Unary_expression(op, rhs, res);
+                parent_bb->Tacs.push_back(tac);
+                cout << tac.dump() << endl;
+                cout << "exit expression handling for "<< root->type << endl;
+        
             } else {
                 for(auto const& child : root->children)
                 {
                    res = traverse_ast(parent_bb, child, symbol_table);
                 }
             }
-            
+
 
             return res;
         }
