@@ -128,6 +128,15 @@ class Return : public Tac {
     }
 };
 
+class Print : public Tac {
+    public:
+    Print(string op)
+    {   
+        this->lhs = "print";
+        this->op = op;
+    }
+};
+
 class Jump : public Tac {
     public:
         Jump(string label)
@@ -264,6 +273,20 @@ class IR {
                 cout << tac.dump() << endl;
                 cout << "exit expression handling for "<< root->type << endl;
         
+            } else if(root->type == "SYSTEMOUTPRINT") {
+                cout << "enter expression handling for "<< root->type << endl;
+                string op = "";
+
+                if(root->children.front()->type == "boolExpression" || root->children.front()->type == "INT")
+                {
+                    op = "$" + root->children.front()->value;
+                } else {
+                    op = traverse_ast(parent_bb, root->children.front(), symbol_table);
+                }
+
+                Print tac = Print(op);
+                parent_bb->Tacs.push_back(tac);
+
             } else {
                 for(auto const& child : root->children)
                 {
@@ -369,15 +392,19 @@ class IR {
 
             return;
         }
-
-        // Code generation functions
-
-        void generate_code(BBlock basicBlock)
-        {
-            cout << "generate code" << endl;
-            // generate code for each bb
-
-
-            return;
-        }
 };
+        // // Code generation functions
+        // string readTAC() {}
+        // void generate_code(BBlock* basicBlock)
+        // {
+        //     cout << "generate code for bb"<< basicBlock->label << endl;
+        //     // generate code for each bb
+        //     for (auto bb = basicBlock.Tacs.begin() ; bb != basicBlock->Tacs.end(); bb++)
+        //     {
+        //         cout << "generate code for bb: " << (*bb)->label << endl;
+        //         generate_code_bb(*bb);
+        //     }
+
+        //     generate_code_bb(basicBlock.trueExit());
+        //     return;
+        // }
