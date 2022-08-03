@@ -3,7 +3,7 @@
 #include "semantic.cpp"
 #include "symbol_table.h"
 #include "Node.h"
-#include "codeGen.h"
+
 extern Node* root;
 extern FILE* yyin;
 
@@ -40,7 +40,9 @@ int main(int argc, char **argv)
     ir.start(root, symboltable);
     cout << "\n -- Generating graph -- " << endl;
     ir.generate_graph();
-    // ir.generate_code(ir.root_blocks.front());
+    Bytecode bytecode;
+    bytecode.traverse_ir(ir.root_blocks.front());
+    bytecode.prgm->dump_methods();
   }
   // assigment 3 traverse tree by root node.
 

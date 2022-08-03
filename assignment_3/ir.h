@@ -196,10 +196,10 @@ class BBlock {
 
 class IR {
     BBlock curr_block;
-    vector<BBlock*> root_blocks;
     Node *save_root;
 
     public:
+       vector<BBlock*> root_blocks;
         void start(Node* root, SymbolTable* symbol_table)
         {
             this->save_root = root;
@@ -393,6 +393,190 @@ class IR {
             return;
         }
 };
+
+
+
+class Instruction{
+    int counter = 0;
+    int id;
+    string argument;
+
+    public:
+        Instruction(string argument)
+        {
+            this->id = counter;
+            counter++;
+            this->argument = argument;
+        }
+        string dump()
+        {
+            return argument;
+        }
+};
+
+class Meth {
+    vector<string*> variables;
+    vector<Instruction*> instructions;
+
+    public: 
+        void put_variable(string* variable)
+        {
+            variables.push_back(variable);
+        }
+        string* pop_variable()
+        {
+            string* str = variables.back();
+            variables.pop_back();
+            return str;
+        }
+        void put_instruction(Instruction* instruction)
+        {
+           instructions.push_back(instruction);
+        }
+        Instruction* pop_instruction()
+        {
+            Instruction* i = instructions.back();
+            instructions.pop_back();
+            return i;
+        }
+        void dump_instructions()
+        {
+            for(auto const& instruction : instructions)
+            {
+                cout << instruction->dump() << endl;
+            }
+        }
+
+};
+
+class Program {
+    public:
+    Program() {
+        cout << "Program constructor" << endl;
+    };
+
+    vector<Meth*> methods;
+
+    Meth* pop_method() {
+            Meth* m = methods.back();
+            methods.pop_back();
+            return m;
+        }
+    void push_method(Meth* m) {
+            methods.push_back(m);
+        }
+    void dump_methods() {
+            for(auto const& method : methods)
+            {
+                cout << "Method: " << endl;
+                method->dump_instructions();
+            }
+        }
+
+};
+
+class Bytecode {
+    vector<int> stack;
+    Meth* new_meth;
+    public:
+        Program* prgm;
+        Bytecode() {
+            cout << "Bytecode constructor" << endl;
+            this->prgm = new Program();
+            this->new_meth = new Meth();
+            prgm->methods.push_back(new_meth);
+        };
+
+        string parse_bool(string str) {
+            if(str == "$true")
+            {
+                return "1";
+            } else if(str == "$false") {
+                return "0";
+            } else {
+                return "";
+            }
+        }
+
+
+
+        void traverse_ir(BBlock* bb)
+        {
+            cout << "traverse ir" << endl;
+            for(auto tac_in_block = bb->Tacs.begin(); tac_in_block != bb->Tacs.end(); tac_in_block++)
+            {
+                cout << (*tac_in_block).dump() << endl;
+                if (tac_in_block->lhs == "print")
+                {
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->op));
+                    prgm->methods.back()->put_instruction(new Instruction("print"));
+                    
+                }else if (tac_in_block->op == "!") {
+                    string rhs = parse_bool(tac_in_block->rhs);
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + rhs));
+                    prgm->methods.back()->put_instruction(new Instruction("inot"));
+                    // prgm->methods.back()->put_instruction(new Instruction("istore " + tac_in_block->res));
+                } else if (tac_in_block->op == "MUL") {
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->lhs));
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->rhs));
+                    prgm->methods.back()->put_instruction(new Instruction("imul"));
+                    prgm->methods.back()->put_instruction(new Instruction("istore " + tac_in_block->res));
+                } else if (tac_in_block->op == "SUB") {
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->lhs));
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->rhs));
+                    prgm->methods.back()->put_instruction(new Instruction("isub"));
+                    prgm->methods.back()->put_instruction(new Instruction("istore " + tac_in_block->res));
+                } else if (tac_in_block->op == "ADD") {
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->lhs));
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->rhs));
+                    prgm->methods.back()->put_instruction(new Instruction("iadd"));
+                    prgm->methods.back()->put_instruction(new Instruction("istore " + tac_in_block->res));
+                } else if (tac_in_block->op == "DIV") {
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->lhs));
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->rhs));
+                    prgm->methods.back()->put_instruction(new Instruction("idiv"));
+                    prgm->methods.back()->put_instruction(new Instruction("istore " + tac_in_block->res));
+                } else if (tac_in_block->op == "AND") {
+                    string lhs = parse_bool(tac_in_block->lhs);
+                    string rhs = parse_bool(tac_in_block->rhs);
+                    if(lhs != "") {
+                        prgm->methods.back()->put_instruction(new Instruction("iload " + lhs));
+                    }
+                    if(rhs != "") {
+                        prgm->methods.back()->put_instruction(new Instruction("iload " + rhs));
+                    }
+                    prgm->methods.back()->put_instruction(new Instruction("iand"));
+                } else if (tac_in_block->op == "OR") {
+                    string lhs = parse_bool(tac_in_block->lhs);
+                    string rhs = parse_bool(tac_in_block->rhs);
+                    if(lhs != "") {
+                        prgm->methods.back()->put_instruction(new Instruction("iload " + lhs));
+                    }
+                    if(rhs != "") {
+                        prgm->methods.back()->put_instruction(new Instruction("iload " + rhs));
+                    }
+                    prgm->methods.back()->put_instruction(new Instruction("ior"));
+                } else if (tac_in_block->op == "LESS") {
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->lhs));
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->rhs));
+                    prgm->methods.back()->put_instruction(new Instruction("ilt"));
+                }
+
+            }
+
+            if(bb->trueExit != NULL)
+            {
+                traverse_ir(bb->trueExit);
+            }
+            if(bb->falseExit != NULL)
+            {
+                traverse_ir(bb->falseExit);
+            }
+        }
+};
+
+
+
         // // Code generation functions
         // string readTAC() {}
         // void generate_code(BBlock* basicBlock)
