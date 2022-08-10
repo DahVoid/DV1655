@@ -1,0 +1,62 @@
+iload $4
+iload $2
+imul
+istore _+0
+iload $2
+iload $6
+imul
+istore _+1
+iload $4
+iload $1
+isub
+istore _+2
+iload _+2
+iload $2
+imul
+istore _+3
+iload _+3
+iload $2
+idiv
+istore _+4
+iload _+1
+iload _+4
+isub
+istore _+5
+iload $10
+iload _+5
+isub
+istore _+6
+iload _+0
+iload _+6
+iadd
+istore _+7
+iload _+7
+print
+iload $1
+inot
+iload $0
+iand
+istore _+9
+iload _+9
+iload $1
+ieq
+istore _+10
+iload _+10
+iload $10
+iload $1
+igt
+istore _+11
+iload _+11
+iload $1
+iload $10
+ilt
+istore _+12
+iload _+12
+iand
+istore _+13
+iload _+13
+ior
+istore _+14
+iload _+14
+iload _+14
+print

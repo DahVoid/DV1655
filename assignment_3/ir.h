@@ -200,8 +200,10 @@ class IR {
 
     public:
        vector<BBlock*> root_blocks;
+       bool isNegative = false;
         void start(Node* root, SymbolTable* symbol_table)
         {
+            
             this->save_root = root;
             BBlock* curr_block = new BBlock;
             root_blocks.push_back(curr_block);
@@ -251,6 +253,15 @@ class IR {
                 cout << "rhs: " << rhs << endl;
                 // op
                 string op = root->type;
+                if(isNegative) {
+                    if(root->type == "ADD") {
+                        op = "SUB";
+                    }
+                }
+                if (root->type == "SUB") {
+                    isNegative = !isNegative;
+                }
+
                 res = genNameTAC();  
                 Expression tac = Expression(op, lhs, rhs, res);
                 parent_bb->Tacs.push_back(tac);
@@ -286,6 +297,12 @@ class IR {
 
                 Print tac = Print(op);
                 parent_bb->Tacs.push_back(tac);
+
+            } else if (root->type == "STATEMENTBODY") {
+                for (std::list<Node *>::reverse_iterator child = root->children.rbegin(); child != root->children.rend(); child++)
+                {
+                   res = traverse_ast(parent_bb, *child, symbol_table);
+                }
 
             } else {
                 for(auto const& child : root->children)
@@ -441,10 +458,13 @@ class Meth {
         }
         void dump_instructions()
         {
+            std::ofstream outStream;
+            outStream.open("bytecode.prgm");
             for(auto const& instruction : instructions)
             {
-                cout << instruction->dump() << endl;
+                outStream << instruction->dump() << endl;
             }
+            outStream.close();
         }
 
 };
@@ -466,11 +486,12 @@ class Program {
             methods.push_back(m);
         }
     void dump_methods() {
+
             for(auto const& method : methods)
             {
-                cout << "Method: " << endl;
                 method->dump_instructions();
             }
+
         }
 
 };
@@ -490,9 +511,9 @@ class Bytecode {
         string parse_bool(string str) {
             if(str == "$true")
             {
-                return "1";
+                return "$1";
             } else if(str == "$false") {
-                return "0";
+                return "$0";
             } else {
                 return "";
             }
@@ -505,7 +526,6 @@ class Bytecode {
             cout << "traverse ir" << endl;
             for(auto tac_in_block = bb->Tacs.begin(); tac_in_block != bb->Tacs.end(); tac_in_block++)
             {
-                cout << (*tac_in_block).dump() << endl;
                 if (tac_in_block->lhs == "print")
                 {
                     prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->op));
@@ -546,6 +566,8 @@ class Bytecode {
                         prgm->methods.back()->put_instruction(new Instruction("iload " + rhs));
                     }
                     prgm->methods.back()->put_instruction(new Instruction("iand"));
+                    prgm->methods.back()->put_instruction(new Instruction("istore " + tac_in_block->res));
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->res));
                 } else if (tac_in_block->op == "OR") {
                     string lhs = parse_bool(tac_in_block->lhs);
                     string rhs = parse_bool(tac_in_block->rhs);
@@ -556,11 +578,33 @@ class Bytecode {
                         prgm->methods.back()->put_instruction(new Instruction("iload " + rhs));
                     }
                     prgm->methods.back()->put_instruction(new Instruction("ior"));
+                    prgm->methods.back()->put_instruction(new Instruction("istore " + tac_in_block->res));
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->res));
                 } else if (tac_in_block->op == "LESS") {
                     prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->lhs));
                     prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->rhs));
                     prgm->methods.back()->put_instruction(new Instruction("ilt"));
-                }
+                    prgm->methods.back()->put_instruction(new Instruction("istore " + tac_in_block->res));
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->res));
+                } else if (tac_in_block->op == "GREATER") {
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->lhs));
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->rhs));
+                    prgm->methods.back()->put_instruction(new Instruction("igt"));
+                    prgm->methods.back()->put_instruction(new Instruction("istore " + tac_in_block->res));
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->res));
+                } else if (tac_in_block->op == "COMPARE") {
+                    string lhs = parse_bool(tac_in_block->lhs);
+                    string rhs = parse_bool(tac_in_block->rhs);
+                    if(lhs != "") {
+                        prgm->methods.back()->put_instruction(new Instruction("iload " + lhs));
+                    }
+                    if(rhs != "") {
+                        prgm->methods.back()->put_instruction(new Instruction("iload " + rhs));
+                    }
+                    prgm->methods.back()->put_instruction(new Instruction("ieq"));
+                    prgm->methods.back()->put_instruction(new Instruction("istore " + tac_in_block->res));
+                    prgm->methods.back()->put_instruction(new Instruction("iload " + tac_in_block->res));
+                } 
 
             }
 
@@ -574,21 +618,3 @@ class Bytecode {
             }
         }
 };
-
-
-
-        // // Code generation functions
-        // string readTAC() {}
-        // void generate_code(BBlock* basicBlock)
-        // {
-        //     cout << "generate code for bb"<< basicBlock->label << endl;
-        //     // generate code for each bb
-        //     for (auto bb = basicBlock.Tacs.begin() ; bb != basicBlock->Tacs.end(); bb++)
-        //     {
-        //         cout << "generate code for bb: " << (*bb)->label << endl;
-        //         generate_code_bb(*bb);
-        //     }
-
-        //     generate_code_bb(basicBlock.trueExit());
-        //     return;
-        // }

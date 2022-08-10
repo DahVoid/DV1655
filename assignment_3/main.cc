@@ -8,6 +8,7 @@ extern Node* root;
 extern FILE* yyin;
 
 #include "ir.h"
+#include "interpreter.h"
 // extern SymbolTable* symboltable;
 
 void yy::parser::error(std::string const&err)
@@ -36,6 +37,7 @@ int main(int argc, char **argv)
     // turn off semantic analysis for now
     semantic(root, symboltable);
     IR ir;
+    interpreter interpreter;
     cout << "\n -- Creating IR tree -- " << endl;
     ir.start(root, symboltable);
     cout << "\n -- Generating graph -- " << endl;
@@ -43,6 +45,7 @@ int main(int argc, char **argv)
     Bytecode bytecode;
     bytecode.traverse_ir(ir.root_blocks.front());
     bytecode.prgm->dump_methods();
+    interpreter.interpret("bytecode.prgm");
   }
   // assigment 3 traverse tree by root node.
 
