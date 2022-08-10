@@ -13,10 +13,11 @@ class Tac
 {
     public:
         string op, lhs, rhs, res;
+        string eqSign = " := ";
 
         // Getters & Setters
         string dump(){
-            return (res + " := " + lhs + " "+ op + " " + rhs);
+            return (res + eqSign + lhs + " "+ op + " " + rhs);
         }
 };
 
@@ -63,10 +64,10 @@ class Array_access :public  Tac
     }
 };
 
-class New : public Tac
+class NewObj : public Tac
 {
     public:
-    New(string type, string res)
+    NewObj(string type, string res)
     {
         this->lhs = "new";
         this->op = type;
@@ -74,10 +75,10 @@ class New : public Tac
     }
 };
 
-class New_array : public Tac
+class NewArray : public Tac
 {
     public:
-    New_array(string type, string res, string N)
+    NewArray(string type, string res, string N)
     {
         this->lhs = "new";
         this->op = type;
@@ -102,6 +103,7 @@ class Parameter : public  Tac
     public:
     Parameter(string name)
     {
+        this->eqSign = "";
         this->lhs = "param";
         this->op = name;
         
@@ -112,8 +114,8 @@ class MethodCall : public Tac {
     public:
     MethodCall(string f1, string N1, string res)
     {
-        this->op = "call";
-        this->lhs = f1;
+        this->op = f1;
+        this->lhs = "call";
         this->rhs = N1;
         this->res = res;
     }
@@ -134,6 +136,7 @@ class Print : public Tac {
     {   
         this->lhs = "print";
         this->op = op;
+        this->eqSign = "";
     }
 };
 
@@ -304,6 +307,37 @@ class IR {
                    res = traverse_ast(parent_bb, *child, symbol_table);
                 }
 
+            } else if(root->type == "MEMBER SELECTION FUNCTION CALL") {
+                int paramCount = 0;
+                string selectionStr = "";
+                int counter = 0;
+                for(auto const& child : root->children)
+                {
+                    if(counter == 0) {
+
+                        // new if not a this. statement
+
+                        res = genNameTAC(); 
+                        NewObj tac = NewObj(child->value, res);
+                        parent_bb->Tacs.push_back(tac);
+                    } else if (counter == 1){
+                        //method to call
+                       selectionStr = child->value;
+                    } else {
+                        // Parameter
+                        paramCount++;
+                        Parameter tac = Parameter(child->value);
+                        parent_bb->Tacs.push_back(tac);
+                    } 
+                        counter++;
+                }
+
+                res = genNameTAC();  
+                MethodCall tac = MethodCall(selectionStr, to_string(paramCount), res);
+                parent_bb->Tacs.push_back(tac);
+                cout << tac.dump() << endl;
+                cout << "exit expression handling for "<< root->type << endl;
+            
             } else {
                 for(auto const& child : root->children)
                 {
