@@ -1,7 +1,7 @@
 digraph {
 n0 [label="GOAL:"];
 n1 [label="MAINCLASS:"];
-n2 [label="IDENTIFIER:Sum"];
+n2 [label="IDENTIFIER:RecursiveSum"];
 n1 -> n2
 n3 [label="IDENTIFIER:a"];
 n1 -> n3
@@ -11,7 +11,7 @@ n6 [label="IDENTIFIER:Test"];
 n5 -> n6
 n7 [label="IDENTIFIER:Sum"];
 n5 -> n7
-n8 [label="INT:100"];
+n8 [label="INT:10000"];
 n5 -> n8
 n4 -> n5
 n1 -> n4
@@ -45,45 +45,43 @@ n22 -> n24
 n21 -> n22
 n14 -> n21
 n25 [label="STATEMENTBODY:"];
-n26 [label="WHILE:"];
+n26 [label="IF:"];
 n27 [label="LESS:"];
-n28 [label="INT:0"];
+n28 [label="IDENTIFIER:num"];
 n27 -> n28
-n29 [label="IDENTIFIER:num"];
+n29 [label="INT:2"];
 n27 -> n29
 n26 -> n27
-n30 [label="STATEMENTBODY:"];
-n31 [label="EQUAL:"];
-n32 [label="IDENTIFIER:num"];
-n31 -> n32
-n33 [label="SUB:"];
-n34 [label="IDENTIFIER:num"];
-n33 -> n34
-n35 [label="INT:1"];
-n33 -> n35
-n31 -> n33
+n30 [label="EQUAL:"];
+n31 [label="IDENTIFIER:sum"];
 n30 -> n31
-n36 [label="EQUAL:"];
-n37 [label="IDENTIFIER:sum"];
-n36 -> n37
-n38 [label="ADD:"];
-n39 [label="IDENTIFIER:sum"];
-n38 -> n39
-n40 [label="IDENTIFIER:num"];
-n38 -> n40
-n36 -> n38
-n30 -> n36
+n32 [label="INT:1"];
+n30 -> n32
 n26 -> n30
+n33 [label="EQUAL:"];
+n34 [label="IDENTIFIER:sum"];
+n33 -> n34
+n35 [label="ADD:"];
+n36 [label="IDENTIFIER:num"];
+n35 -> n36
+n37 [label="MEMBER SELECTION FUNCTION CALL:"];
+n38 [label="THIS:this"];
+n37 -> n38
+n39 [label="IDENTIFIER:Sum"];
+n37 -> n39
+n40 [label="SUB:"];
+n41 [label="IDENTIFIER:num"];
+n40 -> n41
+n42 [label="INT:1"];
+n40 -> n42
+n37 -> n40
+n35 -> n37
+n33 -> n35
+n26 -> n33
 n25 -> n26
-n41 [label="EQUAL:"];
-n42 [label="IDENTIFIER:sum"];
-n41 -> n42
-n43 [label="INT:0"];
-n41 -> n43
-n25 -> n41
 n14 -> n25
-n44 [label="IDENTIFIER:sum"];
-n14 -> n44
+n43 [label="IDENTIFIER:sum"];
+n14 -> n43
 n13 -> n14
 n10 -> n13
 n9 -> n10

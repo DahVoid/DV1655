@@ -1,24 +1,27 @@
 digraph G {
 node [shape = box];
-block_1 [label="block_1
+block_0 [label="block_0
 "];
-block_1 -> block_2;
-block_2 [label="block_2
+block_0 -> block_1 [ label="true"];
+block_1 [label="block_1
 _+0 := new Test 
 param _+0 
-param 100 
+param 10000 
 _+1 := call Sum 2
 print _+1 
 "];
-block_2 -> block_3;
-block_3 [label="block_3
+block_1 -> block_2 [ label="true"];
+block_2 [label="block_2
 "];
-block_4 [label="block_4
-sum := 0  
-_+2 := $0 LESS num
-_+3 := sum ADD num
-sum := _+3  
-_+4 := num SUB $1
-num := _+4  
+block_3 [label="block_3
+_+2 := num LESS $2
+sum := 1  
+_+3 := new this 
+param _+3 
+param  
+_+4 := call Sum 2
+_+5 := num ADD _+4
+sum := _+5  
+ := return sum 
 "];
 }

@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <set>
 #include <iostream>
 #include "Node.h"
 
@@ -121,9 +122,9 @@ class MethodCall : public Tac {
     }
 };
 
-class Return : public Tac {
+class ReturnTac : public Tac {
     public:
-    Return(string op)
+    ReturnTac(string op)
     {   
         this->lhs = "return";
         this->op = op;
@@ -206,7 +207,7 @@ class BBlock {
 };
 
 class IR {
-    BBlock curr_block;
+    BBlock* curr_block;
     Node *save_root;
 
     public:
@@ -216,15 +217,14 @@ class IR {
         {
             
             this->save_root = root;
-            BBlock* curr_block = new BBlock;//create first block
+            curr_block = new BBlock;//create first block
             entryBlocks.push_back(curr_block);
-            BBlock* new_bb = create_bb(curr_block, save_root, symbol_table);
-            curr_block->trueExit = new_bb;
-
+            traverse_ast(root, symbol_table);
+            
             return;
         }
 
-        string traverse_ast(BBlock* parent_bb, Node* root, SymbolTable* symbol_table, string tempVar = "")
+        string traverse_ast(Node* root, SymbolTable* symbol_table, string tempVar = "")
         {
             cout << "traversing " << root->type << ", Children: "<< root->children.size() << endl;
             // Iterate on all children and add the corresponding TAC
@@ -249,7 +249,7 @@ class IR {
                 }
                 else
                 {
-                    lhs = traverse_ast(parent_bb, root->children.front(), symbol_table);
+                    lhs = traverse_ast(root->children.front(), symbol_table);
                 }
                 cout << "lhs: " << lhs << endl;
                 // rhs
@@ -259,7 +259,7 @@ class IR {
                 }
                 else
                 {
-                    rhs = traverse_ast(parent_bb, root->children.back(), symbol_table);
+                    rhs = traverse_ast(root->children.back(), symbol_table);
                 }
                 cout << "rhs: " << rhs << endl;
                 // op
@@ -275,7 +275,7 @@ class IR {
 
                 res = genNameTAC();  
                 Expression tac = Expression(op, lhs, rhs, res);
-                parent_bb->Tacs.push_back(tac);
+                curr_block->Tacs.push_back(tac);
                 cout << tac.dump() << endl;
                 cout << "exit expression handling for "<< root->type << endl;
                 
@@ -291,7 +291,7 @@ class IR {
                 string op = "!";
                 res = genNameTAC();
                 Unary_expression tac = Unary_expression(op, rhs, res);
-                parent_bb->Tacs.push_back(tac);
+                curr_block->Tacs.push_back(tac);
                 cout << tac.dump() << endl;
                 cout << "exit expression handling for "<< root->type << endl;
         
@@ -303,16 +303,16 @@ class IR {
                 {
                     op = "$" + root->children.front()->value;
                 } else {
-                    op = traverse_ast(parent_bb, root->children.front(), symbol_table);
+                    op = traverse_ast(root->children.front(), symbol_table);
                 }
 
                 Print tac = Print(op);
-                parent_bb->Tacs.push_back(tac);
+                curr_block->Tacs.push_back(tac);
 
             } else if (root->type == "STATEMENTBODY") {
                 for (std::list<Node *>::reverse_iterator child = root->children.rbegin(); child != root->children.rend(); child++)
                 {
-                   res = traverse_ast(parent_bb, *child, symbol_table);
+                   res = traverse_ast(*child, symbol_table);
                 }
 
             } else if(root->type == "MEMBER SELECTION FUNCTION CALL") {
@@ -327,10 +327,10 @@ class IR {
 
                         res = genNameTAC(); 
                         NewObj tac = NewObj(child->value, res);
-                        parent_bb->Tacs.push_back(tac);
+                        curr_block->Tacs.push_back(tac);
                         paramCount++;
                         Parameter paramTac = Parameter(res);
-                        parent_bb->Tacs.push_back(paramTac);
+                        curr_block->Tacs.push_back(paramTac);
                     } else if (counter == 1){
                         //method to call
                        selectionStr = child->value;
@@ -338,46 +338,78 @@ class IR {
                         // Parameter
                         paramCount++;
                         Parameter tac = Parameter(child->value);
-                        parent_bb->Tacs.push_back(tac);
+                        curr_block->Tacs.push_back(tac);
                     } 
                         counter++;
                 }
 
                 res = genNameTAC();  
                 MethodCall tac = MethodCall(selectionStr, to_string(paramCount), res);
-                parent_bb->Tacs.push_back(tac);
+                curr_block->Tacs.push_back(tac);
                 cout << tac.dump() << endl;
                 cout << "exit expression handling for "<< root->type << endl;
             
             } else if(root->type == "METHODDECLARATION") {
                 BBlock* new_bb = new BBlock;
                 entryBlocks.push_back(new_bb);
+                curr_block = new_bb;
                 for(auto const& child : root->children)
                 {
-                    res = traverse_ast(new_bb, child, symbol_table);
+                    res = traverse_ast(child, symbol_table);
+                }
+
+                if(root->children.back()->type == "IDENTIFIER") {
+                   string res = root->children.back()->value;
+                   ReturnTac tac = ReturnTac(res);
+                   curr_block->Tacs.push_back(tac);
+                   cout << tac.dump() << endl;
+                   
                 }
                 
             } else if(root->type == "EQUAL") {
                 string res = root->children.front()->value;
-                string lhs = traverse_ast(parent_bb, root->children.back(), symbol_table);
+                string lhs = traverse_ast(root->children.back(), symbol_table);
                 Copy tac = Copy(lhs, res);
-                parent_bb->Tacs.push_back(tac);
+                curr_block->Tacs.push_back(tac);
                 cout << tac.dump() << endl;
 
             } else if(root->type == "MAINCLASS") {
+                BBlock* main_bb = new BBlock;
+                BBlock* exit_bb = new BBlock;
+                curr_block->trueExit = main_bb;
+                curr_block = main_bb;
                 for(auto const& child : root->children)
                 {
-                   res = traverse_ast(parent_bb, child, symbol_table);
+                   res = traverse_ast(child, symbol_table);
                 }
-                parent_bb->trueExit =  new BBlock;//create exit block
+                entryBlocks.front()->trueExit->trueExit =  exit_bb;//create exit block
             
 
-            } else if(root->type == "INT") {
-                return root->value;
+            } else if(root->type == "WHILE") {
+                // condition front
+                BBlock* loopHeader = new BBlock;
+                curr_block->trueExit = loopHeader;
+                curr_block = loopHeader;
+                traverse_ast(root->children.front(), symbol_table);
+
+                // body back
+                BBlock* loopBody = new BBlock;
+                loopHeader->trueExit = loopBody;
+                loopBody->trueExit = loopHeader;
+                curr_block = loopBody;
+                traverse_ast(root->children.back(), symbol_table);
+
+                // loop exit
+                BBlock* loopExit = new BBlock;
+                loopHeader->falseExit = loopExit;
+                curr_block = loopExit;
+
+            } else if(root->type =="" ) {
+
             } else {
                 for(auto const& child : root->children)
                 {
-                   res = traverse_ast(parent_bb, child, symbol_table);
+                   res = traverse_ast(child, symbol_table);
                 }
             }
 
@@ -385,18 +417,9 @@ class IR {
             return res;
         }
 
-        BBlock* create_bb(BBlock* parent_bb, Node* root, SymbolTable* symbol_table) {
-            // Navigate all the BBs and solve the relations between them
-            cout << "create_bb" << endl;
-            BBlock* new_bb = new BBlock;
-            traverse_ast(new_bb, root, symbol_table);
 
-           
-
-            return new_bb;
-        }
-
-        // graph functions
+        // graph 
+        std::set<std::string> generatedBBs;
         BBlock* test_bb_graph() {
             BBlock* bb = new BBlock();
             bb->label = "1";
@@ -448,6 +471,7 @@ class IR {
         void generate_graph_bb(ofstream *outStream, BBlock *bb)
         {
             cout << "generate graph bb: "<< bb->label  << endl;
+            generatedBBs.insert(bb->label);
             
             // create current block
             *outStream << bb->label << " [label=\""<< bb->label << "\n";
@@ -465,8 +489,8 @@ class IR {
             cout << "create block relationships" << endl;
             if(bb->trueExit != NULL)
             {
-                *outStream << bb->label << " -> " << bb->trueExit->label << ";" << endl;
-                if(bb->trueExit !=bb)
+                *outStream << bb->label << " -> " << bb->trueExit->label << " [ label=\"true\"]" << ";" << endl;
+                if(bb->trueExit !=bb && generatedBBs.find(bb->trueExit->label) == generatedBBs.end() )
                 {
                     cout << "true exit" << endl;
                     generate_graph_bb(outStream, bb->trueExit);
@@ -479,7 +503,7 @@ class IR {
 
             if (bb->falseExit != NULL)
             {
-                *outStream << bb->label << " -> " << bb->falseExit->label << ";" << endl;
+                *outStream << bb->label << " -> " << bb->falseExit->label  << " [ label=\"false\"]" << ";" << endl;
                 generate_graph_bb(outStream, bb->falseExit);
             }
 
