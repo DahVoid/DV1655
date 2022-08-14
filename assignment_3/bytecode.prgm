@@ -1,15 +1,2 @@
 iload _+1
 print
-iload $0
-iload 
-ilt
-istore _+2
-iload _+2
-iload 
-iload 
-iadd
-istore _+3
-iload 
-iload $1
-isub
-istore _+4

@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     cout << "\n -- Generating graph -- " << endl;
     ir.generate_graph();
     Bytecode bytecode;
-    bytecode.traverse_ir(ir.root_blocks.front());
+    bytecode.traverse_ir(ir.entryBlocks.front());
     bytecode.prgm->dump_methods();
     interpreter.interpret("bytecode.prgm");
   }

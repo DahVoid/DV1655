@@ -170,6 +170,14 @@ class Condition_expression : public Tac {
     }
 };
 
+class Copy : public Tac {
+    public:
+    Copy(string lhs, string res)
+    {
+        this->lhs = lhs;
+        this->res = res;
+    }
+};
 
 string genNameBB() {
     string name = "block_" + to_string(counterBB);
@@ -202,14 +210,14 @@ class IR {
     Node *save_root;
 
     public:
-       vector<BBlock*> root_blocks;
+       vector<BBlock*> entryBlocks;
        bool isNegative = false;
         void start(Node* root, SymbolTable* symbol_table)
         {
             
             this->save_root = root;
-            BBlock* curr_block = new BBlock;
-            root_blocks.push_back(curr_block);
+            BBlock* curr_block = new BBlock;//create first block
+            entryBlocks.push_back(curr_block);
             BBlock* new_bb = create_bb(curr_block, save_root, symbol_table);
             curr_block->trueExit = new_bb;
 
@@ -222,7 +230,7 @@ class IR {
             // Iterate on all children and add the corresponding TAC
             if(root->children.size() == 0) 
             {
-                return "";
+                 return root->value;
 
             }
             string res ="";
@@ -320,6 +328,9 @@ class IR {
                         res = genNameTAC(); 
                         NewObj tac = NewObj(child->value, res);
                         parent_bb->Tacs.push_back(tac);
+                        paramCount++;
+                        Parameter paramTac = Parameter(res);
+                        parent_bb->Tacs.push_back(paramTac);
                     } else if (counter == 1){
                         //method to call
                        selectionStr = child->value;
@@ -338,6 +349,31 @@ class IR {
                 cout << tac.dump() << endl;
                 cout << "exit expression handling for "<< root->type << endl;
             
+            } else if(root->type == "METHODDECLARATION") {
+                BBlock* new_bb = new BBlock;
+                entryBlocks.push_back(new_bb);
+                for(auto const& child : root->children)
+                {
+                    res = traverse_ast(new_bb, child, symbol_table);
+                }
+                
+            } else if(root->type == "EQUAL") {
+                string res = root->children.front()->value;
+                string lhs = traverse_ast(parent_bb, root->children.back(), symbol_table);
+                Copy tac = Copy(lhs, res);
+                parent_bb->Tacs.push_back(tac);
+                cout << tac.dump() << endl;
+
+            } else if(root->type == "MAINCLASS") {
+                for(auto const& child : root->children)
+                {
+                   res = traverse_ast(parent_bb, child, symbol_table);
+                }
+                parent_bb->trueExit =  new BBlock;//create exit block
+            
+
+            } else if(root->type == "INT") {
+                return root->value;
             } else {
                 for(auto const& child : root->children)
                 {
@@ -374,10 +410,10 @@ class IR {
 
         void generate_graph()
         {   
-            std::cout << "root block label: " << root_blocks.front()->label << std::endl;
+            std::cout << "root block label: " << entryBlocks.front()->label << std::endl;
             //BBlock* ptr_block = test_bb_graph();
             //BBlock* ptr_block = &root_block;
-            BBlock* ptr_block = root_blocks.front();
+            
 
             std::ofstream outStream;
             outStream.open("ir.dot");
@@ -386,13 +422,19 @@ class IR {
             outStream << "digraph G {" << endl;
             outStream << "node [shape = box];" << endl;
             //outStream << "block_0 [label=\"block_0\"];" << endl;
-            generate_graph_bb(&outStream,  ptr_block);
+            for(auto const& block : entryBlocks)
+            {
+                //BBlock* ptr_block = entryBlocks.front();
+                generate_graph_bb(&outStream,  block);
+            }
+           
 
             //   Might need to add back later with a relation to the last bblock
             //string final_block_label = genNameBB();
             // outStream << final_block_label << " [label=\"" << final_block_label << "\"];" << endl;
-            outStream << "block_"<< counterBB << "[label = \"block_" << counterBB << "\"]" << endl;
-            outStream << "block_"<< counterBB-1  << " -> " << "block_"<< counterBB  << ";" << endl;
+           
+            // outStream << "block_"<< counterBB << "[label = \"block_" << counterBB << "\"]" << endl;
+            // outStream << "block_"<< counterBB-1  << " -> " << "block_"<< counterBB  << ";" << endl;
             outStream << "}" << endl;
             outStream.close();
 
@@ -405,7 +447,7 @@ class IR {
 
         void generate_graph_bb(ofstream *outStream, BBlock *bb)
         {
-            cout << "generate graph bb: "<< root_blocks.front()->label  << endl;
+            cout << "generate graph bb: "<< bb->label  << endl;
             
             // create current block
             *outStream << bb->label << " [label=\""<< bb->label << "\n";
