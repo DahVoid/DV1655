@@ -224,20 +224,20 @@ class IR {
     public:
        vector<BBlock*> entryBlocks;
        bool isNegative = false;
-        void start(Node* root, SymbolTable* symbol_table)
+        void start(Node* root)
         {
             
             this->save_root = root;
             curr_block = new BBlock;//create first block
             entryBlocks.push_back(curr_block);
-            traverse_ast(root, symbol_table);
+            traverse_ast(root);
 
             return;
         }
 
-        string traverse_ast(Node* root, SymbolTable* symbol_table, string tempVar = "")
+        string traverse_ast(Node* root, string tempVar = "")
         {
-            cout << "traversing " << root->type << ", Children: "<< root->children.size() << endl;
+            //cout << "traversing " << root->type << ", Children: "<< root->children.size() << endl;
             // Iterate on all children and add the corresponding TAC
             if(root->children.size() == 0) 
             {
@@ -249,7 +249,7 @@ class IR {
             || root->type == "OR" || root->type == "COMPARE" || root->type == "AND" || root->type == "GREATER"
             || root->type == "LESS" )
             {
-                cout << "enter expression handling for "<< root->type << endl;
+                //cout << "enter expression handling for "<< root->type << endl;
                 string lhs = "";
                 string rhs = "";
 
@@ -260,9 +260,9 @@ class IR {
                 }
                 else
                 {
-                    lhs = traverse_ast(root->children.front(), symbol_table);
+                    lhs = traverse_ast(root->children.front());
                 }
-                cout << "lhs: " << lhs << endl;
+                //cout << "lhs: " << lhs << endl;
                 // rhs
                 if(root->children.back()->type == "INT" || root->children.back()->type == "boolExpression")
                 {
@@ -270,9 +270,9 @@ class IR {
                 }
                 else
                 {
-                    rhs = traverse_ast(root->children.back(), symbol_table);
+                    rhs = traverse_ast(root->children.back());
                 }
-                cout << "rhs: " << rhs << endl;
+                //cout << "rhs: " << rhs << endl;
                 // op
                 string op = root->type;
                 if(isNegative) {
@@ -287,8 +287,8 @@ class IR {
                 res = genNameTAC();  
                 Expression tac = Expression(op, lhs, rhs, res);
                 curr_block->Tacs.push_back(tac);
-                cout << tac.dump() << endl;
-                cout << "exit expression handling for "<< root->type << endl;
+                // cout << tac.dump() << endl;
+                //cout << "exit expression handling for "<< root->type << endl;
                 
             } else if(root->type == "NEGATION" ) // Unary expression
             {
@@ -299,24 +299,24 @@ class IR {
                 {
                     rhs = "$" + root->children.front()->value;
                 } else {
-                    rhs = traverse_ast(root->children.front(), symbol_table);
+                    rhs = traverse_ast(root->children.front());
                 }
                 string op = "!";
                 res = genNameTAC();
                 Unary_expression tac = Unary_expression(op, rhs, res);
                 curr_block->Tacs.push_back(tac);
-                cout << tac.dump() << endl;
-                cout << "exit expression handling for "<< root->type << endl;
+                // cout << tac.dump() << endl;
+                //cout << "exit expression handling for "<< root->type << endl;
         
             } else if(root->type == "SYSTEMOUTPRINT") {
-                cout << "enter expression handling for "<< root->type << endl;
+                // cout << "enter expression handling for "<< root->type << endl;
                 string op = "";
 
                 if(root->children.front()->type == "boolExpression" || root->children.front()->type == "INT")
                 {
                     op = "$" + root->children.front()->value;
                 } else {
-                    op = traverse_ast(root->children.front(), symbol_table);
+                    op = traverse_ast(root->children.front());
                 }
 
                 Print tac = Print(op);
@@ -325,7 +325,7 @@ class IR {
             } else if (root->type == "STATEMENTBODY") {
                 for (std::list<Node *>::reverse_iterator child = root->children.rbegin(); child != root->children.rend(); child++)
                 {
-                   res = traverse_ast(*child, symbol_table);
+                   res = traverse_ast(*child);
                    isNegative = false;
                 }
 
@@ -360,7 +360,7 @@ class IR {
                         for(auto const& arg : child->children) {
                             // arguements
                             paramCount++;
-                            string val = traverse_ast(arg, symbol_table);
+                            string val = traverse_ast(arg);
                             Parameter tac = Parameter(val);
                             curr_block->Tacs.push_back(tac);
 
@@ -373,8 +373,8 @@ class IR {
                 res = genNameTAC();  
                 MethodCall tac = MethodCall(selectionStr, to_string(paramCount), res);
                 curr_block->Tacs.push_back(tac);
-                cout << tac.dump() << endl;
-                cout << "exit expression handling for "<< root->type << endl;
+                // cout << tac.dump() << endl;
+                // cout << "exit expression handling for "<< root->type << endl;
             
             } else if(root->type == "METHODDECLARATION") {
                 BBlock* new_bb = new BBlock;
@@ -382,23 +382,23 @@ class IR {
                 curr_block = new_bb;
                 for(auto const& child : root->children)
                 {
-                    res = traverse_ast(child, symbol_table);
+                    res = traverse_ast(child);
                 }
 
                 if(root->children.back()->type == "IDENTIFIER" || root->children.back()->type == "INT") {
                    string res = root->children.back()->value;
                    ReturnTac tac = ReturnTac(res);
                    curr_block->Tacs.push_back(tac);
-                   cout << tac.dump() << endl;
+                   // cout << tac.dump() << endl;
                    
                 }
                 
             } else if(root->type == "EQUAL") {
                 string res = root->children.front()->value;
-                string lhs = traverse_ast(root->children.back(), symbol_table);
+                string lhs = traverse_ast(root->children.back());
                 Copy tac = Copy(lhs, res);
                 curr_block->Tacs.push_back(tac);
-                cout << tac.dump() << endl;
+                // cout << tac.dump() << endl;
 
             } else if(root->type == "MAINCLASS") {
                 BBlock* main_bb = new BBlock;
@@ -409,7 +409,7 @@ class IR {
                 curr_block = main_bb;
                 for(auto const& child : root->children)
                 {
-                   res = traverse_ast(child, symbol_table);
+                   res = traverse_ast(child);
                 }
                 entryBlocks.front()->trueExit->trueExit =  exit_bb;//create exit block
                 Jump jumpExit = Jump(exit_bb->label);
@@ -425,13 +425,13 @@ class IR {
                 curr_block->Tacs.push_back(jumpHeader);
                 curr_block->trueExit = loopHeader;
                 curr_block = loopHeader;
-                traverse_ast(root->children.front(), symbol_table);
+                traverse_ast(root->children.front());
                 
                 // body back
                 BBlock* loopBody = new BBlock;
                 loopHeader->trueExit = loopBody;
                 curr_block = loopBody;
-                traverse_ast(root->children.back(), symbol_table);
+                traverse_ast(root->children.back());
                 curr_block->trueExit = loopHeader;
                 Jump jumpBody = Jump(loopHeader->label);
                 curr_block->Tacs.push_back(jumpBody);
@@ -448,7 +448,7 @@ class IR {
 
 
             } else if (root->type == "IF") {
-                cout << "enter expression handling for "<< root->type << endl;
+                // cout << "enter expression handling for "<< root->type << endl;
                 int counter = 0;
                 
                 BBlock *headerblock, *trueBranch, *falseBranch, *exitBranch ;
@@ -466,9 +466,9 @@ class IR {
                             res = genNameTAC();  
                             Expression tac = Expression(op, lhs, rhs, res);
                             headerblock->Tacs.push_back(tac);
-                            cout << tac.dump() << endl;
+                           // // cout << tac.dump() << endl;
                         } else {
-                            traverse_ast(child, symbol_table);
+                            traverse_ast(child);
                         }
 
 
@@ -477,22 +477,22 @@ class IR {
                         trueBranch = new BBlock;
                         curr_block->trueExit = trueBranch;
                         curr_block = trueBranch;
-                        traverse_ast(child, symbol_table);
-                        cout << "exit true branch" << endl;
+                        traverse_ast(child);
+                        // cout << "exit true branch" << endl;
 
                     } else if(counter == 2) { // false branch
                         
                         falseBranch = new BBlock;
                         headerblock->falseExit = falseBranch;
                         curr_block = falseBranch;
-                        traverse_ast(child, symbol_table);
-                        cout << "exit false branch" << endl;
+                        traverse_ast(child);
+                        // cout << "exit false branch" << endl;
                     }
                     counter++;
                 }
-                cout << "exit expression handling for "<< root->type << endl;
+                // cout << "exit expression handling for "<< root->type << endl;
                 exitBranch = new BBlock;
-                cout << "true exits" << endl;
+                // cout << "true exits" << endl;
                 trueBranch->trueExit = exitBranch;
                 falseBranch->trueExit = exitBranch;
                 
@@ -514,13 +514,13 @@ class IR {
                 }
                 else
                 {
-                    res = traverse_ast(root->children.front(), symbol_table);
+                    res = traverse_ast(root->children.front());
                 }
 
             } else {
                 for(auto const& child : root->children)
                 {
-                   res = traverse_ast(child, symbol_table);
+                   res = traverse_ast(child);
 
 
                 }
@@ -546,35 +546,24 @@ class IR {
 
         void generate_graph()
         {   
-            std::cout << "root block label: " << entryBlocks.front()->label << std::endl;
-            //BBlock* ptr_block = test_bb_graph();
-            //BBlock* ptr_block = &root_block;
-            
-
+            //std::cout << "root block label: " << entryBlocks.front()->label << std::endl;
+         
             std::ofstream outStream;
             outStream.open("ir.dot");
             
             int count = 0;
             outStream << "digraph G {" << endl;
             outStream << "node [shape = box];" << endl;
-            //outStream << "block_0 [label=\"block_0\"];" << endl;
+
             for(auto const& block : entryBlocks)
             {
-                //BBlock* ptr_block = entryBlocks.front();
                 generate_graph_bb(&outStream,  block);
             }
-           
 
-            //   Might need to add back later with a relation to the last bblock
-            //string final_block_label = genNameBB();
-            // outStream << final_block_label << " [label=\"" << final_block_label << "\"];" << endl;
-           
-            // outStream << "block_"<< counterBB << "[label = \"block_" << counterBB << "\"]" << endl;
-            // outStream << "block_"<< counterBB-1  << " -> " << "block_"<< counterBB  << ";" << endl;
             outStream << "}" << endl;
             outStream.close();
 
-            std::cout << "Generated IR graph" << endl;
+            //std::cout << "Generated IR graph" << endl;
             system("dot -Tpng ir.dot -o ir.png");
 
 
@@ -583,7 +572,7 @@ class IR {
 
         void generate_graph_bb(ofstream *outStream, BBlock *bb)
         {
-            cout << "generate graph bb: "<< bb->label  << endl;
+            // cout << "generate graph bb: "<< bb->label  << endl;
             generatedBBs.insert(bb->label);
             
             // create current block
@@ -592,20 +581,20 @@ class IR {
             // add tacs to block
             for(auto tac_in_block = bb->Tacs.begin(); tac_in_block != bb->Tacs.end(); tac_in_block++)
             {
-               cout << (*tac_in_block).dump() << endl;
+               // cout << (*tac_in_block).dump() << endl;
                *outStream << (*tac_in_block).dump() << endl;
             }
 
             // close block
             *outStream << "\"];" << endl;
             // create block relationships
-            cout << "create block relationships" << endl;
+            // cout << "create block relationships" << endl;
             if(bb->trueExit != NULL)
             {
                 *outStream << bb->label << " -> " << bb->trueExit->label << " [ label=\"true\"]" << ";" << endl;
                 if(bb->trueExit !=bb && generatedBBs.find(bb->trueExit->label) == generatedBBs.end() )
                 {
-                    cout << "true exit" << endl;
+                    // cout << "true exit" << endl;
                     generate_graph_bb(outStream, bb->trueExit);
                 }
                 
@@ -685,7 +674,7 @@ class Meth {
 class Program {
     public:
     Program() {
-        cout << "Program constructor" << endl;
+        // cout << "Program constructor" << endl;
     };
 
     vector<Meth*> methods;
@@ -715,7 +704,7 @@ class Bytecode {
     public:
         Program* prgm;
         Bytecode() {
-            cout << "Bytecode constructor" << endl;
+            // cout << "Bytecode constructor" << endl;
             this->prgm = new Program();
             this->new_meth = new Meth();
             prgm->methods.push_back(new_meth);
@@ -736,7 +725,7 @@ class Bytecode {
 
         void traverse_ir(BBlock* bb)
         {
-            cout << "traverse ir" << endl;
+            // cout << "traverse ir" << endl;
             for(auto tac_in_block = bb->Tacs.begin(); tac_in_block != bb->Tacs.end(); tac_in_block++)
             {
                 if (tac_in_block->lhs == "print")

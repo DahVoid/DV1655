@@ -47,7 +47,6 @@ class interpreter {
 public:
     void interpret(string fileName) {
         deserialize(fileName);
-        cout << "Interpreting..." << endl;
         while(!instructions.empty()) {
             instruction inst = instructions.front();
             instructions.pop();

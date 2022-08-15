@@ -39,34 +39,20 @@ int main(int argc, char **argv)
     IR ir;
     interpreter interpreter;
     cout << "\n -- Creating IR tree -- " << endl;
-    ir.start(root, symboltable);
+    ir.start(root);
     cout << "\n -- Generating graph -- " << endl;
     ir.generate_graph();
     Bytecode bytecode;
     bytecode.traverse_ir(ir.entryBlocks.front());
     bytecode.prgm->dump_methods();
+     cout << "\n -- Interpreting code -- " << endl;
     interpreter.interpret("bytecode.prgm");
   }
-  // assigment 3 traverse tree by root node.
+
 
 
 
   return 0;
 }
 
-// #include <stdio.h>
 
-// extern int yylex();
-
-// int yyerror(char *c)
-// {
-//   printf("Lexical error! Unexpected: %s\n", c);
-//   return 0;
-// }
-
-// int main(int argc, char **argv)
-// {
-//   if(!yylex())
-//     printf("Done!\n");
-//   return 0;
-// }
