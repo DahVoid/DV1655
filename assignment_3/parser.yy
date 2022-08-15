@@ -21,7 +21,7 @@
 // definition of set of tokens. All tokens are of type string
 %token END 0 "end of file"
 %token <std::string>  IF INT LP RP ESX NEW LB RB THIS FALSE TRUE DOT COMMA LENGTH SUB MUL DIV PLUS CMP EQUAL GT LT MT OR AND COMMENT SYSTEMOUTPRINT WHILE ELSE LCB RCB BOOLEAN RETURN PUBLIC EXTENDS CLASS STRING MAIN VOID STATIC SEMICOLON NUM WORD
-%type <Node *> parameter OR_expression AND_expression EQUALITY_expression REL_expression negation_expression par_expression statement_rep methoddeclaration_rep parameterdeclaration_rep argdeclaration_rep vardeclaration_rep classdeclaration_rep goal mainclass classdeclaration vardeclaration methoddeclaration type statement expression addExpression multExpression number identifier
+%type <Node *> parameter OR_expression AND_expression EQUALITY_expression REL_expression negation_expression par_expression statement_rep methoddeclaration_rep parameterdeclaration_rep argdeclaration_rep vardeclaration_rep classdeclaration_rep goal mainclass classdeclaration vardeclaration methoddeclaration type statement expression addExpression multExpression number identifier argument
 // definition of the production rules. All production rules are of type Node
 %right AND OR
 %left MT LT CMP ESX
@@ -151,6 +151,14 @@ addExpression: multExpression {$$ = $1;}
                                                  $$->children.push_back($1);
                                                  $$->children.push_back($3);
                                                  }
+             | addExpression PLUS addExpression {$$ = new Node("ADD", "");
+                                                 $$->children.push_back($1);
+                                                 $$->children.push_back($3);
+                                                 }
+             | addExpression SUB addExpression   {$$ = new Node("SUB", "");
+                                                 $$->children.push_back($1);
+                                                 $$->children.push_back($3);
+                                                 }                                             
 
 multExpression: negation_expression {$$ = $1;}
               | number {$$ = $1;}
@@ -234,19 +242,21 @@ parameterdeclaration_rep: parameter {$$ = new Node("PARAMETERBODY", "");
                                                     $$->children.push_back($3);
                                                     }
 
-argdeclaration_rep: %empty {$$ = new Node("END", "");}
-                 | expression {
-                            $$ = $1;
+argdeclaration_rep: argument {$$ = new Node("ARGUMENTBODY", "");
+                            $$->children.push_back($1);
                             }
-                 | expression COMMA argdeclaration_rep {
+                        | argdeclaration_rep COMMA argument {
                                              $$ = $1;
-                                             $$ = $3;
+                                             $$->children.push_back($3);
                                              }
 
 parameter: type identifier {$$ = new Node("PARAMETER", "");
                             $$->children.push_back($1);
                             $$->children.push_back($2);
                             }
+
+argument: expression {$$ = new Node("ARGUMENT", "");
+                            $$->children.push_back($1);}
 
 identifier: WORD {$$ = new Node("IDENTIFIER", $1);}
 

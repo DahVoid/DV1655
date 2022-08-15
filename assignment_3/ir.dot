@@ -1,0 +1,74 @@
+digraph G {
+node [shape = box];
+block_0 [label="block_0
+goto block_1 
+"];
+block_0 -> block_1 [ label="true"];
+block_1 [label="block_1
+_+0 := new Bar1 
+param _+0 
+_+1 := call foo 1
+print _+1 
+goto block_2 
+"];
+block_1 -> block_2 [ label="true"];
+block_2 [label="block_2
+Stop  
+"];
+block_3 [label="block_3
+aux := 1  
+aux2 := true  
+param THIS 
+param aux 
+_+2 := call foo2 2
+aux := _+2  
+param THIS 
+param $2 
+param $5 
+param aux2 
+_+3 := call foo3 4
+aux := _+3  
+return aux  
+"];
+block_4 [label="block_4
+_+4 := p1 LESS $2
+iffalse _+4 goto block_6
+"];
+block_4 -> block_5 [ label="true"];
+block_5 [label="block_5
+print $10 
+goto block_7 
+"];
+block_5 -> block_7 [ label="true"];
+block_7 [label="block_7
+return 1  
+"];
+block_4 -> block_6 [ label="false"];
+block_6 [label="block_6
+print $0 
+goto block_7 
+"];
+block_6 -> block_7 [ label="true"];
+block_8 [label="block_8
+_+5 := p3 COMPARE true
+iffalse _+5 goto block_10
+"];
+block_8 -> block_9 [ label="true"];
+block_9 [label="block_9
+print $1 
+goto block_11 
+"];
+block_9 -> block_11 [ label="true"];
+block_11 [label="block_11
+print p1 
+_+6 := p2 SUB p1
+print _+6 
+return 4  
+"];
+block_8 -> block_10 [ label="false"];
+block_10 [label="block_10
+print $0 
+goto block_11 
+"];
+block_10 -> block_11 [ label="true"];
+}

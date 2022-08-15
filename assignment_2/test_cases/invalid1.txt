@@ -1,0 +1,25 @@
+// What if we use a method call as a statement?
+class Factorial{
+    public static void main(String[] a){
+	System.out.println(new Fac().ComputeFac(10));
+    }
+}
+
+class Fac {
+
+	public int get_1() {
+    	return 1; 
+    }
+
+    public int ComputeFac(int num){
+	int num_aux ;
+	if (num < 1){
+	// method as statement
+	    get_1();
+	}
+	else {
+	}
+	return num_aux ;
+    }
+
+}

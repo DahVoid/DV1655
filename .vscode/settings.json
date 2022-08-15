@@ -4,6 +4,12 @@
         "xstring": "cpp",
         "istream": "cpp",
         "string": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "vector": "cpp",
+        "system_error": "cpp",
+        "xlocale": "cpp",
+        "list": "cpp",
+        "ostream": "cpp",
+        "iostream": "cpp"
     }
 }

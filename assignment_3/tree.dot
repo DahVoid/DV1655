@@ -1,0 +1,199 @@
+digraph {
+n0 [label="GOAL:"];
+n1 [label="MAINCLASS:"];
+n2 [label="IDENTIFIER:Bar"];
+n1 -> n2
+n3 [label="IDENTIFIER:a"];
+n1 -> n3
+n4 [label="SYSTEMOUTPRINT:"];
+n5 [label="MEMBER SELECTION:"];
+n6 [label="IDENTIFIER:Bar1"];
+n5 -> n6
+n7 [label="IDENTIFIER:foo"];
+n5 -> n7
+n4 -> n5
+n1 -> n4
+n0 -> n1
+n8 [label="CLASSBODY:"];
+n9 [label="CLASSDECLARATION:"];
+n10 [label="IDENTIFIER:Bar1"];
+n9 -> n10
+n11 [label="VARBODY:"];
+n9 -> n11
+n12 [label="METHODBODY:"];
+n13 [label="METHODDECLARATION:"];
+n14 [label="INT:"];
+n13 -> n14
+n15 [label="IDENTIFIER:foo"];
+n13 -> n15
+n16 [label="VARBODY:"];
+n17 [label="VARDECLARATION:"];
+n18 [label="INT:"];
+n17 -> n18
+n19 [label="IDENTIFIER:aux"];
+n17 -> n19
+n16 -> n17
+n20 [label="VARDECLARATION:"];
+n21 [label="BOOL:"];
+n20 -> n21
+n22 [label="IDENTIFIER:aux2"];
+n20 -> n22
+n16 -> n20
+n13 -> n16
+n23 [label="STATEMENTBODY:"];
+n24 [label="EQUAL:"];
+n25 [label="IDENTIFIER:aux"];
+n24 -> n25
+n26 [label="MEMBER SELECTION FUNCTION CALL:"];
+n27 [label="THIS:this"];
+n26 -> n27
+n28 [label="IDENTIFIER:foo3"];
+n26 -> n28
+n29 [label="ARGUMENTBODY:"];
+n30 [label="ARGUMENT:"];
+n31 [label="INT:2"];
+n30 -> n31
+n29 -> n30
+n32 [label="ARGUMENT:"];
+n33 [label="INT:5"];
+n32 -> n33
+n29 -> n32
+n34 [label="ARGUMENT:"];
+n35 [label="IDENTIFIER:aux2"];
+n34 -> n35
+n29 -> n34
+n26 -> n29
+n24 -> n26
+n23 -> n24
+n36 [label="EQUAL:"];
+n37 [label="IDENTIFIER:aux"];
+n36 -> n37
+n38 [label="MEMBER SELECTION FUNCTION CALL:"];
+n39 [label="THIS:this"];
+n38 -> n39
+n40 [label="IDENTIFIER:foo2"];
+n38 -> n40
+n41 [label="ARGUMENTBODY:"];
+n42 [label="ARGUMENT:"];
+n43 [label="IDENTIFIER:aux"];
+n42 -> n43
+n41 -> n42
+n38 -> n41
+n36 -> n38
+n23 -> n36
+n44 [label="EQUAL:"];
+n45 [label="IDENTIFIER:aux2"];
+n44 -> n45
+n46 [label="boolExpression:true"];
+n44 -> n46
+n23 -> n44
+n47 [label="EQUAL:"];
+n48 [label="IDENTIFIER:aux"];
+n47 -> n48
+n49 [label="INT:1"];
+n47 -> n49
+n23 -> n47
+n13 -> n23
+n50 [label="IDENTIFIER:aux"];
+n13 -> n50
+n12 -> n13
+n51 [label="METHODDECLARATION:"];
+n52 [label="INT:"];
+n51 -> n52
+n53 [label="IDENTIFIER:foo2"];
+n51 -> n53
+n54 [label="PARAMETERBODY:"];
+n55 [label="PARAMETER:"];
+n56 [label="INT:"];
+n55 -> n56
+n57 [label="IDENTIFIER:p1"];
+n55 -> n57
+n54 -> n55
+n51 -> n54
+n58 [label="VARBODY:"];
+n51 -> n58
+n59 [label="STATEMENTBODY:"];
+n60 [label="IF:"];
+n61 [label="LESS:"];
+n62 [label="IDENTIFIER:p1"];
+n61 -> n62
+n63 [label="INT:2"];
+n61 -> n63
+n60 -> n61
+n64 [label="SYSTEMOUTPRINT:"];
+n65 [label="INT:10"];
+n64 -> n65
+n60 -> n64
+n66 [label="SYSTEMOUTPRINT:"];
+n67 [label="INT:0"];
+n66 -> n67
+n60 -> n66
+n59 -> n60
+n51 -> n59
+n68 [label="INT:1"];
+n51 -> n68
+n12 -> n51
+n69 [label="METHODDECLARATION:"];
+n70 [label="INT:"];
+n69 -> n70
+n71 [label="IDENTIFIER:foo3"];
+n69 -> n71
+n72 [label="PARAMETERBODY:"];
+n73 [label="PARAMETER:"];
+n74 [label="INT:"];
+n73 -> n74
+n75 [label="IDENTIFIER:p1"];
+n73 -> n75
+n72 -> n73
+n76 [label="PARAMETER:"];
+n77 [label="INT:"];
+n76 -> n77
+n78 [label="IDENTIFIER:p2"];
+n76 -> n78
+n72 -> n76
+n79 [label="PARAMETER:"];
+n80 [label="BOOL:"];
+n79 -> n80
+n81 [label="IDENTIFIER:p3"];
+n79 -> n81
+n72 -> n79
+n69 -> n72
+n82 [label="VARBODY:"];
+n69 -> n82
+n83 [label="STATEMENTBODY:"];
+n84 [label="SYSTEMOUTPRINT:"];
+n85 [label="SUB:"];
+n86 [label="IDENTIFIER:p2"];
+n85 -> n86
+n87 [label="IDENTIFIER:p1"];
+n85 -> n87
+n84 -> n85
+n83 -> n84
+n88 [label="SYSTEMOUTPRINT:"];
+n89 [label="IDENTIFIER:p1"];
+n88 -> n89
+n83 -> n88
+n90 [label="IF:"];
+n91 [label="IDENTIFIER:p3"];
+n90 -> n91
+n92 [label="STATEMENTBODY:"];
+n93 [label="SYSTEMOUTPRINT:"];
+n94 [label="INT:1"];
+n93 -> n94
+n92 -> n93
+n90 -> n92
+n95 [label="STATEMENTBODY:"];
+n96 [label="SYSTEMOUTPRINT:"];
+n97 [label="INT:0"];
+n96 -> n97
+n95 -> n96
+n90 -> n95
+n83 -> n90
+n69 -> n83
+n98 [label="INT:4"];
+n69 -> n98
+n12 -> n69
+n9 -> n12
+n8 -> n9
+n0 -> n8
+}
