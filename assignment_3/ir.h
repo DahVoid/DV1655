@@ -145,18 +145,20 @@ class Jump : public Tac {
     public:
         Jump(string label)
         {
-            this->op = "goto";
-            this->res = label;
+            this->op = label;
+            this->eqSign = "";
+            this->lhs = "goto";
         }
 };
 
 class Cond_jump : public Tac {
     public:
-    Cond_jump(string op, string x1, string label)
+    Cond_jump(string x1, string label)
     {
-        this->op = op;
+        this->eqSign = "iffalse ";
+        this->op = "goto";
         this->lhs = x1;
-        this->res = label;
+        this->rhs = label;
     }
 };
 
@@ -180,6 +182,15 @@ class Copy : public Tac {
     }
 };
 
+class Stop : public Tac{
+    public:
+    Stop()
+    {
+        this->res = "Stop";
+        this->eqSign = "";
+    }
+
+};
 string genNameBB() {
     string name = "block_" + to_string(counterBB);
     counterBB++;
@@ -287,6 +298,8 @@ class IR {
                 if(root->children.front()->type == "boolExpression")
                 {
                     rhs = "$" + root->children.front()->value;
+                } else {
+                    rhs = traverse_ast(root->children.front(), symbol_table);
                 }
                 string op = "!";
                 res = genNameTAC();
@@ -313,9 +326,10 @@ class IR {
                 for (std::list<Node *>::reverse_iterator child = root->children.rbegin(); child != root->children.rend(); child++)
                 {
                    res = traverse_ast(*child, symbol_table);
+                   isNegative = false;
                 }
 
-            } else if(root->type == "MEMBER SELECTION FUNCTION CALL") {
+            } else if(root->type == "MEMBER SELECTION FUNCTION CALL" || root->type == "MEMBER SELECTION") {
                 int paramCount = 0;
                 string selectionStr = "";
                 int counter = 0;
@@ -325,24 +339,33 @@ class IR {
 
                         // new if not a this. statement
                         if(child->type != "THIS"){
-                        res = genNameTAC(); 
-                        NewObj tac = NewObj(child->value, res);
-                        curr_block->Tacs.push_back(tac);
-                        paramCount++;
-                        Parameter paramTac = Parameter(res);
-                        curr_block->Tacs.push_back(paramTac);
+                            res = genNameTAC(); 
+                            NewObj tac = NewObj(child->value, res);
+                            curr_block->Tacs.push_back(tac);
+                            paramCount++;
+                            Parameter paramTac = Parameter(res);
+                            curr_block->Tacs.push_back(paramTac);
+                        } else if(child->type == "THIS") {
+                            res = "THIS";
+                            paramCount++;
+                            Parameter paramTac = Parameter(res);
+                            curr_block->Tacs.push_back(paramTac);
                         }
                         
 
                     } else if (counter == 1){
                         //method to call
                        selectionStr = child->value;
-                    } else {
-                        // Parameter
-                        paramCount++;
-                        string val = traverse_ast(child, symbol_table);
-                        Parameter tac = Parameter(val);
-                        curr_block->Tacs.push_back(tac);
+                    } else if (counter == 2) {
+                        for(auto const& arg : child->children) {
+                            // arguements
+                            paramCount++;
+                            string val = traverse_ast(arg, symbol_table);
+                            Parameter tac = Parameter(val);
+                            curr_block->Tacs.push_back(tac);
+
+                        }
+
                     } 
                         counter++;
                 }
@@ -362,7 +385,7 @@ class IR {
                     res = traverse_ast(child, symbol_table);
                 }
 
-                if(root->children.back()->type == "IDENTIFIER") {
+                if(root->children.back()->type == "IDENTIFIER" || root->children.back()->type == "INT") {
                    string res = root->children.back()->value;
                    ReturnTac tac = ReturnTac(res);
                    curr_block->Tacs.push_back(tac);
@@ -381,42 +404,73 @@ class IR {
                 BBlock* main_bb = new BBlock;
                 BBlock* exit_bb = new BBlock;
                 curr_block->trueExit = main_bb;
+                Jump jumpStart = Jump(main_bb->label);
+                curr_block->Tacs.push_back(jumpStart);
                 curr_block = main_bb;
                 for(auto const& child : root->children)
                 {
                    res = traverse_ast(child, symbol_table);
                 }
                 entryBlocks.front()->trueExit->trueExit =  exit_bb;//create exit block
-            
+                Jump jumpExit = Jump(exit_bb->label);
+                main_bb->Tacs.push_back(jumpExit);
+
+                Stop stop = Stop();
+                exit_bb->Tacs.push_back(stop);
 
             } else if(root->type == "WHILE") {
                 // condition head
                 BBlock* loopHeader = new BBlock;
+                Jump jumpHeader = Jump(loopHeader->label);
+                curr_block->Tacs.push_back(jumpHeader);
                 curr_block->trueExit = loopHeader;
                 curr_block = loopHeader;
                 traverse_ast(root->children.front(), symbol_table);
-
+                
                 // body back
                 BBlock* loopBody = new BBlock;
                 loopHeader->trueExit = loopBody;
                 curr_block = loopBody;
                 traverse_ast(root->children.back(), symbol_table);
                 curr_block->trueExit = loopHeader;
+                Jump jumpBody = Jump(loopHeader->label);
+                curr_block->Tacs.push_back(jumpBody);
                 // loop exit
                 BBlock* loopExit = new BBlock;
                 loopHeader->falseExit = loopExit;
                 curr_block = loopExit;
+
+   
+                Cond_jump cond_jump = Cond_jump(loopHeader->Tacs.back().res, loopExit->label);
+                loopHeader->Tacs.push_back(cond_jump);
+
+
+
 
             } else if (root->type == "IF") {
                 cout << "enter expression handling for "<< root->type << endl;
                 int counter = 0;
                 
                 BBlock *headerblock, *trueBranch, *falseBranch, *exitBranch ;
+                // Jump jumpHeader = Jump(headerblock->label);
+                // curr_block->Tacs.push_back(jumpHeader);
                 headerblock = curr_block;
+
                 for(auto const& child : root->children)
                 {
                     if(counter == 0) { // head
-                        traverse_ast(child, symbol_table);
+                        if (child->type == "boolExpression" || child->type == "IDENTIFIER" ) {
+                            string lhs = child->value;
+                            string rhs = "true";        
+                            string op = "COMPARE";
+                            res = genNameTAC();  
+                            Expression tac = Expression(op, lhs, rhs, res);
+                            headerblock->Tacs.push_back(tac);
+                            cout << tac.dump() << endl;
+                        } else {
+                            traverse_ast(child, symbol_table);
+                        }
+
 
                     } else if(counter == 1) { // true branch
                         
@@ -444,12 +498,31 @@ class IR {
                 
                 curr_block = exitBranch;
 
-            }else if(root->type =="" ) {
+                // conditions
+                // header block
+                Cond_jump cond_jump = Cond_jump(headerblock->Tacs.back().res, falseBranch->label);
+                headerblock->Tacs.push_back(cond_jump);
+                // true  & false block
+                Jump jumpBody = Jump(exitBranch->label);
+                trueBranch->Tacs.push_back(jumpBody);
+                falseBranch->Tacs.push_back(jumpBody);
+
+            }else if(root->type =="ARGUMENT") {
+                if(root->children.front()->type == "INT" || root->children.front()->type == "boolExpression")
+                {
+                    res = "$" + root->children.front()->value;
+                }
+                else
+                {
+                    res = traverse_ast(root->children.front(), symbol_table);
+                }
 
             } else {
                 for(auto const& child : root->children)
                 {
                    res = traverse_ast(child, symbol_table);
+
+
                 }
             }
 
