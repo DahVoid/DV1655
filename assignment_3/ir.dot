@@ -4,24 +4,83 @@ block_0 [label="block_0
 "];
 block_0 -> block_1 [ label="true"];
 block_1 [label="block_1
-_+0 := new Test 
+_+0 := new FacFib2 
 param _+0 
-param 10000 
-_+1 := call Sum 2
+param 10 
+_+1 := call Compute 2
 print _+1 
 "];
 block_1 -> block_2 [ label="true"];
 block_2 [label="block_2
 "];
 block_3 [label="block_3
-_+2 := num LESS $2
-sum := 1  
-_+3 := new this 
-param _+3 
-param  
-_+4 := call Sum 2
-_+5 := num ADD _+4
-sum := _+5  
- := return sum 
+_+2 :=  ! 
+_+3 :=  ! 
+_+4 := _+2 AND _+3
+"];
+block_3 -> block_4 [ label="true"];
+block_4 [label="block_4
+param first 
+_+5 := call ComputeFac 1
+fac := _+5  
+print fac 
+param second 
+_+6 := call ComputeFib 1
+fib := _+6  
+print fib 
+returnValue := 1  
+"];
+block_4 -> block_6 [ label="true"];
+block_6 [label="block_6
+return returnValue  
+"];
+block_3 -> block_5 [ label="false"];
+block_5 [label="block_5
+returnValue := 0  
+"];
+block_5 -> block_6 [ label="true"];
+block_7 [label="block_7
+_+7 := num LESS $1
+"];
+block_7 -> block_8 [ label="true"];
+block_8 [label="block_8
+fac := 1  
+"];
+block_8 -> block_10 [ label="true"];
+block_10 [label="block_10
+return fac  
+"];
+block_7 -> block_9 [ label="false"];
+block_9 [label="block_9
+_+8 := num SUB $1
+param _+8 
+_+9 := call ComputeFac 1
+_+10 := num MUL _+9
+fac := _+10  
+"];
+block_9 -> block_10 [ label="true"];
+block_11 [label="block_11
+f0 := 0  
+f1 := 1  
+fib := num  
+i := 1  
+"];
+block_11 -> block_12 [ label="true"];
+block_12 [label="block_12
+_+11 := i LESS num
+"];
+block_12 -> block_13 [ label="true"];
+block_13 [label="block_13
+_+12 := f1 SUB f0
+fib := _+12  
+f0 := f1  
+f1 := fib  
+_+13 := i SUB $1
+i := _+13  
+"];
+block_13 -> block_12 [ label="true"];
+block_12 -> block_14 [ label="false"];
+block_14 [label="block_14
+return fib  
 "];
 }

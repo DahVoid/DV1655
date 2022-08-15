@@ -124,10 +124,10 @@ class MethodCall : public Tac {
 
 class ReturnTac : public Tac {
     public:
-    ReturnTac(string op)
+    ReturnTac(string lhs)
     {   
-        this->lhs = "return";
-        this->op = op;
+        this->eqSign = "return ";
+        this->lhs = lhs;
     }
 };
 
@@ -220,7 +220,7 @@ class IR {
             curr_block = new BBlock;//create first block
             entryBlocks.push_back(curr_block);
             traverse_ast(root, symbol_table);
-            
+
             return;
         }
 
@@ -321,23 +321,27 @@ class IR {
                 int counter = 0;
                 for(auto const& child : root->children)
                 {
-                    if(counter == 0) {
+                    if(counter == 0 ) {
 
                         // new if not a this. statement
-
+                        if(child->type != "THIS"){
                         res = genNameTAC(); 
                         NewObj tac = NewObj(child->value, res);
                         curr_block->Tacs.push_back(tac);
                         paramCount++;
                         Parameter paramTac = Parameter(res);
                         curr_block->Tacs.push_back(paramTac);
+                        }
+                        
+
                     } else if (counter == 1){
                         //method to call
                        selectionStr = child->value;
                     } else {
                         // Parameter
                         paramCount++;
-                        Parameter tac = Parameter(child->value);
+                        string val = traverse_ast(child, symbol_table);
+                        Parameter tac = Parameter(val);
                         curr_block->Tacs.push_back(tac);
                     } 
                         counter++;
@@ -386,7 +390,7 @@ class IR {
             
 
             } else if(root->type == "WHILE") {
-                // condition front
+                // condition head
                 BBlock* loopHeader = new BBlock;
                 curr_block->trueExit = loopHeader;
                 curr_block = loopHeader;
@@ -395,16 +399,52 @@ class IR {
                 // body back
                 BBlock* loopBody = new BBlock;
                 loopHeader->trueExit = loopBody;
-                loopBody->trueExit = loopHeader;
                 curr_block = loopBody;
                 traverse_ast(root->children.back(), symbol_table);
-
+                curr_block->trueExit = loopHeader;
                 // loop exit
                 BBlock* loopExit = new BBlock;
                 loopHeader->falseExit = loopExit;
                 curr_block = loopExit;
 
-            } else if(root->type =="" ) {
+            } else if (root->type == "IF") {
+                cout << "enter expression handling for "<< root->type << endl;
+                int counter = 0;
+                
+                BBlock *headerblock, *trueBranch, *falseBranch, *exitBranch ;
+                headerblock = curr_block;
+                for(auto const& child : root->children)
+                {
+                    if(counter == 0) { // head
+                        traverse_ast(child, symbol_table);
+
+                    } else if(counter == 1) { // true branch
+                        
+                        trueBranch = new BBlock;
+                        curr_block->trueExit = trueBranch;
+                        curr_block = trueBranch;
+                        traverse_ast(child, symbol_table);
+                        cout << "exit true branch" << endl;
+
+                    } else if(counter == 2) { // false branch
+                        
+                        falseBranch = new BBlock;
+                        headerblock->falseExit = falseBranch;
+                        curr_block = falseBranch;
+                        traverse_ast(child, symbol_table);
+                        cout << "exit false branch" << endl;
+                    }
+                    counter++;
+                }
+                cout << "exit expression handling for "<< root->type << endl;
+                exitBranch = new BBlock;
+                cout << "true exits" << endl;
+                trueBranch->trueExit = exitBranch;
+                falseBranch->trueExit = exitBranch;
+                
+                curr_block = exitBranch;
+
+            }else if(root->type =="" ) {
 
             } else {
                 for(auto const& child : root->children)

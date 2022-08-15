@@ -1,24 +1,24 @@
 digraph {
 n0 [label="GOAL:"];
 n1 [label="MAINCLASS:"];
-n2 [label="IDENTIFIER:RecursiveSum"];
+n2 [label="IDENTIFIER:FacFib"];
 n1 -> n2
 n3 [label="IDENTIFIER:a"];
 n1 -> n3
 n4 [label="SYSTEMOUTPRINT:"];
 n5 [label="MEMBER SELECTION FUNCTION CALL:"];
-n6 [label="IDENTIFIER:Test"];
+n6 [label="IDENTIFIER:FacFib2"];
 n5 -> n6
-n7 [label="IDENTIFIER:Sum"];
+n7 [label="IDENTIFIER:Compute"];
 n5 -> n7
-n8 [label="INT:10000"];
+n8 [label="INT:10"];
 n5 -> n8
 n4 -> n5
 n1 -> n4
 n0 -> n1
 n9 [label="CLASSBODY:"];
 n10 [label="CLASSDECLARATION:"];
-n11 [label="IDENTIFIER:Test"];
+n11 [label="IDENTIFIER:FacFib2"];
 n10 -> n11
 n12 [label="VARBODY:"];
 n10 -> n12
@@ -26,63 +26,289 @@ n13 [label="METHODBODY:"];
 n14 [label="METHODDECLARATION:"];
 n15 [label="INT:"];
 n14 -> n15
-n16 [label="IDENTIFIER:Sum"];
+n16 [label="IDENTIFIER:Compute"];
 n14 -> n16
 n17 [label="PARAMETERBODY:"];
 n18 [label="PARAMETER:"];
 n19 [label="INT:"];
 n18 -> n19
-n20 [label="IDENTIFIER:num"];
+n20 [label="IDENTIFIER:first"];
 n18 -> n20
 n17 -> n18
-n14 -> n17
-n21 [label="VARBODY:"];
-n22 [label="VARDECLARATION:"];
-n23 [label="INT:"];
-n22 -> n23
-n24 [label="IDENTIFIER:sum"];
-n22 -> n24
+n21 [label="PARAMETER:"];
+n22 [label="INT:"];
 n21 -> n22
-n14 -> n21
-n25 [label="STATEMENTBODY:"];
-n26 [label="IF:"];
-n27 [label="LESS:"];
-n28 [label="IDENTIFIER:num"];
-n27 -> n28
-n29 [label="INT:2"];
-n27 -> n29
-n26 -> n27
-n30 [label="EQUAL:"];
-n31 [label="IDENTIFIER:sum"];
-n30 -> n31
-n32 [label="INT:1"];
-n30 -> n32
-n26 -> n30
-n33 [label="EQUAL:"];
-n34 [label="IDENTIFIER:sum"];
-n33 -> n34
-n35 [label="ADD:"];
-n36 [label="IDENTIFIER:num"];
-n35 -> n36
-n37 [label="MEMBER SELECTION FUNCTION CALL:"];
-n38 [label="THIS:this"];
-n37 -> n38
-n39 [label="IDENTIFIER:Sum"];
-n37 -> n39
-n40 [label="SUB:"];
-n41 [label="IDENTIFIER:num"];
-n40 -> n41
-n42 [label="INT:1"];
-n40 -> n42
-n37 -> n40
-n35 -> n37
-n33 -> n35
-n26 -> n33
+n23 [label="IDENTIFIER:second"];
+n21 -> n23
+n17 -> n21
+n14 -> n17
+n24 [label="VARBODY:"];
+n25 [label="VARDECLARATION:"];
+n26 [label="INT:"];
 n25 -> n26
-n14 -> n25
-n43 [label="IDENTIFIER:sum"];
-n14 -> n43
+n27 [label="IDENTIFIER:fac"];
+n25 -> n27
+n24 -> n25
+n28 [label="VARDECLARATION:"];
+n29 [label="INT:"];
+n28 -> n29
+n30 [label="IDENTIFIER:fib"];
+n28 -> n30
+n24 -> n28
+n31 [label="VARDECLARATION:"];
+n32 [label="INT:"];
+n31 -> n32
+n33 [label="IDENTIFIER:returnValue"];
+n31 -> n33
+n24 -> n31
+n14 -> n24
+n34 [label="STATEMENTBODY:"];
+n35 [label="IF:"];
+n36 [label="AND:"];
+n37 [label="NEGATION:"];
+n38 [label="PARENTHESES:"];
+n39 [label="LESS:"];
+n40 [label="IDENTIFIER:first"];
+n39 -> n40
+n41 [label="INT:1"];
+n39 -> n41
+n38 -> n39
+n37 -> n38
+n36 -> n37
+n42 [label="NEGATION:"];
+n43 [label="PARENTHESES:"];
+n44 [label="LESS:"];
+n45 [label="IDENTIFIER:second"];
+n44 -> n45
+n46 [label="INT:1"];
+n44 -> n46
+n43 -> n44
+n42 -> n43
+n36 -> n42
+n35 -> n36
+n47 [label="STATEMENTBODY:"];
+n48 [label="EQUAL:"];
+n49 [label="IDENTIFIER:returnValue"];
+n48 -> n49
+n50 [label="INT:1"];
+n48 -> n50
+n47 -> n48
+n51 [label="SYSTEMOUTPRINT:"];
+n52 [label="IDENTIFIER:fib"];
+n51 -> n52
+n47 -> n51
+n53 [label="EQUAL:"];
+n54 [label="IDENTIFIER:fib"];
+n53 -> n54
+n55 [label="MEMBER SELECTION FUNCTION CALL:"];
+n56 [label="THIS:this"];
+n55 -> n56
+n57 [label="IDENTIFIER:ComputeFib"];
+n55 -> n57
+n58 [label="IDENTIFIER:second"];
+n55 -> n58
+n53 -> n55
+n47 -> n53
+n59 [label="SYSTEMOUTPRINT:"];
+n60 [label="IDENTIFIER:fac"];
+n59 -> n60
+n47 -> n59
+n61 [label="EQUAL:"];
+n62 [label="IDENTIFIER:fac"];
+n61 -> n62
+n63 [label="MEMBER SELECTION FUNCTION CALL:"];
+n64 [label="THIS:this"];
+n63 -> n64
+n65 [label="IDENTIFIER:ComputeFac"];
+n63 -> n65
+n66 [label="IDENTIFIER:first"];
+n63 -> n66
+n61 -> n63
+n47 -> n61
+n35 -> n47
+n67 [label="STATEMENTBODY:"];
+n68 [label="EQUAL:"];
+n69 [label="IDENTIFIER:returnValue"];
+n68 -> n69
+n70 [label="INT:0"];
+n68 -> n70
+n67 -> n68
+n35 -> n67
+n34 -> n35
+n14 -> n34
+n71 [label="IDENTIFIER:returnValue"];
+n14 -> n71
 n13 -> n14
+n72 [label="METHODDECLARATION:"];
+n73 [label="INT:"];
+n72 -> n73
+n74 [label="IDENTIFIER:ComputeFac"];
+n72 -> n74
+n75 [label="PARAMETERBODY:"];
+n76 [label="PARAMETER:"];
+n77 [label="INT:"];
+n76 -> n77
+n78 [label="IDENTIFIER:num"];
+n76 -> n78
+n75 -> n76
+n72 -> n75
+n79 [label="VARBODY:"];
+n80 [label="VARDECLARATION:"];
+n81 [label="INT:"];
+n80 -> n81
+n82 [label="IDENTIFIER:fac"];
+n80 -> n82
+n79 -> n80
+n72 -> n79
+n83 [label="STATEMENTBODY:"];
+n84 [label="IF:"];
+n85 [label="LESS:"];
+n86 [label="IDENTIFIER:num"];
+n85 -> n86
+n87 [label="INT:1"];
+n85 -> n87
+n84 -> n85
+n88 [label="EQUAL:"];
+n89 [label="IDENTIFIER:fac"];
+n88 -> n89
+n90 [label="INT:1"];
+n88 -> n90
+n84 -> n88
+n91 [label="EQUAL:"];
+n92 [label="IDENTIFIER:fac"];
+n91 -> n92
+n93 [label="MUL:"];
+n94 [label="IDENTIFIER:num"];
+n93 -> n94
+n95 [label="MEMBER SELECTION FUNCTION CALL:"];
+n96 [label="THIS:this"];
+n95 -> n96
+n97 [label="IDENTIFIER:ComputeFac"];
+n95 -> n97
+n98 [label="SUB:"];
+n99 [label="IDENTIFIER:num"];
+n98 -> n99
+n100 [label="INT:1"];
+n98 -> n100
+n95 -> n98
+n93 -> n95
+n91 -> n93
+n84 -> n91
+n83 -> n84
+n72 -> n83
+n101 [label="IDENTIFIER:fac"];
+n72 -> n101
+n13 -> n72
+n102 [label="METHODDECLARATION:"];
+n103 [label="INT:"];
+n102 -> n103
+n104 [label="IDENTIFIER:ComputeFib"];
+n102 -> n104
+n105 [label="PARAMETERBODY:"];
+n106 [label="PARAMETER:"];
+n107 [label="INT:"];
+n106 -> n107
+n108 [label="IDENTIFIER:num"];
+n106 -> n108
+n105 -> n106
+n102 -> n105
+n109 [label="VARBODY:"];
+n110 [label="VARDECLARATION:"];
+n111 [label="INT:"];
+n110 -> n111
+n112 [label="IDENTIFIER:f0"];
+n110 -> n112
+n109 -> n110
+n113 [label="VARDECLARATION:"];
+n114 [label="INT:"];
+n113 -> n114
+n115 [label="IDENTIFIER:f1"];
+n113 -> n115
+n109 -> n113
+n116 [label="VARDECLARATION:"];
+n117 [label="INT:"];
+n116 -> n117
+n118 [label="IDENTIFIER:fib"];
+n116 -> n118
+n109 -> n116
+n119 [label="VARDECLARATION:"];
+n120 [label="INT:"];
+n119 -> n120
+n121 [label="IDENTIFIER:i"];
+n119 -> n121
+n109 -> n119
+n102 -> n109
+n122 [label="STATEMENTBODY:"];
+n123 [label="WHILE:"];
+n124 [label="LESS:"];
+n125 [label="IDENTIFIER:i"];
+n124 -> n125
+n126 [label="IDENTIFIER:num"];
+n124 -> n126
+n123 -> n124
+n127 [label="STATEMENTBODY:"];
+n128 [label="EQUAL:"];
+n129 [label="IDENTIFIER:i"];
+n128 -> n129
+n130 [label="ADD:"];
+n131 [label="IDENTIFIER:i"];
+n130 -> n131
+n132 [label="INT:1"];
+n130 -> n132
+n128 -> n130
+n127 -> n128
+n133 [label="EQUAL:"];
+n134 [label="IDENTIFIER:f1"];
+n133 -> n134
+n135 [label="IDENTIFIER:fib"];
+n133 -> n135
+n127 -> n133
+n136 [label="EQUAL:"];
+n137 [label="IDENTIFIER:f0"];
+n136 -> n137
+n138 [label="IDENTIFIER:f1"];
+n136 -> n138
+n127 -> n136
+n139 [label="EQUAL:"];
+n140 [label="IDENTIFIER:fib"];
+n139 -> n140
+n141 [label="ADD:"];
+n142 [label="IDENTIFIER:f1"];
+n141 -> n142
+n143 [label="IDENTIFIER:f0"];
+n141 -> n143
+n139 -> n141
+n127 -> n139
+n123 -> n127
+n122 -> n123
+n144 [label="EQUAL:"];
+n145 [label="IDENTIFIER:i"];
+n144 -> n145
+n146 [label="INT:1"];
+n144 -> n146
+n122 -> n144
+n147 [label="EQUAL:"];
+n148 [label="IDENTIFIER:fib"];
+n147 -> n148
+n149 [label="IDENTIFIER:num"];
+n147 -> n149
+n122 -> n147
+n150 [label="EQUAL:"];
+n151 [label="IDENTIFIER:f1"];
+n150 -> n151
+n152 [label="INT:1"];
+n150 -> n152
+n122 -> n150
+n153 [label="EQUAL:"];
+n154 [label="IDENTIFIER:f0"];
+n153 -> n154
+n155 [label="INT:0"];
+n153 -> n155
+n122 -> n153
+n102 -> n122
+n156 [label="IDENTIFIER:fib"];
+n102 -> n156
+n13 -> n102
 n10 -> n13
 n9 -> n10
 n0 -> n9
